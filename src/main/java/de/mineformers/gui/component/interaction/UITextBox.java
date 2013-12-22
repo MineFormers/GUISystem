@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ChatAllowedCharacters;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Color;
 
 /**
  * GUISystem
@@ -32,6 +33,7 @@ public class UITextBox extends UIComponent implements ListenerClickable,
     private int renderStart;
     private int cursorPos;
     private int blinkTick;
+    private int color;
 
     public UITextBox(int width, int height, String startText,
                      boolean useSlotBg) {
@@ -44,6 +46,23 @@ public class UITextBox extends UIComponent implements ListenerClickable,
         this.addListener(this);
         this.focused = false;
         this.cursorPos = startText.length();
+        this.color = 0xe0e0e0;
+    }
+
+    public void setColor(Color color) {
+        this.color = (0xFF0000 & (color.getRed() << 16)) | (0x00FF00 & (color.getGreen() << 8)) | (0x0000FF & color.getBlue());
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public Color getColorRGB() {
+        return new Color((0xFF0000 & color) >> 16, (0x00FF00 & color) >> 8, (0x0000FF & color));
+    }
+
+    public int getColor() {
+        return color;
     }
 
     public void setCursorPos(int pos) {
@@ -78,7 +97,6 @@ public class UITextBox extends UIComponent implements ListenerClickable,
 
     @Override
     public void draw(int mouseX, int mouseY) {
-
         if (!useSlotBg) {
             // Corners clockwise
             this.drawRectangle(screenX, screenY, 31, 16, 5, 5);
@@ -110,11 +128,11 @@ public class UITextBox extends UIComponent implements ListenerClickable,
 
         if (toDraw.length() > 0) {
             String s = flag ? toDraw.substring(0, posVisible) : toDraw;
-            x = this.mc.fontRenderer.drawStringWithShadow(s, x, y, 0xe0e0e0);
+            x = this.mc.fontRenderer.drawStringWithShadow(s, x, y, color);
         }
 
         if (toDraw.length() > 0 && flag && posVisible < toDraw.length()) {
-            this.mc.fontRenderer.drawStringWithShadow(toDraw.substring(posVisible), x, y, 0xe0e0e0);
+            this.mc.fontRenderer.drawStringWithShadow(toDraw.substring(posVisible), x, y, color);
         }
 
         if (focused) {
@@ -127,7 +145,7 @@ public class UITextBox extends UIComponent implements ListenerClickable,
                 drawCursorVertical(start, y, 1, this.mc.fontRenderer.FONT_HEIGHT);
             }
 
-            if (blinkTick >= 60) {
+            if (blinkTick >= 80) {
                 blinkTick = 0;
             }
             blinkTick++;
@@ -136,17 +154,14 @@ public class UITextBox extends UIComponent implements ListenerClickable,
 
     private void drawCursorVertical(int x, int y, int width, int height) {
         Tessellator tessellator = Tessellator.instance;
-        GL11.glColor4f(0.0F, 0.0F, 255.0F, 255.0F);
+        GL11.glColor4f(getColorRGB().getRed(), getColorRGB().getGreen(), getColorRGB().getBlue(), 1F);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glEnable(GL11.GL_COLOR_LOGIC_OP);
-        GL11.glLogicOp(GL11.GL_OR_REVERSE);
         tessellator.startDrawingQuads();
         tessellator.addVertex((double) x, (double) y, 0.0D);
         tessellator.addVertex((double) x, (double) y + height, 0.0D);
         tessellator.addVertex((double) x + width, (double) y + height, 0.0D);
         tessellator.addVertex((double) x + width, (double) y, 0.0D);
         tessellator.draw();
-        GL11.glDisable(GL11.GL_COLOR_LOGIC_OP);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 

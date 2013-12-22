@@ -43,4 +43,30 @@ public class UIAbsoluteLayout extends UILayout<UIAbsoluteLayout.AbsoluteLayoutCo
             component.draw(mouseX, mouseY);
         }
     }
+
+    @Override
+    public int getWidth() {
+        int width = 0;
+        for (int i = 0; i < components.size(); i++) {
+            UIComponent component = components.get(i);
+            AbsoluteLayoutConstraints alc = constraints.get(i);
+
+            if (component.getWidth() + alc.x > width)
+                width = component.getWidth() + alc.x;
+        }
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        int height = 0;
+        for (int i = 0; i < components.size(); i++) {
+            UIComponent component = components.get(i);
+            AbsoluteLayoutConstraints alc = constraints.get(i);
+
+            if (component.getHeight() + alc.y > height)
+                height = component.getHeight() + alc.y;
+        }
+        return height;
+    }
 }

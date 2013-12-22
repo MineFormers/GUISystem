@@ -1,6 +1,10 @@
 package de.mineformers.gui.component.container;
 
 
+import de.mineformers.gui.util.Padding;
+import de.mineformers.gui.util.RenderHelper;
+import org.lwjgl.opengl.GL11;
+
 /**
  * GUISystem
  * <p/>
@@ -11,10 +15,21 @@ package de.mineformers.gui.component.container;
  */
 public class UIWindow extends UIPanel {
 
+    private Padding padding;
+
     public UIWindow(int width, int height) {
         super();
         this.width = width;
         this.height = height;
+        this.padding = Padding.ALL5;
+    }
+
+    public void setPadding(Padding padding) {
+        this.padding = padding;
+    }
+
+    public Padding getPadding() {
+        return padding;
     }
 
     @Override
@@ -36,7 +51,13 @@ public class UIWindow extends UIPanel {
         this.drawRectangleStretched(screenX + 5, screenY + 5, 37, 7, width - 10,
                 height - 10, 1, 1);
 
-        super.draw(mouseX, mouseY);
+        int scale = RenderHelper.computeGuiScale();
+
+        GL11.glScissor(0, mc.displayHeight - (screenY + height) * scale, (width - padding.right + screenX) * scale, (height - padding.bottom) * scale);
+        GL11.glEnable(GL11.GL_SCISSOR_TEST);
+        layout.setScreenPos(screenX + padding.left, screenY + padding.top);
+        layout.draw(mouseX, mouseY);
+        GL11.glDisable(GL11.GL_SCISSOR_TEST);
     }
 
     @Override

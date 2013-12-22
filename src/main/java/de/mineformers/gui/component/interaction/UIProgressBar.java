@@ -34,6 +34,14 @@ public class UIProgressBar extends UIComponent {
         this.maxValue = maxValue;
     }
 
+    public int getMaxValue() {
+        return maxValue;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
     public void updateValue(int amount) {
         value += amount;
         if (value >= maxValue)
