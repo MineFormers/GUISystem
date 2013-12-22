@@ -213,4 +213,8 @@ public abstract class UIComponent {
     public int getHeight() {
         return height;
     }
+
+    public void setTexture(ResourceLocation texture) {
+        this.texture = texture;
+    }
 }
