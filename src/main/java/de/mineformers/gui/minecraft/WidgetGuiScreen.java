@@ -1,25 +1,23 @@
 package de.mineformers.gui.minecraft;
 
+import de.mineformers.gui.component.canvas.UICanvas;
+import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.opengl.GL11;
 
-import de.mineformers.gui.widget.WidgetCanvas;
-import net.minecraft.client.gui.GuiScreen;
-
 /**
- * Kybology
- * 
+ * GUISystem
+ * <p/>
  * GuiScreenTT
- * 
+ *
  * @author PaleoCrafter
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
- * 
  */
 public class WidgetGuiScreen extends GuiScreen {
 
     private int canvasWidth, canvasHeight;
-    private WidgetCanvas canvas;
+    private UICanvas canvas;
 
-    public WidgetGuiScreen(int width, int height, WidgetCanvas canvas) {
+    public WidgetGuiScreen(int width, int height, UICanvas canvas) {
         this.canvas = canvas;
         this.canvasWidth = width;
         this.canvasHeight = height;

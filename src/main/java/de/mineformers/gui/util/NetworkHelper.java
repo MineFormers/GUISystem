@@ -6,13 +6,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 /**
- * Kybology
- * 
+ * GUISystem
+ * <p/>
  * NetworkHelper
- * 
+ *
  * @author PaleoCrafter
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
- * 
  */
 public class NetworkHelper {
 
@@ -30,7 +29,7 @@ public class NetworkHelper {
     }
 
     public static void sendToAllAround(World world, int x, int y, int z,
-            Packet packet) {
+                                       Packet packet) {
         PacketDispatcher.sendPacketToAllAround(x, y, z, 32,
                 world.provider.dimensionId, packet);
     }

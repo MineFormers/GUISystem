@@ -2,13 +2,12 @@ package de.mineformers.gui.util;
 
 
 /**
- * Kybology
- * 
+ * GUISystem
+ * <p/>
  * Vector3
- * 
+ *
  * @author PaleoCrafter
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
- * 
  */
 public class Vector3 {
 

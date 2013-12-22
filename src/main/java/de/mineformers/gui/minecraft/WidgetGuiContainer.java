@@ -1,26 +1,23 @@
 package de.mineformers.gui.minecraft;
 
+import de.mineformers.gui.component.canvas.UICanvasContainer;
 import net.minecraft.client.gui.inventory.GuiContainer;
-
 import org.lwjgl.opengl.GL11;
 
-import de.mineformers.gui.widget.WidgetCanvasContainer;
-
 /**
- * Kybology
- * 
- * GuiContainerKybology
- * 
+ * GUISystem
+ * <p/>
+ * GuiContainerGUISystem
+ *
  * @author PaleoCrafter
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
- * 
  */
 public class WidgetGuiContainer extends GuiContainer {
 
     private int canvasWidth, canvasHeight;
-    private WidgetCanvasContainer canvas;
+    private UICanvasContainer canvas;
 
-    public WidgetGuiContainer(int width, int height, WidgetCanvasContainer canvas) {
+    public WidgetGuiContainer(int width, int height, UICanvasContainer canvas) {
         super(canvas.getContainer());
         this.canvas = canvas;
         this.canvasWidth = width;
@@ -58,7 +55,7 @@ public class WidgetGuiContainer extends GuiContainer {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float opacity, int mouseX,
-            int mouseY) {
+                                                   int mouseY) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         int xStart = (width - canvasWidth) / 2;
