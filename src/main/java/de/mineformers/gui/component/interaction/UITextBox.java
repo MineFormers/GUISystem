@@ -5,8 +5,10 @@ import de.mineformers.gui.component.inventoy.UISlot;
 import de.mineformers.gui.listener.ListenerClickable;
 import de.mineformers.gui.listener.ListenerKeyboard;
 import de.mineformers.gui.system.Global;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ChatAllowedCharacters;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 
 /**
  * GUISystem
@@ -27,6 +29,7 @@ public class UITextBox extends UIComponent implements ListenerClickable,
     private UISlot slotWidget;
     private boolean useSlotBg;
     private boolean focused;
+    private int renderStart;
     private int cursorPos;
     private int blinkTick;
 
@@ -40,7 +43,37 @@ public class UITextBox extends UIComponent implements ListenerClickable,
         this.useSlotBg = useSlotBg;
         this.addListener(this);
         this.focused = false;
-        this.cursorPos = startText.length() - 1;
+        this.cursorPos = startText.length();
+    }
+
+    public void setCursorPos(int pos) {
+        cursorPos = pos;
+        int j = text.length();
+        if (this.renderStart > j) {
+            this.renderStart = j;
+        }
+
+        int k = this.getWidth();
+        String s = this.mc.fontRenderer.trimStringToWidth(this.text.substring(this.renderStart), k);
+        int l = s.length() + this.renderStart;
+
+        if (pos == this.renderStart) {
+            this.renderStart -= this.mc.fontRenderer.trimStringToWidth(this.text, k, true).length();
+        }
+
+        if (pos > l) {
+            this.renderStart += pos - l;
+        } else if (pos <= this.renderStart) {
+            this.renderStart -= this.renderStart - pos;
+        }
+
+        if (this.renderStart < 0) {
+            this.renderStart = 0;
+        }
+
+        if (this.renderStart > j) {
+            this.renderStart = j;
+        }
     }
 
     @Override
@@ -69,26 +102,29 @@ public class UITextBox extends UIComponent implements ListenerClickable,
             slotWidget.draw(mouseX, mouseY);
         }
 
-        String toDraw = text;
-        int sWidth = this.getStringWidth(toDraw);
-        sWidth += focused ? this.getStringWidth("_") : 0;
-        if (focused) {
-            for (int i = 0; i <= cursorPos && sWidth > width - 4; i++) {
-                toDraw = text.substring(i, cursorPos);
-                sWidth = this.getStringWidth(toDraw) + this.getStringWidth("_");
-            }
-        } else {
-            for (int i = 0; i < text.length() && sWidth > width - 4; i++) {
-                toDraw = text.substring(0, text.length() - i);
-                sWidth = this.getStringWidth(toDraw);
-            }
+        int posVisible = this.cursorPos - this.renderStart;
+        String toDraw = this.mc.fontRenderer.trimStringToWidth(this.text.substring(this.renderStart), this.getWidth() - 4);
+        boolean flag = posVisible >= 0 && posVisible <= toDraw.length();
+        int x = this.screenX + 2;
+        int y = this.screenY + (this.height - 8) / 2;
+
+        if (toDraw.length() > 0) {
+            String s = flag ? toDraw.substring(0, posVisible) : toDraw;
+            x = this.mc.fontRenderer.drawStringWithShadow(s, x, y, 0xe0e0e0);
         }
 
-        this.drawString(toDraw, screenX + 2, screenY + (height - 8) / 2, 0xe0e0e0, true);
+        if (toDraw.length() > 0 && flag && posVisible < toDraw.length()) {
+            this.mc.fontRenderer.drawStringWithShadow(toDraw.substring(posVisible), x, y, 0xe0e0e0);
+        }
+
         if (focused) {
             if (blinkTick >= 30) {
-                this.drawString("_", screenX + 2 + sWidth - this.getStringWidth("_"),
-                        screenY + (height - 8) / 2 + 2, 0xe0e0e0, true);
+                int start = this.getStringWidth(toDraw) + screenX + 2;
+                int index = posVisible;
+                while (index > toDraw.length())
+                    index -= 1;
+                start -= this.getStringWidth(toDraw.substring(index));
+                drawCursorVertical(start, y, 1, this.mc.fontRenderer.FONT_HEIGHT);
             }
 
             if (blinkTick >= 60) {
@@ -96,7 +132,22 @@ public class UITextBox extends UIComponent implements ListenerClickable,
             }
             blinkTick++;
         }
+    }
 
+    private void drawCursorVertical(int x, int y, int width, int height) {
+        Tessellator tessellator = Tessellator.instance;
+        GL11.glColor4f(0.0F, 0.0F, 255.0F, 255.0F);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_COLOR_LOGIC_OP);
+        GL11.glLogicOp(GL11.GL_OR_REVERSE);
+        tessellator.startDrawingQuads();
+        tessellator.addVertex((double) x, (double) y, 0.0D);
+        tessellator.addVertex((double) x, (double) y + height, 0.0D);
+        tessellator.addVertex((double) x + width, (double) y + height, 0.0D);
+        tessellator.addVertex((double) x + width, (double) y, 0.0D);
+        tessellator.draw();
+        GL11.glDisable(GL11.GL_COLOR_LOGIC_OP);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
     @Override
@@ -119,14 +170,20 @@ public class UITextBox extends UIComponent implements ListenerClickable,
         if (focused) {
             switch (keyCode) {
                 case Keyboard.KEY_LEFT:
-                    this.cursorPos -= 1;
+                    this.setCursorPos(cursorPos - 1);
                     if (cursorPos < 0)
-                        cursorPos = 0;
+                        this.setCursorPos(0);
                     break;
                 case Keyboard.KEY_RIGHT:
-                    this.cursorPos += 1;
-                    if (cursorPos > text.length() - 1)
-                        cursorPos = text.length() - 1;
+                    if (cursorPos == text.length())
+                        break;
+                    if (cursorPos == text.length() - 1) {
+                        this.cursorPos = text.length();
+                        break;
+                    }
+                    this.setCursorPos(cursorPos + 1);
+                    if (cursorPos >= text.length())
+                        this.setCursorPos(text.length() - 1);
                     break;
                 case Keyboard.KEY_BACK:
                     if (this.text.length() > 0) {
@@ -135,9 +192,22 @@ public class UITextBox extends UIComponent implements ListenerClickable,
                                     + this.text.substring(cursorPos);
                         else
                             this.text = "";
-                        cursorPos -= 1;
+                        this.setCursorPos(cursorPos - 1);
                         if (cursorPos < 0)
-                            cursorPos = 0;
+                            this.setCursorPos(0);
+                    }
+                    break;
+                case Keyboard.KEY_DELETE:
+                    if (this.text.length() > 0) {
+                        if (this.text.length() > 1) {
+                            String second = this.text.substring(cursorPos + 1);
+                            this.text = this.text.substring(0, cursorPos);
+                            if (cursorPos != text.length() - 1)
+                                text += second;
+                        } else {
+                            if (this.cursorPos == 0)
+                                this.text = "";
+                        }
                     }
                     break;
                 default:
@@ -145,7 +215,7 @@ public class UITextBox extends UIComponent implements ListenerClickable,
                         this.text = text.substring(0, cursorPos)
                                 + Character.toString(keyChar)
                                 + text.substring(cursorPos);
-                        this.cursorPos += 1;
+                        this.setCursorPos(cursorPos + 1);
                     }
                     break;
             }

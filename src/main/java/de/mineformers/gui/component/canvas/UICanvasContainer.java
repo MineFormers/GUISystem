@@ -2,6 +2,7 @@ package de.mineformers.gui.component.canvas;
 
 import de.mineformers.gui.component.inventoy.UISlot;
 import de.mineformers.gui.util.LangHelper;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -18,6 +19,7 @@ import org.lwjgl.opengl.GL11;
  */
 public class UICanvasContainer extends UICanvas {
 
+    private RenderItem itemRenderer = new RenderItem();
     private boolean autoDrawSlots;
     private Container container;
     private String name;
