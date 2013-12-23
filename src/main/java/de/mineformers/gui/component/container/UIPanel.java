@@ -2,11 +2,7 @@ package de.mineformers.gui.component.container;
 
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.component.layout.UILayout;
-import de.mineformers.gui.listener.ListenerClickable;
-import de.mineformers.gui.listener.ListenerKeyboard;
 import de.mineformers.gui.system.Global;
-
-import java.util.Iterator;
 
 /**
  * GUISystem
@@ -32,10 +28,10 @@ public class UIPanel extends UIComponent {
         return layout;
     }
 
-	@Override
-	public void update(int mouseX, int mouseY) {
-		layout.update(mouseX, mouseY);
-	}
+    @Override
+    public void update(int mouseX, int mouseY) {
+        layout.update(mouseX, mouseY);
+    }
 
     @Override
     public void draw(int mouseX, int mouseY) {
@@ -52,11 +48,11 @@ public class UIPanel extends UIComponent {
     public int getHeight() {
         return layout.getHeight();
     }
-    
+
     public void mouseScroll(int dir, int mouseX, int mouseY) {
-    	layout.mouseScroll(dir, mouseX, mouseY);
+        layout.mouseScroll(dir, mouseX, mouseY);
     }
-    
+
     public void mouseClick(int mouseX, int mouseY, int mouseButton) {
         layout.mouseClick(mouseX, mouseY, mouseButton);
     }

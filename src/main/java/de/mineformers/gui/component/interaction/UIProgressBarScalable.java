@@ -59,18 +59,18 @@ public class UIProgressBarScalable extends UIProgressBar {
 
     @Override
     public boolean isHovered(int mouseX, int mouseY) {
-    	return this.isInsideRegion(mouseX, mouseY, screenX, screenY, screenX + width, screenY + height);
+        return this.isInsideRegion(mouseX, mouseY, screenX, screenY, screenX + width, screenY + height);
     }
-    
-	@Override
-	public void update(int mouseX, int mouseY) {
-		
-	}
-	
+
+    @Override
+    public void update(int mouseX, int mouseY) {
+
+    }
+
     @Override
     public void draw(int mouseX, int mouseY) {
         this.drawRectangleXRepeated(this.texture, screenX, screenY, u, v, uvWidth, uvHeight, width, height);
-        
+
         switch (orientation) {
             case HORIZONTAL_LEFT:
                 this.drawRectangleXRepeated(this.texture, screenX + 1, screenY, u, v + uvHeight, uvWidth, uvHeight, getValueScaled(width - 2), height);
@@ -79,10 +79,10 @@ public class UIProgressBarScalable extends UIProgressBar {
                 this.drawRectangleXRepeated(this.texture, screenX + (width - getValueScaled(width - 2)) - 1, screenY, u, v + uvHeight, uvWidth, uvHeight, -getValueScaled(width - 2), height);
                 break;
             case VERTICAL_TOP:
-            	this.drawRectangleYRepeated(this.texture, screenX + 1, screenY + (height - getValueScaled(height)), u, v + uvHeight, uvWidth, uvHeight, width - 2, -getValueScaled(height));
+                this.drawRectangleYRepeated(this.texture, screenX + 1, screenY + (height - getValueScaled(height)), u, v + uvHeight, uvWidth, uvHeight, width - 2, -getValueScaled(height));
                 break;
             case VERTICAL_BOTTOM:
-            	this.drawRectangleYRepeated(this.texture, screenX + 1, screenY, u, v + uvHeight, uvWidth, uvHeight, width - 2, getValueScaled(height));
+                this.drawRectangleYRepeated(this.texture, screenX + 1, screenY, u, v + uvHeight, uvWidth, uvHeight, width - 2, getValueScaled(height));
                 break;
         }
     }

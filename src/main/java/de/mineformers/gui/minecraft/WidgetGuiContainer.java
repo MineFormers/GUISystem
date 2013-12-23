@@ -1,7 +1,9 @@
 package de.mineformers.gui.minecraft;
 
 import de.mineformers.gui.component.canvas.UICanvasContainer;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -70,4 +72,15 @@ public class WidgetGuiContainer extends GuiContainer {
         super.drawScreen(par1, par2, par3);
     }
 
+
+    @Override
+    public void updateScreen() {
+        super.updateScreen();
+        ScaledResolution scaledresolution = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
+        int i = scaledresolution.getScaledWidth();
+        int j = scaledresolution.getScaledHeight();
+        int k = Mouse.getX() * i / this.mc.displayWidth;
+        int l = j - Mouse.getY() * j / this.mc.displayHeight - 1;
+        this.canvas.update(k, l);
+    }
 }

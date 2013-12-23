@@ -58,13 +58,13 @@ public class UIProgressBar extends UIComponent {
 
     @Override
     public boolean isHovered(int mouseX, int mouseY) {
-    	return this.isInsideRegion(mouseX, mouseY, screenX, screenY, screenX + width, screenY + height);
+        return this.isInsideRegion(mouseX, mouseY, screenX, screenY, screenX + width, screenY + height);
     }
-    
-	@Override
-	public void update(int mouseX, int mouseY) {
-		
-	}
+
+    @Override
+    public void update(int mouseX, int mouseY) {
+
+    }
 
     @Override
     public void draw(int mouseX, int mouseY) {

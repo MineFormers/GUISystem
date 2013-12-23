@@ -3,6 +3,7 @@ package de.mineformers.gui.util;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.util.Color;
 
 /**
  * GUISystem
@@ -37,6 +38,18 @@ public class RenderHelper {
             ++scaleFactor;
         }
         return scaleFactor;
+    }
+
+    public static int getColorFromRGB(int r, int g, int b) {
+        return (0xFF0000 & (r << 16)) | (0x00FF00 & (g << 8)) | (0x0000FF & b);
+    }
+
+    public static int getColorFromRGB(Color color) {
+        return (0xFF0000 & (color.getRed() << 16)) | (0x00FF00 & (color.getGreen() << 8)) | (0x0000FF & color.getBlue());
+    }
+
+    public static Color getRGBFromColor(int color) {
+        return new Color((0xFF0000 & color) >> 16, (0x00FF00 & color) >> 8, (0x0000FF & color));
     }
 
 }

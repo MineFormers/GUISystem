@@ -54,8 +54,8 @@ public class UITableLayout extends UILayout<UITableLayout.TableLayoutConstraints
 
     @Override
     public void draw(int mouseX, int mouseY) {
-    	super.draw(mouseX, mouseY);
-    	
+        super.draw(mouseX, mouseY);
+
         HashMap<Integer, Integer> widestColumns = new HashMap<Integer, Integer>();
         HashMap<Integer, Integer> highestRows = new HashMap<Integer, Integer>();
 
@@ -120,7 +120,6 @@ public class UITableLayout extends UILayout<UITableLayout.TableLayoutConstraints
             }
         }
     }
-
 
 
 }
