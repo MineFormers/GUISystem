@@ -11,6 +11,7 @@ import de.mineformers.gui.component.inventoy.UITank;
 import de.mineformers.gui.component.layout.UIAbsoluteLayout;
 import de.mineformers.gui.component.layout.UITableLayout;
 import de.mineformers.gui.listener.ListenerClickable;
+import de.mineformers.gui.util.MouseButton;
 import de.mineformers.gui.util.Orientation;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -40,9 +41,11 @@ public class CanvasExample extends UICanvas {
         UIButton button = new UIButton(100, 20, "Demo");
         button.addListener(new ListenerClickable() {
             @Override
-            public void onClick(int mouseX, int mouseY) {
-                mc.currentScreen = null;
-                mc.setIngameFocus();
+            public void onClick(int mouseX, int mouseY, MouseButton mouseBtn) {
+                if (mouseBtn == MouseButton.LEFT) {
+                    mc.currentScreen = null;
+                    mc.setIngameFocus();
+                }
             }
         });
         layout.addComponent(button, 2, 1);
@@ -60,7 +63,9 @@ public class CanvasExample extends UICanvas {
         layout.addComponent(progressBar, 4, 1);
 
         layout.addComponent(new UILabel("Tank"), 5, 0);
-        layout.addComponent(new UITank(100, 50, new FluidStack(FluidRegistry.WATER, 6000)), 5, 1);
+        UITank tank = new UITank(100, 50, new FluidStack(FluidRegistry.WATER, 6000));
+        tank.setDrawSlot(true);
+        layout.addComponent(tank, 5, 1);
 
         window.setLayout(layout);
         this.setPanel(window);

@@ -6,6 +6,7 @@ import de.mineformers.gui.listener.ListenerClickable;
 import de.mineformers.gui.listener.ListenerKeyboard;
 import de.mineformers.gui.listener.ListenerMouseScroll;
 import de.mineformers.gui.system.Global;
+import de.mineformers.gui.util.MouseButton;
 import org.lwjgl.input.Mouse;
 
 import java.util.LinkedList;
@@ -35,6 +36,8 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
 
     @Override
     public void update(int mouseX, int mouseY) {
+        for (UIComponent component : components)
+            component.update(mouseX, mouseY);
         int dWheel = Mouse.getDWheel() / 120;
 
         if (dWheel != 0) {
@@ -44,8 +47,6 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
 
     @Override
     public void draw(int mouseX, int mouseY) {
-        this.update(mouseX, mouseY);
-
     }
 
     public void addComponent(UIComponent component) {
@@ -82,6 +83,8 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
                             "onMouseScroll", dir, mouseX, mouseY);
                 } else if (component instanceof UIPanel) {
                     ((UIPanel) component).mouseScroll(dir, mouseX, mouseY);
+                } else if (component instanceof UILayout) {
+                    ((UILayout) component).mouseScroll(dir, mouseX, mouseY);
                 }
         }
     }
@@ -91,9 +94,11 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
             if (component.isVisible())
                 if (component.isHovered(mouseX, mouseY)) {
                     component.notifyListeners(ListenerClickable.class,
-                            "onClick", mouseX, mouseY, mouseButton);
+                            "onClick", mouseX, mouseY, MouseButton.values()[mouseButton]);
                 } else if (component instanceof UIPanel) {
                     ((UIPanel) component).mouseClick(mouseX, mouseY, mouseButton);
+                } else if (component instanceof UILayout) {
+                    ((UILayout) component).mouseClick(mouseX, mouseY, mouseButton);
                 }
         }
     }
@@ -101,9 +106,11 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
     public void keyTyped(char keyChar, int keyCode) {
         for (UIComponent component : components) {
             if (component.isVisible()) {
-                if (component instanceof UIPanel) {
+                if (component instanceof UIPanel)
                     ((UIPanel) component).keyTyped(keyChar, keyCode);
-                } else
+                else if (component instanceof UILayout)
+                    ((UILayout) component).keyTyped(keyChar, keyCode);
+                else
                     component.notifyListeners(ListenerKeyboard.class,
                             "onKeyTyped", keyChar, keyCode);
             }

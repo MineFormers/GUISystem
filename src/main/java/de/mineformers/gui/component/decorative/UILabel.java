@@ -2,6 +2,7 @@ package de.mineformers.gui.component.decorative;
 
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.system.Global;
+import de.mineformers.gui.util.RenderHelper;
 import org.lwjgl.util.Color;
 
 /**
@@ -31,7 +32,7 @@ public class UILabel extends UIComponent {
     }
 
     public void setColor(Color color) {
-        this.color = (0xFF0000 & (color.getRed() << 16)) | (0x00FF00 & (color.getGreen() << 8)) | (0x0000FF & color.getBlue());
+        this.color = RenderHelper.getColorFromRGB(color);
     }
 
     public void setColor(int color) {
@@ -39,7 +40,7 @@ public class UILabel extends UIComponent {
     }
 
     public Color getColorRGB() {
-        return new Color((0xFF0000 & color) >> 16, (0x00FF00 & color) >> 8, (0x0000FF & color));
+        return RenderHelper.getRGBFromColor(color);
     }
 
     public int getColor() {

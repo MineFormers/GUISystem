@@ -3,6 +3,7 @@ package de.mineformers.gui.component.interaction;
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.listener.ListenerClickable;
 import de.mineformers.gui.system.Global;
+import de.mineformers.gui.util.MouseButton;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -110,8 +111,12 @@ public class UIButton extends UIComponent implements ListenerClickable {
     }
 
     @Override
-    public void onClick(int mouseX, int mouseY, int mouseBtn) {
-        mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+    public void onClick(int mouseX, int mouseY, MouseButton mouseBtn) {
+        switch (mouseBtn) {
+            case LEFT:
+                mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+                break;
+        }
     }
 
 }

@@ -1,12 +1,11 @@
 package de.mineformers.gui.component.inventoy;
 
 import de.mineformers.gui.component.UIComponent;
+import de.mineformers.gui.component.decorative.UITooltip;
 import de.mineformers.gui.system.Global;
-import de.mineformers.gui.util.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.Icon;
 import net.minecraftforge.fluids.FluidStack;
-import org.lwjgl.opengl.GL11;
 
 /**
  * GUISystem
@@ -19,7 +18,10 @@ import org.lwjgl.opengl.GL11;
 public class UITank extends UIComponent {
 
     private int maxAmount;
+    private UISlot slot;
+    private boolean drawSlot;
     private FluidStack fluid;
+    private UITooltip tooltip;
 
     public UITank(int width, int height, FluidStack fluid) {
         super(Global.getTexture());
@@ -27,10 +29,25 @@ public class UITank extends UIComponent {
         this.width = width;
         this.height = height;
         this.maxAmount = 8000;
+        slot = new UISlot(width, height);
+        tooltip = new UITooltip();
+        tooltip.addLine(fluid.amount + "/" + maxAmount);
+        tooltip.addLine(fluid.getFluid().getLocalizedName());
+    }
+
+    public void setFluid(FluidStack fluid) {
+        this.fluid = fluid;
+        tooltip.reset();
+        tooltip.addLine(fluid.amount + "/" + maxAmount);
+        tooltip.addLine(fluid.getFluid().getLocalizedName());
+    }
+
+    public void setDrawSlot(boolean drawSlot) {
+        this.drawSlot = drawSlot;
     }
 
     public void update(int mouseX, int mouseY) {
-
+        tooltip.update(mouseX, mouseY);
     }
 
     public void setMaxAmount(int maxAmount) {
@@ -41,33 +58,29 @@ public class UITank extends UIComponent {
         return maxAmount;
     }
 
-    public int mapAmountOnHeight() {
+    public int mapAmountOnHeight(int height) {
         return fluid.amount * height / maxAmount;
+    }
+
+    @Override
+    public boolean isHovered(int mouseX, int mouseY) {
+        return this.isInsideRegion(mouseX, mouseY, screenX, screenY, screenX + width, screenY + height);
     }
 
     @Override
     public void draw(int mouseX, int mouseY) {
         Icon icon = fluid.getFluid().getIcon(fluid);
-        int drawHeight = mapAmountOnHeight();
-        int scale = RenderHelper.computeGuiScale();
-
-        GL11.glScissor(screenX * scale, mc.displayHeight - (screenY + height) * scale, width * scale, drawHeight * scale);
-        GL11.glEnable(GL11.GL_SCISSOR_TEST);
-        int cols = (int) Math.ceil((double) width / 32);
-        int rows = (int) Math.ceil((double) drawHeight / 32);
-        for (int col = 0; col <= cols; col++) {
-            for (int row = 0; row <= rows; row++) {
-                this.drawRectangleStretched(TextureMap.locationBlocksTexture, screenX + col * 32, screenY + height - drawHeight + row * 32,
-                        icon.getMinU(), icon.getMinV(), 32, 32,
-                        icon.getMaxU(), icon.getMaxV(), true);
-            }
+        if (drawSlot) {
+            int drawHeight = mapAmountOnHeight(height - 2);
+            slot.setScreenPos(screenX, screenY);
+            slot.draw(mouseX, mouseY);
+            this.drawRectangleRepeated(TextureMap.locationBlocksTexture, screenX + 1, screenY - 1 + height - drawHeight, icon.getMinU(), icon.getMinV(), icon.getMaxU() - icon.getMinU(), icon.getMaxV() - icon.getMinV(), width - 2, drawHeight, 24, 24);
+        } else {
+            int drawHeight = mapAmountOnHeight(height);
+            this.drawRectangleRepeated(TextureMap.locationBlocksTexture, screenX, screenY + height - drawHeight, icon.getMinU(), icon.getMinV(), icon.getMaxU() - icon.getMinU(), icon.getMaxV() - icon.getMinV(), width, drawHeight, 24, 24);
         }
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glColor4f(1, 0, 0, 1);
-        this.drawRectangle(0, 0, 0, 0, mc.displayWidth, mc.displayHeight);
-        GL11.glColor4f(1, 1, 1, 1);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_SCISSOR_TEST);
+        if (isHovered(mouseX, mouseY))
+            tooltip.draw(mouseX, mouseY);
     }
 
 

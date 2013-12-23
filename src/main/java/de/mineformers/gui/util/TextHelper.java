@@ -15,8 +15,10 @@ public class TextHelper {
         int longest = 0;
 
         for (String string : strings) {
-            if (longest < string.length())
+            if (longest < string.length()) {
                 s = string;
+                longest = string.length();
+            }
         }
 
         return s;

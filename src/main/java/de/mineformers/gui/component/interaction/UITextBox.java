@@ -5,6 +5,7 @@ import de.mineformers.gui.component.inventoy.UISlot;
 import de.mineformers.gui.listener.ListenerClickable;
 import de.mineformers.gui.listener.ListenerKeyboard;
 import de.mineformers.gui.system.Global;
+import de.mineformers.gui.util.MouseButton;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ChatAllowedCharacters;
 import org.lwjgl.input.Keyboard;
@@ -181,12 +182,15 @@ public class UITextBox extends UIComponent implements ListenerClickable,
     }
 
     @Override
-    public void onClick(int mouseX, int mouseY, int mouseBtn) {
+    public void onClick(int mouseX, int mouseY, MouseButton mouseBtn) {
         if (this.isInsideRegion(mouseX, mouseY, screenX, screenY, screenX + width, screenY + height)) {
-            if (mouseBtn == 0) {
-                this.focused = true;
-            } else if (mouseBtn == 1) {
-                clear();
+            switch (mouseBtn) {
+                case LEFT:
+                    this.focused = true;
+                    break;
+                case RIGHT:
+                    clear();
+                    break;
             }
         } else {
             this.focused = false;

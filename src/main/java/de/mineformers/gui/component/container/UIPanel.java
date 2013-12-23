@@ -30,7 +30,7 @@ public class UIPanel extends UIComponent {
 
     @Override
     public void update(int mouseX, int mouseY) {
-
+        layout.update(mouseX, mouseY);
     }
 
     @Override
