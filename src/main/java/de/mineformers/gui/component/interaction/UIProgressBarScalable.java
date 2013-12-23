@@ -1,7 +1,5 @@
 package de.mineformers.gui.component.interaction;
 
-import de.mineformers.gui.component.UIComponent;
-import de.mineformers.gui.system.Global;
 import de.mineformers.gui.util.Orientation;
 
 /**
@@ -12,15 +10,16 @@ import de.mineformers.gui.util.Orientation;
  * @author PaleoCrafter
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  */
-public class UIProgressBar extends UIComponent {
+public class UIProgressBarScalable extends UIProgressBar {
 
     private int maxValue;
     private int value;
     private int u, v;
+    private int uvWidth, uvHeight;
     private Orientation orientation;
 
-    public UIProgressBar(Orientation orientation, int width, int height, int u, int v) {
-        super(Global.getTexture());
+    public UIProgressBarScalable(Orientation orientation, int width, int height, int u, int v, int uvWidth, int uvHeight) {
+        super(orientation, width, height, u, v);
         this.orientation = orientation;
         this.maxValue = 100;
         this.value = 0;
@@ -28,6 +27,8 @@ public class UIProgressBar extends UIComponent {
         this.height = height;
         this.u = u;
         this.v = v;
+        this.uvWidth = uvWidth;
+        this.uvHeight = uvHeight;
     }
 
     public void setMaxValue(int maxValue) {
@@ -65,22 +66,23 @@ public class UIProgressBar extends UIComponent {
 	public void update(int mouseX, int mouseY) {
 		
 	}
-
+	
     @Override
     public void draw(int mouseX, int mouseY) {
-        this.drawRectangle(screenX, screenY, u, v, width, height);
+        this.drawRectangleXRepeated(this.texture, screenX, screenY, u, v, uvWidth, uvHeight, width, height);
+        
         switch (orientation) {
             case HORIZONTAL_LEFT:
-                this.drawRectangle(screenX, screenY, u, v + height, getValueScaled(width), height);
+                this.drawRectangleXRepeated(this.texture, screenX + 1, screenY, u, v + uvHeight, uvWidth, uvHeight, getValueScaled(width - 2), height);
                 break;
             case HORIZONTAL_RIGHT:
-                this.drawRectangle(screenX + (width - getValueScaled(width)), screenY, u + (width - getValueScaled(width)), v + height, getValueScaled(width), height);
+                this.drawRectangleXRepeated(this.texture, screenX + (width - getValueScaled(width - 2)) - 1, screenY, u, v + uvHeight, uvWidth, uvHeight, -getValueScaled(width - 2), height);
                 break;
             case VERTICAL_TOP:
-                this.drawRectangle(screenX, screenY, u + width, v, width, getValueScaled(height));
+            	this.drawRectangleYRepeated(this.texture, screenX + 1, screenY + (height - getValueScaled(height)), u, v + uvHeight, uvWidth, uvHeight, width - 2, -getValueScaled(height));
                 break;
             case VERTICAL_BOTTOM:
-                this.drawRectangle(screenX, screenY + (height - getValueScaled(height)), u + width, v + (height - getValueScaled(height)), width, getValueScaled(height));
+            	this.drawRectangleYRepeated(this.texture, screenX + 1, screenY, u, v + uvHeight, uvWidth, uvHeight, width - 2, getValueScaled(height));
                 break;
         }
     }

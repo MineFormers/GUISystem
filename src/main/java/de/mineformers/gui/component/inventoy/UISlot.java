@@ -19,6 +19,11 @@ public class UISlot extends UIComponent {
         this.height = height;
     }
 
+	@Override
+	public void update(int mouseX, int mouseY) {
+		
+	}
+
     @Override
     public void draw(int mouseX, int mouseY) {
         // Corners clockwise
