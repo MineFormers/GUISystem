@@ -65,12 +65,11 @@ public class UITextBox extends UIComponent implements ListenerClickable,
         return color;
     }
 
-    public void clear()
-    {
-    	this.text = "";
-    	setCursorPos(0);
+    public void clear() {
+        this.text = "";
+        setCursorPos(0);
     }
-    
+
     public void setCursorPos(int pos) {
         cursorPos = pos;
         int j = text.length();
@@ -101,10 +100,10 @@ public class UITextBox extends UIComponent implements ListenerClickable,
         }
     }
 
-	@Override
-	public void update(int mouseX, int mouseY) {
-		
-	}
+    @Override
+    public void update(int mouseX, int mouseY) {
+
+    }
 
     @Override
     public void draw(int mouseX, int mouseY) {
@@ -183,16 +182,13 @@ public class UITextBox extends UIComponent implements ListenerClickable,
 
     @Override
     public void onClick(int mouseX, int mouseY, int mouseBtn) {
-    	if (this.isInsideRegion(mouseX, mouseY, screenX, screenY, screenX + width, screenY + height))
-    	{
-	        if (mouseBtn == 0) {
-        	    this.focused = true;
-	        }
-	        else if(mouseBtn == 1) {
-	        	clear();
-	        }
-        }
-    	else {
+        if (this.isInsideRegion(mouseX, mouseY, screenX, screenY, screenX + width, screenY + height)) {
+            if (mouseBtn == 0) {
+                this.focused = true;
+            } else if (mouseBtn == 1) {
+                clear();
+            }
+        } else {
             this.focused = false;
         }
     }

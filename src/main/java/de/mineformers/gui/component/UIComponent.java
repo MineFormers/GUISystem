@@ -8,13 +8,12 @@ import de.mineformers.gui.util.TextHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import org.lwjgl.opengl.GL11;
 
 /**
  * GUISystem
@@ -145,91 +144,86 @@ public abstract class UIComponent {
             drawRectangleStretched(texture, x, y, u, v, width, height, uMax, vMax);
         }
     }
-    
-    public void drawRectangleRepeated(ResourceLocation texture, int x, int y, int u, int v, int uvWidth, int uvHeight, int width, int height)
-    {
+
+    public void drawRectangleRepeated(ResourceLocation texture, int x, int y, int u, int v, int uvWidth, int uvHeight, int width, int height) {
         RenderHelper.bindTexture(texture);
         float f = 0.00390625F;
         float f1 = 0.00390625F;
         Tessellator tessellator = Tessellator.instance;
-        
-        int numX = (int) Math.ceil((float)width / uvWidth);
-        int numY = (int) Math.ceil((float)height / uvHeight);
-        
+
+        int numX = (int) Math.ceil((float) width / uvWidth);
+        int numY = (int) Math.ceil((float) height / uvHeight);
+
         int scale = RenderHelper.computeGuiScale();
 
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         GL11.glScissor((x) * scale, mc.displayHeight - (y + height) * scale, width * scale, height * scale);
-                
+
         for (int y2 = 0; y2 < numY; ++y2)
-	        for (int x2 = 0; x2 < numX; ++x2)
-	        {
-	        	int xOffset = x2 * uvWidth;
-	        	int yOffset = y2 * uvHeight;
-	        	
-		        tessellator.startDrawingQuads();
-		        tessellator.addVertexWithUV((double) (x + xOffset), (double) (y + uvHeight + yOffset),
-		                (double) this.zLevel, (double) ((float) (u) * f),
-		                (double) ((float) (v + uvHeight) * f1));
-		        tessellator.addVertexWithUV((double) (x + uvWidth + xOffset),
-		                (double) (y + uvHeight + yOffset), (double) this.zLevel,
-		                (double) ((float) (u + uvWidth) * f),
-		                (double) ((float) (v + uvHeight) * f1));
-		        tessellator.addVertexWithUV((double) (x + uvWidth + xOffset), (double) (y + yOffset),
-		                (double) this.zLevel, (double) ((float) (u + uvWidth) * f),
-		                (double) ((float) (v) * f1));
-		        tessellator.addVertexWithUV((double) (x + xOffset), (double) (y + yOffset),
-		                (double) this.zLevel, (double) ((float) (u) * f),
-		                (double) ((float) (v) * f1));
-		        tessellator.draw();
-	        }
+            for (int x2 = 0; x2 < numX; ++x2) {
+                int xOffset = x2 * uvWidth;
+                int yOffset = y2 * uvHeight;
+
+                tessellator.startDrawingQuads();
+                tessellator.addVertexWithUV((double) (x + xOffset), (double) (y + uvHeight + yOffset),
+                        (double) this.zLevel, (double) ((float) (u) * f),
+                        (double) ((float) (v + uvHeight) * f1));
+                tessellator.addVertexWithUV((double) (x + uvWidth + xOffset),
+                        (double) (y + uvHeight + yOffset), (double) this.zLevel,
+                        (double) ((float) (u + uvWidth) * f),
+                        (double) ((float) (v + uvHeight) * f1));
+                tessellator.addVertexWithUV((double) (x + uvWidth + xOffset), (double) (y + yOffset),
+                        (double) this.zLevel, (double) ((float) (u + uvWidth) * f),
+                        (double) ((float) (v) * f1));
+                tessellator.addVertexWithUV((double) (x + xOffset), (double) (y + yOffset),
+                        (double) this.zLevel, (double) ((float) (u) * f),
+                        (double) ((float) (v) * f1));
+                tessellator.draw();
+            }
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
     }
-    
-    public void drawRectangleXRepeated(ResourceLocation texture, int x, int y, int u, int v, int uvWidth, int uvHeight, int width, int height)
-    {
+
+    public void drawRectangleXRepeated(ResourceLocation texture, int x, int y, int u, int v, int uvWidth, int uvHeight, int width, int height) {
         RenderHelper.bindTexture(texture);
         float f = 0.00390625F;
         float f1 = 0.00390625F;
         Tessellator tessellator = Tessellator.instance;
-        
+
         boolean flipX = width < 0;
         if (flipX) width *= -1;
-        
-        int numX = (int) Math.ceil((float)width / uvWidth);
-        
+
+        int numX = (int) Math.ceil((float) width / uvWidth);
+
         int scale = RenderHelper.computeGuiScale();
 
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         GL11.glScissor((x) * scale, mc.displayHeight - (y + height) * scale, width * scale, height * scale);
-                
-        for (int x2 = 0; x2 < numX; ++x2)
-        {
-        	int xOffset = x2 * uvWidth;
-        	if (flipX)
-        		xOffset = width - (x2 + 1) * uvWidth;
-        	
-	        tessellator.startDrawingQuads();
-	        tessellator.addVertexWithUV((double) (x + xOffset), (double) (y + height),
-	                (double) this.zLevel, (double) ((float) (u) * f),
-	                (double) ((float) (v + uvHeight) * f1));
-	        tessellator.addVertexWithUV((double) (x + uvWidth + xOffset),
-	                (double) (y + height), (double) this.zLevel,
-	                (double) ((float) (u + uvWidth) * f),
-	                (double) ((float) (v + uvHeight) * f1));
-	        tessellator.addVertexWithUV((double) (x + uvWidth + xOffset), (double) (y),
-	                (double) this.zLevel, (double) ((float) (u + uvWidth) * f),
-	                (double) ((float) (v) * f1));
-	        tessellator.addVertexWithUV((double) (x + xOffset), (double) (y),
-	                (double) this.zLevel, (double) ((float) (u) * f),
-	                (double) ((float) (v) * f1));
-	        tessellator.draw();
+
+        for (int x2 = 0; x2 < numX; ++x2) {
+            int xOffset = x2 * uvWidth;
+            if (flipX)
+                xOffset = width - (x2 + 1) * uvWidth;
+
+            tessellator.startDrawingQuads();
+            tessellator.addVertexWithUV((double) (x + xOffset), (double) (y + height),
+                    (double) this.zLevel, (double) ((float) (u) * f),
+                    (double) ((float) (v + uvHeight) * f1));
+            tessellator.addVertexWithUV((double) (x + uvWidth + xOffset),
+                    (double) (y + height), (double) this.zLevel,
+                    (double) ((float) (u + uvWidth) * f),
+                    (double) ((float) (v + uvHeight) * f1));
+            tessellator.addVertexWithUV((double) (x + uvWidth + xOffset), (double) (y),
+                    (double) this.zLevel, (double) ((float) (u + uvWidth) * f),
+                    (double) ((float) (v) * f1));
+            tessellator.addVertexWithUV((double) (x + xOffset), (double) (y),
+                    (double) this.zLevel, (double) ((float) (u) * f),
+                    (double) ((float) (v) * f1));
+            tessellator.draw();
         }
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
     }
-    
-    public void drawRectangleYRepeated(ResourceLocation texture, int x, int y, int u, int v, int uvWidth, int uvHeight, int width, int height)
-    {
+
+    public void drawRectangleYRepeated(ResourceLocation texture, int x, int y, int u, int v, int uvWidth, int uvHeight, int width, int height) {
         RenderHelper.bindTexture(texture);
         float f = 0.00390625F;
         float f1 = 0.00390625F;
@@ -237,43 +231,42 @@ public abstract class UIComponent {
 
         boolean flipY = height < 0;
         if (flipY) height *= -1;
-        
-        int numY = (int) Math.ceil((float)height / uvHeight);
-        
+
+        int numY = (int) Math.ceil((float) height / uvHeight);
+
         int scale = RenderHelper.computeGuiScale();
 
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         GL11.glScissor((x) * scale, mc.displayHeight - (y + height) * scale, width * scale, height * scale);
-                
-        for (int y2 = 0; y2 < numY; ++y2)
-        {
-	        	int yOffset = y2 * uvHeight;
-	        	if (flipY)
-	        		yOffset = height - (y2 + 1) * uvHeight;
-	        	
-		        tessellator.startDrawingQuads();
-		        tessellator.addVertexWithUV((double) (x), (double) (y + uvHeight + yOffset),
-		                (double) this.zLevel, (double) ((float) (u) * f),
-		                (double) ((float) (v + uvHeight) * f1));
-		        tessellator.addVertexWithUV((double) (x + width),
-		                (double) (y + uvHeight + yOffset), (double) this.zLevel,
-		                (double) ((float) (u + uvWidth) * f),
-		                (double) ((float) (v + uvHeight) * f1));
-		        tessellator.addVertexWithUV((double) (x + width), (double) (y + yOffset),
-		                (double) this.zLevel, (double) ((float) (u + uvWidth) * f),
-		                (double) ((float) (v) * f1));
-		        tessellator.addVertexWithUV((double) (x), (double) (y + yOffset),
-		                (double) this.zLevel, (double) ((float) (u) * f),
-		                (double) ((float) (v) * f1));
-		        tessellator.draw();
-	        }
+
+        for (int y2 = 0; y2 < numY; ++y2) {
+            int yOffset = y2 * uvHeight;
+            if (flipY)
+                yOffset = height - (y2 + 1) * uvHeight;
+
+            tessellator.startDrawingQuads();
+            tessellator.addVertexWithUV((double) (x), (double) (y + uvHeight + yOffset),
+                    (double) this.zLevel, (double) ((float) (u) * f),
+                    (double) ((float) (v + uvHeight) * f1));
+            tessellator.addVertexWithUV((double) (x + width),
+                    (double) (y + uvHeight + yOffset), (double) this.zLevel,
+                    (double) ((float) (u + uvWidth) * f),
+                    (double) ((float) (v + uvHeight) * f1));
+            tessellator.addVertexWithUV((double) (x + width), (double) (y + yOffset),
+                    (double) this.zLevel, (double) ((float) (u + uvWidth) * f),
+                    (double) ((float) (v) * f1));
+            tessellator.addVertexWithUV((double) (x), (double) (y + yOffset),
+                    (double) this.zLevel, (double) ((float) (u) * f),
+                    (double) ((float) (v) * f1));
+            tessellator.draw();
+        }
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
     }
 
     public abstract void draw(int mouseX, int mouseY);
 
     public abstract void update(int mouseX, int mouseY);
-    
+
     public void setZIndex(int zIndex) {
         this.zLevel = zIndex;
     }
@@ -359,9 +352,8 @@ public abstract class UIComponent {
     public void setTexture(ResourceLocation texture) {
         this.texture = texture;
     }
-    
-    public boolean isInsideRegion(int x, int y, int minX, int minY, int maxX, int maxY)
-    {
-    	return x > minX && y > minY && x < maxX && y < maxY;
+
+    public boolean isInsideRegion(int x, int y, int minX, int minY, int maxX, int maxY) {
+        return x > minX && y > minY && x < maxX && y < maxY;
     }
 }

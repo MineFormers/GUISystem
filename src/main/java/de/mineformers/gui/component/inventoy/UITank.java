@@ -3,7 +3,6 @@ package de.mineformers.gui.component.inventoy;
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.system.Global;
 import de.mineformers.gui.util.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.Icon;
 import net.minecraftforge.fluids.FluidStack;
@@ -28,6 +27,10 @@ public class UITank extends UIComponent {
         this.width = width;
         this.height = height;
         this.maxAmount = 8000;
+    }
+
+    public void update(int mouseX, int mouseY) {
+
     }
 
     public void setMaxAmount(int maxAmount) {

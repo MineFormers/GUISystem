@@ -1,11 +1,9 @@
 package de.mineformers.gui.minecraft;
 
+import de.mineformers.gui.component.canvas.UICanvas;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-
 import org.lwjgl.opengl.GL11;
-
-import de.mineformers.gui.component.canvas.UICanvas;
 
 /**
  * GUISystem
@@ -21,9 +19,9 @@ public class WidgetGuiScreen extends GuiScreen {
     private UICanvas canvas;
 
     public WidgetGuiScreen(int width, int height, UICanvas canvas) {
-    	this.mc = Minecraft.getMinecraft();
-    	this.width = width;
-    	this.height = height;
+        this.mc = Minecraft.getMinecraft();
+        this.width = width;
+        this.height = height;
         this.canvas = canvas;
         this.canvasWidth = width;
         this.canvasHeight = height;
