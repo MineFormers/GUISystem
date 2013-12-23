@@ -7,10 +7,13 @@ import de.mineformers.gui.component.interaction.UIButton;
 import de.mineformers.gui.component.interaction.UINavigationButton;
 import de.mineformers.gui.component.interaction.UIProgressBar;
 import de.mineformers.gui.component.interaction.UITextBox;
+import de.mineformers.gui.component.inventoy.UITank;
 import de.mineformers.gui.component.layout.UIAbsoluteLayout;
 import de.mineformers.gui.component.layout.UITableLayout;
 import de.mineformers.gui.listener.ListenerClickable;
 import de.mineformers.gui.util.Orientation;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 
 /**
  * GUISystem
@@ -55,6 +58,9 @@ public class CanvasExample extends UICanvas {
         progressBar.setMaxValue(100);
         progressBar.setValue(progressBar.getMaxValue());
         layout.addComponent(progressBar, 4, 1);
+
+        layout.addComponent(new UILabel("Tank"), 5, 0);
+        layout.addComponent(new UITank(100, 50, new FluidStack(FluidRegistry.WATER, 6000)), 5, 1);
 
         window.setLayout(layout);
         this.setPanel(window);

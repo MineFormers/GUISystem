@@ -75,12 +75,12 @@ public abstract class UIComponent {
         }
     }
 
-    public void drawRectangle(int x, int y, int u, int v, int width, int height) {
+    public void drawRectangle(int x, int y, float u, float v, int width, int height) {
         drawRectangle(texture, x, y, u, v, width, height);
     }
 
-    public void drawRectangle(ResourceLocation texture, int x, int y, int u,
-                              int v, int width, int height) {
+    public void drawRectangle(ResourceLocation texture, int x, int y, float u,
+                              float v, int width, int height) {
         RenderHelper.bindTexture(texture);
         float f = 0.00390625F;
         float f1 = 0.00390625F;
@@ -102,32 +102,46 @@ public abstract class UIComponent {
         tessellator.draw();
     }
 
-    public void drawRectangleStretched(int x, int y, int u, int v, int width,
-                                       int height, int uOff, int vOff) {
+    public void drawRectangleStretched(int x, int y, float u, float v, int width,
+                                       int height, float uOff, float vOff) {
         drawRectangleStretched(texture, x, y, u, v, width, height, uOff, vOff);
     }
 
-    public void drawRectangleStretched(ResourceLocation texture, int x, int y, int u, int v, int width,
-                                       int height, int uOff, int vOff) {
-        RenderHelper.bindTexture(texture);
-        float f = 0.00390625F;
-        float f1 = 0.00390625F;
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV((double) (x), (double) (y + height),
-                (double) this.zLevel, (double) ((float) (u) * f),
-                (double) ((float) (v + vOff) * f1));
-        tessellator.addVertexWithUV((double) (x + width),
-                (double) (y + height), (double) this.zLevel,
-                (double) ((float) (u + uOff) * f),
-                (double) ((float) (v + vOff) * f1));
-        tessellator.addVertexWithUV((double) (x + width), (double) (y),
-                (double) this.zLevel, (double) ((float) (u + uOff) * f),
-                (double) ((float) (v) * f1));
-        tessellator.addVertexWithUV((double) (x), (double) (y),
-                (double) this.zLevel, (double) ((float) (u) * f),
-                (double) ((float) (v) * f1));
-        tessellator.draw();
+    public void drawRectangleStretched(ResourceLocation texture, int x, int y, float u, float v, int width,
+                                       int height, float uOff, float vOff) {
+        drawRectangleStretched(texture, x, y, u, v, width,
+                height, u + uOff, v + vOff, true);
+    }
+
+    public void drawRectangleStretched(ResourceLocation texture, int x, int y, float u, float v, int width,
+                                       int height, float uMax, float vMax, boolean max) {
+        if (max) {
+            RenderHelper.bindTexture(texture);
+            float f = 0.00390625F;
+            float f1 = 0.00390625F;
+            if (u < 1)
+                f = 1;
+            if (v < 1)
+                f1 = 1;
+            Tessellator tessellator = Tessellator.instance;
+            tessellator.startDrawingQuads();
+            tessellator.addVertexWithUV((double) (x), (double) (y + height),
+                    (double) this.zLevel, (double) u * f,
+                    (double) vMax * f1);
+            tessellator.addVertexWithUV((double) (x + width),
+                    (double) (y + height), (double) this.zLevel,
+                    (double) uMax * f,
+                    (double) vMax * f1);
+            tessellator.addVertexWithUV((double) (x + width), (double) (y),
+                    (double) this.zLevel, (double) uMax * f,
+                    (double) v * f1);
+            tessellator.addVertexWithUV((double) (x), (double) (y),
+                    (double) this.zLevel, (double) (u) * f,
+                    (double) (v) * f1);
+            tessellator.draw();
+        } else {
+            drawRectangleStretched(texture, x, y, u, v, width, height, uMax, vMax);
+        }
     }
 
     public abstract void draw(int mouseX, int mouseY);

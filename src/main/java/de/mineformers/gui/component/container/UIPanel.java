@@ -2,11 +2,7 @@ package de.mineformers.gui.component.container;
 
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.component.layout.UILayout;
-import de.mineformers.gui.listener.ListenerClickable;
-import de.mineformers.gui.listener.ListenerKeyboard;
 import de.mineformers.gui.system.Global;
-
-import java.util.Iterator;
 
 /**
  * GUISystem
