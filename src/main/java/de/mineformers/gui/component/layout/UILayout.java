@@ -1,12 +1,15 @@
 package de.mineformers.gui.component.layout;
 
+import java.util.LinkedList;
+
+import org.lwjgl.input.Mouse;
+
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.component.container.UIPanel;
 import de.mineformers.gui.listener.ListenerClickable;
 import de.mineformers.gui.listener.ListenerKeyboard;
+import de.mineformers.gui.listener.ListenerMouseScroll;
 import de.mineformers.gui.system.Global;
-
-import java.util.LinkedList;
 
 /**
  * GUISystem
@@ -31,9 +34,19 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
         this.constraints = new LinkedList<>();
     }
 
+	@Override
+	public void update(int mouseX, int mouseY) {
+		int dWheel = Mouse.getDWheel() / 120;
+
+		if (dWheel != 0) {
+			mouseScroll(-dWheel, mouseX, mouseY);
+		}
+	}
+
     @Override
     public void draw(int mouseX, int mouseY) {
-
+    	this.update(mouseX, mouseY);
+    	
     }
 
     public void addComponent(UIComponent component) {
@@ -61,18 +74,28 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
         }
         return height;
     }
-
+    
+    public void mouseScroll(int dir, int mouseX, int mouseY) {
+    	for (UIComponent component : components) {
+            if (component.isVisible())
+                if (component.isHovered(mouseX, mouseY)) {
+                    component.notifyListeners(ListenerMouseScroll.class,
+                            "onMouseScroll", dir, mouseX, mouseY);
+                } else if (component instanceof UIPanel) {
+                    ((UIPanel) component).mouseScroll(dir, mouseX, mouseY);
+                }
+        }
+    }
+    
     public void mouseClick(int mouseX, int mouseY, int mouseButton) {
-        if (mouseButton == 0) {
-            for (UIComponent component : components) {
-                if (component.isVisible())
-                    if (component.isHovered(mouseX, mouseY)) {
-                        component.notifyListeners(ListenerClickable.class,
-                                "onClick", mouseX, mouseY);
-                    } else if (component instanceof UIPanel) {
-                        ((UIPanel) component).mouseClick(mouseX, mouseY, mouseButton);
-                    }
-            }
+        for (UIComponent component : components) {
+            if (component.isVisible())
+                if (component.isHovered(mouseX, mouseY)) {
+                    component.notifyListeners(ListenerClickable.class,
+                            "onClick", mouseX, mouseY, mouseButton);
+                } else if (component instanceof UIPanel) {
+                    ((UIPanel) component).mouseClick(mouseX, mouseY, mouseButton);
+                }
         }
     }
 

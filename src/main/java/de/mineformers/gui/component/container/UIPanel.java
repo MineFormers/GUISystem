@@ -28,6 +28,11 @@ public class UIPanel extends UIComponent {
         return layout;
     }
 
+	@Override
+	public void update(int mouseX, int mouseY) {
+		
+	}
+
     @Override
     public void draw(int mouseX, int mouseY) {
         layout.setScreenPos(screenX, screenY);
@@ -43,7 +48,11 @@ public class UIPanel extends UIComponent {
     public int getHeight() {
         return layout.getHeight();
     }
-
+    
+    public void mouseScroll(int dir, int mouseX, int mouseY) {
+    	layout.mouseScroll(dir, mouseX, mouseY);
+    }
+    
     public void mouseClick(int mouseX, int mouseY, int mouseButton) {
         layout.mouseClick(mouseX, mouseY, mouseButton);
     }

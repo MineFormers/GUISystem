@@ -22,6 +22,11 @@ public class UIInventoryPlayer extends UIComponent {
         this.widget = new UIInventory(9, 3);
     }
 
+	@Override
+	public void update(int mouseX, int mouseY) {
+		
+	}
+
     @Override
     public void draw(int mouseX, int mouseY) {
         this.drawString(LangHelper.translate("container.inventory"), screenX, screenY,

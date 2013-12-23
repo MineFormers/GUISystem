@@ -28,6 +28,11 @@ public class UIButton extends UIComponent implements ListenerClickable {
         this.addListener(this);
     }
 
+	@Override
+	public void update(int mouseX, int mouseY) {
+		
+	}
+
     @Override
     public void draw(int mouseX, int mouseY) {
         boolean hovering = isHovered(mouseX, mouseY);
@@ -42,18 +47,29 @@ public class UIButton extends UIComponent implements ListenerClickable {
         this.drawRectangle(screenX, screenY + height - 5, 1 + 19 * state, 43, 5, 5);
 
         // Sides clockwise
-        this.drawRectangleStretched(screenX + 5, screenY, 7 + 19 * state, 31, width - 10,
-                5, 5, 5);
-        this.drawRectangleStretched(screenX + width - 5, screenY + 5, 13 + 19 * state, 37,
-                5, height - 10, 5, 5);
-        this.drawRectangleStretched(screenX + 5, screenY + height - 5, 7 + 19 * state, 43,
+        /*this.drawRectangleStretched(screenX + 5, screenY, 7 + 19 * state, 31, width - 10, // Top
+        		5, 5, 5);
+        this.drawRectangleStretched(screenX + width - 5, screenY + 5, 13 + 19 * state, 37, // Right
+		5, height - 10, 5, 5);
+        this.drawRectangleStretched(screenX + 5, screenY + height - 5, 7 + 19 * state, 43, // Bottom
                 width - 10, 5, 5, 5);
-        this.drawRectangleStretched(screenX, screenY + 5, 1 + 19 * state, 37, 5,
-                height - 10, 5, 5);
+        this.drawRectangleStretched(screenX, screenY + 5, 1 + 19 * state, 37, 5, // Left
+                height - 10, 5, 5);*/
+        
+        this.drawRectangleRepeated(this.texture, screenX + 5, screenY, 7 + 19 * state, 31, 5, 5, width - 10, // Top
+                5);
+        this.drawRectangleRepeated(this.texture, screenX + width - 5, screenY + 5, 13 + 19 * state, 37, 5, 5, // Right
+                5, height - 10);
+        this.drawRectangleRepeated(this.texture, screenX + 5, screenY + height - 5, 7 + 19 * state, 43, 5, 5, // Bottom
+                width - 10, 5);
+        this.drawRectangleRepeated(this.texture, screenX, screenY + 5, 1 + 19 * state, 37, 5, 5, 5, // Left
+                height - 10);
 
         // Canvas
-        this.drawRectangleStretched(screenX + 5, screenY + 5, 7 + 19 * state, 37,
-                width - 10, height - 10, 5, 5);
+        /*this.drawRectangleStretched(screenX + 5, screenY + 5, 7 + 19 * state, 37,
+                width - 10, height - 10, 5, 5);*/
+        this.drawRectangleRepeated(this.texture, screenX + 5, screenY + 5, 7 + 19 * state, 37,
+                5, 5, width - 10, height - 10);
 
         int color = 0xe0e0e0;
 
@@ -90,12 +106,11 @@ public class UIButton extends UIComponent implements ListenerClickable {
 
     @Override
     public boolean isHovered(int mouseX, int mouseY) {
-        return mouseX > screenX && mouseY > screenY
-                && mouseX < (screenX + width) && mouseY < (screenY + height);
+    	return this.isInsideRegion(mouseX, mouseY, screenX, screenY, screenX + width, screenY + height);
     }
 
     @Override
-    public void onClick(int mouseX, int mouseY) {
+    public void onClick(int mouseX, int mouseY, int mouseBtn) {
         mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
     }
 
