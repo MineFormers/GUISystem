@@ -10,6 +10,6 @@ package de.mineformers.gui.listener;
  */
 public interface ListenerClickable extends Listener {
 
-    public void onClick(int mouseX, int mouseY);
+    public void onClick(int mouseX, int mouseY, int mouseBtn);
 
 }

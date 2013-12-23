@@ -22,6 +22,11 @@ public class UIInventory extends UIComponent {
         this.height = slotsY;
     }
 
+	@Override
+	public void update(int mouseX, int mouseY) {
+		
+	}
+
     public void draw(int mouseX, int mouseY) {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
