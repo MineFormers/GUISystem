@@ -43,17 +43,10 @@ public class UICanvas extends UIComponent {
     public void drawBackground(int mouseX, int mouseY) {
     }
 
-<<<<<<< HEAD
-	@Override
-	public void update(int mouseX, int mouseY) {
-		panel.update(mouseX, mouseY);
-	}
-=======
     @Override
     public void update(int mouseX, int mouseY) {
         panel.update(mouseX, mouseY);
     }
->>>>>>> a4efd6c900c1b52f636f8aba4272e16036c1a845
 
     @Override
     public void draw(int mouseX, int mouseY) {

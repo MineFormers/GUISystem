@@ -1,5 +1,6 @@
 package de.mineformers.example;
 
+import de.mineformers.gui.util.MouseButton;
 import net.minecraft.util.MathHelper;
 import de.mineformers.gui.component.canvas.UICanvas;
 import de.mineformers.gui.component.container.UIWindow;
@@ -33,14 +34,14 @@ public class CanvasExample extends UICanvas {
         UIWindow window = new UIWindow(200, 200);
         UITableLayout layout = new UITableLayout();
 
-        layout.addComponent(new UILabel("§lDemo GUI"), 0, 0);
+        layout.addComponent(new UILabel("Â§lDemo GUI"), 0, 0);
         layout.addComponent(new UILabel("TextBox:"), 1, 0);
         layout.addComponent(new UITextBox(100, 15, "Demo", true), 1, 1);
         layout.addComponent(new UILabel("Button:"), 2, 0);
-        UIButton button = new UIButton(100, 20, "§kDemo");
+        UIButton button = new UIButton(100, 20, "Â§kDemo");
         button.addListener(new ListenerClickable() {
             @Override
-            public void onClick(int mouseX, int mouseY, int mouseBtn) {
+            public void onClick(int mouseX, int mouseY, MouseButton mouseBtn) {
                 mc.currentScreen = null;
                 mc.setIngameFocus();
             }

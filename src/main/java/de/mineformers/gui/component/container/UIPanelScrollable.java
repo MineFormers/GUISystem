@@ -7,6 +7,8 @@ import de.mineformers.gui.component.layout.UIAbsoluteLayout;
 import de.mineformers.gui.listener.ListenerMouseScroll;
 import de.mineformers.gui.util.RenderHelper;
 
+import static org.lwjgl.opengl.GL11.glScissor;
+
 public class UIPanelScrollable extends UIPanel
 {
 	public UIScrollBar scrollBar;
