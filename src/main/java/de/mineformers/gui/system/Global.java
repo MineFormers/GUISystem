@@ -20,5 +20,4 @@ public class Global {
     public static ResourceLocation getTexture() {
         return ResourceHelper.getModResource(TEXTURE_PATH);
     }
-
 }

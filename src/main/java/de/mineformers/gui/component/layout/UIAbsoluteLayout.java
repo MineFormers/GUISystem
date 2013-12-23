@@ -35,6 +35,8 @@ public class UIAbsoluteLayout extends UILayout<UIAbsoluteLayout.AbsoluteLayoutCo
 
     @Override
     public void draw(int mouseX, int mouseY) {
+    	super.draw(mouseX, mouseY);
+    	
         for (int i = 0; i < components.size(); i++) {
             UIComponent component = components.get(i);
             AbsoluteLayoutConstraints alc = constraints.get(i);
