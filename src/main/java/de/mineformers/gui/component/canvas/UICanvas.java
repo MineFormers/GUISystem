@@ -45,7 +45,7 @@ public class UICanvas extends UIComponent {
 
 	@Override
 	public void update(int mouseX, int mouseY) {
-		
+		panel.update(mouseX, mouseY);
 	}
 
     @Override

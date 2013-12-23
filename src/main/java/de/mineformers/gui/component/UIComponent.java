@@ -32,6 +32,8 @@ public abstract class UIComponent {
     private int zLevel;
     protected boolean visible;
     protected int width, height;
+    
+    protected int[] scissorRect;
 
     private ArrayList<Listener> listeners;
 
@@ -41,12 +43,26 @@ public abstract class UIComponent {
         this.zLevel = 0;
         listeners = new ArrayList<Listener>();
         this.visible = true;
+        
+        scissorRect = new int[4];
     }
 
     public int getStringWidth(String text) {
         return mc.fontRenderer.getStringWidth(text);
     }
 
+    public void glScissor(int x, int y, int width, int height)
+    {
+    	scissorRect = new int[] {
+    			x,
+    			y,
+    			width,
+    			height
+    	};
+    	
+    	GL11.glScissor(x, y, width, height);
+    }
+    
     public void drawString(String text, int x, int y, int color,
                            boolean drawShadow) {
         this.mc.fontRenderer.drawString(text, x, y, color, drawShadow);
@@ -143,9 +159,10 @@ public abstract class UIComponent {
         int numY = (int) Math.ceil((float)height / uvHeight);
         
         int scale = RenderHelper.computeGuiScale();
-
+        
+        GL11.glPushAttrib(GL11.GL_SCISSOR_BIT);
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
-        GL11.glScissor((x) * scale, mc.displayHeight - (y + height) * scale, width * scale, height * scale);
+        glScissor((x) * scale, mc.displayHeight - (y + height) * scale, width * scale, height * scale);
                 
         for (int y2 = 0; y2 < numY; ++y2)
 	        for (int x2 = 0; x2 < numX; ++x2)
@@ -170,6 +187,7 @@ public abstract class UIComponent {
 		        tessellator.draw();
 	        }
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
+        GL11.glPopAttrib();
     }
     
     public void drawRectangleXRepeated(ResourceLocation texture, int x, int y, int u, int v, int uvWidth, int uvHeight, int width, int height)

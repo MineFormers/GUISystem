@@ -37,7 +37,6 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
 	@Override
 	public void update(int mouseX, int mouseY) {
 		int dWheel = Mouse.getDWheel() / 120;
-
 		if (dWheel != 0) {
 			mouseScroll(-dWheel, mouseX, mouseY);
 		}
@@ -45,8 +44,7 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
 
     @Override
     public void draw(int mouseX, int mouseY) {
-    	this.update(mouseX, mouseY);
-    	
+
     }
 
     public void addComponent(UIComponent component) {
@@ -77,13 +75,14 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
     
     public void mouseScroll(int dir, int mouseX, int mouseY) {
     	for (UIComponent component : components) {
-            if (component.isVisible())
+            if (component.isVisible()) {
                 if (component.isHovered(mouseX, mouseY)) {
                     component.notifyListeners(ListenerMouseScroll.class,
                             "onMouseScroll", dir, mouseX, mouseY);
                 } else if (component instanceof UIPanel) {
                     ((UIPanel) component).mouseScroll(dir, mouseX, mouseY);
                 }
+            }
         }
     }
     
