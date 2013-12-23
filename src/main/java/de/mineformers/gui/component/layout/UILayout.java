@@ -38,11 +38,6 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
     public void update(int mouseX, int mouseY) {
         for (UIComponent component : components)
             component.update(mouseX, mouseY);
-        int dWheel = Mouse.getDWheel() / 120;
-
-        if (dWheel != 0) {
-            mouseScroll(-dWheel, mouseX, mouseY);
-        }
     }
 
     @Override

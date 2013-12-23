@@ -68,4 +68,7 @@ public class UICanvas extends UIComponent {
         panel.keyTyped(keyChar, keyCode);
     }
 
+    public void mouseScroll(int dir, int mouseX, int mouseY) {
+        panel.mouseScroll(dir, mouseX, mouseY);
+    }
 }
