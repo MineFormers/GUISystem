@@ -1,5 +1,6 @@
 package de.mineformers.gui.component.interaction;
 
+import de.mineformers.gui.util.MouseButton;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -42,7 +43,7 @@ public class UIScrollBar extends UIComponent
 		this.addListener(new ListenerClickable() {
 			
 			@Override
-			public void onClick(int mouseX, int mouseY, int mouseBtn) {
+			public void onClick(int mouseX, int mouseY, MouseButton mouseBtn) {
 				if (isInsideRegion(mouseX, mouseY, screenX, screenY + scrollY, screenX + width, screenY + scrollY + barHeight))
 				{
 	        		initialClickY = mouseY - (screenY + scrollY);
