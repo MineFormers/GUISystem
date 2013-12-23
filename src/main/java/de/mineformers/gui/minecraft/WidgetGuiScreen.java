@@ -49,6 +49,11 @@ public class WidgetGuiScreen extends GuiScreen {
         int k = Mouse.getX() * i / this.mc.displayWidth;
         int l = j - Mouse.getY() * j / this.mc.displayHeight - 1;
         this.canvas.update(k, l);
+        int dWheel = Mouse.getDWheel() / 120;
+
+        if (dWheel != 0) {
+            canvas.mouseScroll(-dWheel, k, l);
+        }
     }
 
     @Override
