@@ -31,14 +31,14 @@ public class UITank extends UIComponent {
         this.maxAmount = 8000;
         slot = new UISlot(width, height);
         tooltip = new UITooltip();
-        tooltip.addLine(fluid.amount + "/" + maxAmount);
+        tooltip.addLine(fluid.amount + "mB/" + maxAmount + "mB");
         tooltip.addLine(fluid.getFluid().getLocalizedName());
     }
 
     public void setFluid(FluidStack fluid) {
         this.fluid = fluid;
         tooltip.reset();
-        tooltip.addLine(fluid.amount + "/" + maxAmount);
+        tooltip.addLine(fluid.amount + "mB/" + maxAmount + "mB");
         tooltip.addLine(fluid.getFluid().getLocalizedName());
     }
 
@@ -56,6 +56,10 @@ public class UITank extends UIComponent {
 
     public int getMaxAmount() {
         return maxAmount;
+    }
+
+    public void setFluidAmount(int amount) {
+        fluid.amount = amount;
     }
 
     public int mapAmountOnHeight(int height) {

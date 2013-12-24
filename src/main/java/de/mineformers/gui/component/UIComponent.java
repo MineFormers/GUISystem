@@ -407,4 +407,9 @@ public abstract class UIComponent {
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
+
+    public void setSize(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
 }

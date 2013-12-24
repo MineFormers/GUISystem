@@ -17,7 +17,6 @@ import org.lwjgl.opengl.GL11;
  */
 public class WidgetGuiScreen extends GuiScreen {
 
-    private int canvasWidth, canvasHeight;
     private UICanvas canvas;
 
     public WidgetGuiScreen(int width, int height, UICanvas canvas) {
@@ -25,8 +24,7 @@ public class WidgetGuiScreen extends GuiScreen {
         this.width = width;
         this.height = height;
         this.canvas = canvas;
-        this.canvasWidth = width;
-        this.canvasHeight = height;
+        canvas.setSize(width, height);
     }
 
     @Override
@@ -62,8 +60,8 @@ public class WidgetGuiScreen extends GuiScreen {
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        int xStart = (width - canvasWidth) / 2;
-        int yStart = (height - canvasHeight) / 2;
+        int xStart = (width - canvas.getWidth()) / 2;
+        int yStart = (height - canvas.getHeight()) / 2;
 
         canvas.setPos(xStart, yStart);
         canvas.draw(mouseX, mouseY);

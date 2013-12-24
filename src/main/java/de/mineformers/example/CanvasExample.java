@@ -1,20 +1,19 @@
 package de.mineformers.example;
 
-import de.mineformers.gui.util.MouseButton;
-import net.minecraft.util.MathHelper;
 import de.mineformers.gui.component.canvas.UICanvas;
 import de.mineformers.gui.component.container.UIWindow;
 import de.mineformers.gui.component.decorative.UILabel;
-import de.mineformers.gui.component.interaction.UIButton;
-import de.mineformers.gui.component.interaction.UINavigationButton;
-import de.mineformers.gui.component.interaction.UIProgressBar;
-import de.mineformers.gui.component.interaction.UIProgressBarScalable;
-import de.mineformers.gui.component.interaction.UITextBox;
+import de.mineformers.gui.component.interaction.*;
+import de.mineformers.gui.component.inventoy.UITank;
 import de.mineformers.gui.component.layout.UIAbsoluteLayout;
 import de.mineformers.gui.component.layout.UITableLayout;
 import de.mineformers.gui.listener.ListenerClickable;
 import de.mineformers.gui.listener.ListenerMouseScroll;
+import de.mineformers.gui.util.MouseButton;
 import de.mineformers.gui.util.Orientation;
+import net.minecraft.util.MathHelper;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 
 /**
  * GUISystem
@@ -64,7 +63,8 @@ public class CanvasExample extends UICanvas {
 
         layout.addComponent(new UILabel("Progress Bar:"), 4, 0);
         progressBar = new UIProgressBarScalable(Orientation.VERTICAL_TOP, 8, 32, 86, 14, 4, 8);
-        progressBar.setMaxValue(100);
+        progressBar.setMaxValue(4000);
+        final UITank tank = new UITank(100, 50, new FluidStack(FluidRegistry.LAVA, 8000));
         progressBar.setValue(progressBar.getMaxValue());
         progressBar.addListener(new ListenerMouseScroll() {
 			@Override
@@ -72,9 +72,13 @@ public class CanvasExample extends UICanvas {
 				progressBar.updateValue(-dir * 10);
 				
 				progressBar.setValue(MathHelper.clamp_int(progressBar.getValue(), 0, progressBar.getMaxValue()));
-			}
+                tank.setFluidAmount(progressBar.getValue() * 2);
+            }
 		});
         layout.addComponent(progressBar, 4, 1);
+        layout.addComponent(new UILabel("Tank:"), 5, 0);
+        tank.setDrawSlot(true);
+        layout.addComponent(tank, 5, 1);
 
         window.setLayout(layout);
         this.setPanel(window);

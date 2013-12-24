@@ -16,14 +16,12 @@ import org.lwjgl.opengl.GL11;
  */
 public class WidgetGuiContainer extends GuiContainer {
 
-    private int canvasWidth, canvasHeight;
     private UICanvasContainer canvas;
 
     public WidgetGuiContainer(int width, int height, UICanvasContainer canvas) {
         super(canvas.getContainer());
         this.canvas = canvas;
-        this.canvasWidth = width;
-        this.canvasHeight = height;
+        this.canvas.setSize(width, height);
         this.xSize = width;
         this.ySize = height;
     }
@@ -48,8 +46,8 @@ public class WidgetGuiContainer extends GuiContainer {
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        int xStart = (width - canvasWidth) / 2;
-        int yStart = (height - canvasHeight) / 2;
+        int xStart = (width - canvas.getWidth()) / 2;
+        int yStart = (height - canvas.getHeight()) / 2;
 
         canvas.setPos(xStart, yStart);
         canvas.drawForeground(mouseX, mouseY);
@@ -60,8 +58,8 @@ public class WidgetGuiContainer extends GuiContainer {
                                                    int mouseY) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        int xStart = (width - canvasWidth) / 2;
-        int yStart = (height - canvasHeight) / 2;
+        int xStart = (width - canvas.getWidth()) / 2;
+        int yStart = (height - canvas.getHeight()) / 2;
 
         canvas.setPos(xStart, yStart);
         canvas.draw(mouseX, mouseY);
