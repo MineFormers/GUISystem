@@ -65,6 +65,7 @@ public class UIList<T> extends UIPanelScrollable
 	{
 		drawBackground(mouseX, mouseY);
 
+		GL11.glPushAttrib(GL11.GL_SCISSOR_BIT);
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		
 		int scale = RenderHelper.computeGuiScale();
@@ -75,7 +76,7 @@ public class UIList<T> extends UIPanelScrollable
 		
 		
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
-		
+		GL11.glPopAttrib();
 		//this.scrollBar.draw(mouseX, mouseY);
 		
 		super.draw(mouseX, mouseY);
