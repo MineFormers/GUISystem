@@ -23,7 +23,14 @@ public class UICanvas extends UIComponent {
         this.x = x;
         this.y = y;
     }
-
+    
+    @Override
+    public void initComponent() {
+    	super.initComponent();
+    	
+    	panel.initComponent();
+    }
+    
     public void setPos(int x, int y) {
         this.x = x;
         this.y = y;

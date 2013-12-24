@@ -20,6 +20,13 @@ public class UIPanel extends UIComponent {
         super(Global.getTexture());
     }
 
+    @Override
+    public void initComponent() {
+    	super.initComponent();
+    
+    	layout.initComponent();
+    }
+    
     public void setLayout(UILayout layout) {
         this.layout = layout;
     }

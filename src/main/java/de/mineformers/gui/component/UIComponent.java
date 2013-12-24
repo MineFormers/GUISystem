@@ -42,7 +42,9 @@ public abstract class UIComponent {
         listeners = new ArrayList<Listener>();
         this.visible = true;
     }
-
+    
+    public void initComponent() {}
+    
     public int getStringWidth(String text) {
         return mc.fontRenderer.getStringWidth(text);
     }

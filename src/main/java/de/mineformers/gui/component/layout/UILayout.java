@@ -35,6 +35,14 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
     }
 
     @Override
+    public void initComponent() {
+    	super.initComponent();
+
+        for (UIComponent component : components)
+            component.initComponent();
+    }	
+    
+    @Override
     public void update(int mouseX, int mouseY) {
         for (UIComponent component : components)
             component.update(mouseX, mouseY);
