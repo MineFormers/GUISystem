@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 import org.lwjgl.util.Color;
 
 import java.lang.reflect.InvocationTargetException;
@@ -32,6 +33,7 @@ public abstract class UIComponent {
     private int zLevel;
     protected boolean visible;
     protected int width, height;
+    private String tooltip;
 
     private ArrayList<Listener> listeners;
 
@@ -42,16 +44,31 @@ public abstract class UIComponent {
         listeners = new ArrayList<Listener>();
         this.visible = true;
     }
-    
-    public void initComponent() {}
-    
+
+    public void initComponent() {
+    }
+
+    public void setTooltip(String tooltip) {
+        this.tooltip = tooltip;
+    }
+
+    public String getTooltip() {
+        return tooltip;
+    }
+
     public int getStringWidth(String text) {
         return mc.fontRenderer.getStringWidth(text);
     }
 
     public void drawString(String text, int x, int y, int color,
                            boolean drawShadow) {
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+        GL11.glTranslatef(0, 0, zLevel);
         this.mc.fontRenderer.drawString(text, x, y, color, drawShadow);
+        GL11.glTranslatef(0, 0, -zLevel);
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
     }
 
     public void drawSplitString(String text, int x, int y, int color,

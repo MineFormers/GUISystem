@@ -45,14 +45,14 @@ public class CanvasExample extends UICanvas {
                 mc.setIngameFocus();
             }
         });
-        
+
         button.addListener(new ListenerMouseScroll() {
-			@Override
-			public void onMouseScroll(int dir, int mouseX, int mouseY) {
-				
-			}
-		});
-        
+            @Override
+            public void onMouseScroll(int dir, int mouseX, int mouseY) {
+
+            }
+        });
+
         layout.addComponent(button, 2, 1);
 
         layout.addComponent(new UILabel("Navigation:"), 3, 0);
@@ -67,14 +67,14 @@ public class CanvasExample extends UICanvas {
         final UITank tank = new UITank(100, 50, new FluidStack(FluidRegistry.LAVA, 8000));
         progressBar.setValue(progressBar.getMaxValue());
         progressBar.addListener(new ListenerMouseScroll() {
-			@Override
-			public void onMouseScroll(int dir, int mouseX, int mouseY) {
-				progressBar.updateValue(-dir * 10);
-				
-				progressBar.setValue(MathHelper.clamp_int(progressBar.getValue(), 0, progressBar.getMaxValue()));
+            @Override
+            public void onMouseScroll(int dir, int mouseX, int mouseY) {
+                progressBar.updateValue(-dir * 10);
+
+                progressBar.setValue(MathHelper.clamp_int(progressBar.getValue(), 0, progressBar.getMaxValue()));
                 tank.setFluidAmount(progressBar.getValue() * 2);
             }
-		});
+        });
         layout.addComponent(progressBar, 4, 1);
         layout.addComponent(new UILabel("Tank:"), 5, 0);
         tank.setDrawSlot(true);
@@ -83,7 +83,7 @@ public class CanvasExample extends UICanvas {
         window.setLayout(layout);
         this.setPanel(window);
     }
-    
+
     @Override
     public void draw(int mouseX, int mouseY) {
         /*long current = System.currentTimeMillis();

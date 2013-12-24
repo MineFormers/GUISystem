@@ -58,6 +58,7 @@ public class UIWindow extends UIPanel {
         layout.setScreenPos(screenX + padding.left, screenY + padding.top);
         layout.draw(mouseX, mouseY);
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
+        layout.drawTooltips(mouseX, mouseY);
     }
 
     @Override

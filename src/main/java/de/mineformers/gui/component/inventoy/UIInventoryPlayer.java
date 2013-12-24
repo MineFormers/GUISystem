@@ -17,7 +17,7 @@ public class UIInventoryPlayer extends UIComponent {
 
     private UIInventory widget;
 
-    public UIInventoryPlayer(int x, int y) {
+    public UIInventoryPlayer() {
         super(Global.getTexture());
         this.widget = new UIInventory(9, 3);
     }
