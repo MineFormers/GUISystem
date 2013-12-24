@@ -39,6 +39,20 @@ public class UIPanel extends UIComponent {
     public void update(int mouseX, int mouseY) {
         layout.update(mouseX, mouseY);
     }
+    
+    @Override
+    public void drawBackground(int mouseX, int mouseY) {
+    	super.drawBackground(mouseX, mouseY);
+    	
+    	layout.drawBackground(mouseX, mouseY);
+    }
+    
+    @Override
+    public void drawForeground(int mouseX, int mouseY) {
+    	super.drawForeground(mouseX, mouseY);
+
+    	layout.drawForeground(mouseX, mouseY);
+    }
 
     @Override
     public void draw(int mouseX, int mouseY) {

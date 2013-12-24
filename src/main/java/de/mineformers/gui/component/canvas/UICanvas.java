@@ -44,10 +44,18 @@ public class UICanvas extends UIComponent {
         this.panel = panel;
     }
 
+    @Override
     public void drawForeground(int mouseX, int mouseY) {
+    	super.drawForeground(mouseX, mouseY);
+    	
+    	panel.drawForeground(mouseX, mouseY);
     }
 
+    @Override
     public void drawBackground(int mouseX, int mouseY) {
+    	super.drawBackground(mouseX, mouseY);
+    	
+    	panel.drawBackground(mouseX, mouseY);
     }
 
     @Override
@@ -57,14 +65,13 @@ public class UICanvas extends UIComponent {
 
     @Override
     public void draw(int mouseX, int mouseY) {
-        drawBackground(mouseX, mouseY);
+
         GL11.glPushMatrix();
         if (panel != null) {
             panel.setScreenPos(x, y);
             panel.draw(mouseX, mouseY);
         }
         GL11.glPopMatrix();
-        drawForeground(mouseX, mouseY);
     }
 
     public void mouseClick(int mouseX, int mouseY, int mouseButton) {

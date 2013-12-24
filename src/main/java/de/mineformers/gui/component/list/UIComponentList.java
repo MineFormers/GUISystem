@@ -2,6 +2,7 @@ package de.mineformers.gui.component.list;
 
 import org.lwjgl.opengl.GL11;
 
+import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.component.layout.UIAbsoluteLayout;
 
 public class UIComponentList extends UIList<UIAbsoluteLayout>
@@ -43,6 +44,30 @@ public class UIComponentList extends UIList<UIAbsoluteLayout>
 	@Override
 	public void update(int mouseX, int mouseY) {
 		super.update(mouseX, mouseY);
+	}
+	
+	@Override
+	public void drawBackground(int mouseX, int mouseY) {
+		super.drawBackground(mouseX, mouseY);
+		
+		for (int i = 0; i < items.size(); ++i)
+		{
+			UIComponent item = items.get(i);
+			
+			item.drawBackground(mouseX, mouseY);
+		}
+	}
+	
+	@Override
+	public void drawForeground(int mouseX, int mouseY) {
+		super.drawForeground(mouseX, mouseY);
+		
+		for (int i = 0; i < items.size(); ++i)
+		{
+			UIComponent item = items.get(i);
+			
+			item.drawForeground(mouseX, mouseY);
+		}
 	}
 	
 	@Override
