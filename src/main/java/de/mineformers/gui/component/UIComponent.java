@@ -182,6 +182,7 @@ public abstract class UIComponent {
 
         int scale = RenderHelper.computeGuiScale();
 
+        GL11.glPushAttrib(GL11.GL_SCISSOR_BIT);
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         GL11.glScissor((x) * scale, mc.displayHeight - (y + height) * scale, width * scale, height * scale);
 
@@ -195,6 +196,7 @@ public abstract class UIComponent {
                         uvWidth, uvHeight);
             }
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
+        GL11.glPopAttrib();
     }
 
     public void drawRectangleXRepeated(ResourceLocation texture, int x, int y, float u, float v, float uvWidth, float uvHeight, int width, int height) {

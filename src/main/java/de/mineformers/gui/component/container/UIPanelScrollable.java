@@ -69,14 +69,15 @@ public class UIPanelScrollable extends UIPanel
 	@Override
 	public void draw(int mouseX, int mouseY)
 	{
-		update(mouseX, mouseY);
 		
+		/*GL11.glPushAttrib(GL11.GL_SCISSOR_BIT);
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		
 		int scale = RenderHelper.computeGuiScale();
 		glScissor((screenX + 1) * scale, mc.displayHeight - (screenY + height - 1) * scale, (width - 2) * scale, (height - 2) * scale);
 		
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
+		GL11.glPopAttrib();*/
 
 		super.draw(mouseX, mouseY);
 	}
