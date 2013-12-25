@@ -3,8 +3,11 @@ package de.mineformers.gui.minecraft;
 import de.mineformers.gui.component.canvas.UICanvasContainer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.RenderHelper;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 /**
  * GUISystem
@@ -24,6 +27,13 @@ public class WidgetGuiContainer extends GuiContainer {
         this.canvas.setSize(width, height);
         this.xSize = width;
         this.ySize = height;
+    }
+    
+    @Override
+    public void initGui() {
+    	super.initGui();
+    	
+    	this.canvas.initComponent();
     }
 
     @Override
@@ -62,12 +72,16 @@ public class WidgetGuiContainer extends GuiContainer {
         int yStart = (height - canvas.getHeight()) / 2;
 
         canvas.setPos(xStart, yStart);
+        
+        RenderHelper.enableGUIStandardItemLighting();
+    	canvas.drawBackground(mouseX, mouseY);
         canvas.draw(mouseX, mouseY);
     }
 
     @Override
-    public void drawScreen(int par1, int par2, float par3) {
-        super.drawScreen(par1, par2, par3);
+    public void drawScreen(int mouseX, int mouseY, float tick) {
+        super.drawScreen(mouseX, mouseY, tick);
+
     }
 
 

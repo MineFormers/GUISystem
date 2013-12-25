@@ -13,8 +13,14 @@ public class UIComponentList extends UIList<UIAbsoluteLayout>
 	}
 	
 	@Override
+	public void addItem(UIAbsoluteLayout item) {
+		super.addItem(item);
+	}
+	
+	@Override
 	public void mouseClick(int mouseX, int mouseY, int mouseButton) {
 		super.mouseClick(mouseX, mouseY, mouseButton);
+		
 		
 		for (int i = 0; i < items.size(); ++i)
 		{

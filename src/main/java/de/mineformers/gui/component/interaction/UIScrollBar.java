@@ -24,8 +24,11 @@ public class UIScrollBar extends UIComponent
 	
 	private int initialClickY;
 	
-	public UIScrollBar(int w, int h) {
+	public UIScrollBar(int x, int y, int w, int h) {
 		super(Global.getTexture());
+		
+		screenX = x;
+		screenY = y;
 		
 		this.width = w;
 		this.height = h;
@@ -36,7 +39,7 @@ public class UIScrollBar extends UIComponent
 		this.addListener(new ListenerMouseScroll() {
 			@Override
 			public void onMouseScroll(int dir, int mouseX, int mouseY) {
-				scroll(dir * scrollStep);
+				mouseScroll(dir, mouseX, mouseY);
 			}
 		});
 		
@@ -44,14 +47,24 @@ public class UIScrollBar extends UIComponent
 			
 			@Override
 			public void onClick(int mouseX, int mouseY, MouseButton mouseBtn) {
-				if (isInsideRegion(mouseX, mouseY, screenX, screenY + scrollY, screenX + width, screenY + scrollY + barHeight))
-				{
-	        		initialClickY = mouseY - (screenY + scrollY);
-	        	}
+				mouseClick(mouseX, mouseY, mouseBtn.ordinal());
 			}
 		});
 	}
+	
+	public UIScrollBar(int w, int h)
+	{
+		this(0, 0, w, h);
+	}
 		
+	public void mouseClick(int mouseX, int mouseY, int mouseBtn) {
+    	initialClickY = mouseY - (screenY + scrollY);
+	}
+	
+	public void mouseScroll(int dir, int mouseX, int mouseY) {
+		scroll(dir * scrollStep);
+	}
+	
 	@Override
 	public boolean isHovered(int mouseX, int mouseY) {
 		return true;
@@ -113,15 +126,12 @@ public class UIScrollBar extends UIComponent
 	@Override
 	public void draw(int mouseX, int mouseY)
 	{
-		this.update(mouseX, mouseY);
-		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		
 		GL11.glColor4f(0.2f, 0.2f, 0.2f, 1);
 		this.drawRectangle(screenX, screenY, 0, 0, width, height);
 		
 		this.scrollVisualY = Utilities.lerp(this.scrollVisualY, scrollY, 0.1f);
-
         // Slider
         GL11.glColor4f(0.5f, 0.5f, 0.5f, 1);
         this.drawRectangle(screenX, screenY + (int) scrollVisualY, 0, 0, width, barHeight + 1);

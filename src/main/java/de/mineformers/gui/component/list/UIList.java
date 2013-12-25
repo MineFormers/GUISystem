@@ -7,12 +7,13 @@ import net.minecraft.client.renderer.Tessellator;
 
 import org.lwjgl.opengl.GL11;
 
-import de.mineformers.gui.component.container.UIPanelScrollable;
+import de.mineformers.gui.component.UIComponent;
+import de.mineformers.gui.component.interaction.UIScrollBar;
 import de.mineformers.gui.component.layout.UIAbsoluteLayout;
-import de.mineformers.gui.component.layout.UILayout;
+import de.mineformers.gui.system.Global;
 import de.mineformers.gui.util.RenderHelper;
 
-public class UIList<T> extends UIPanelScrollable
+public class UIList<T> extends UIComponent
 {
 	protected List<T> items;
 	
@@ -21,9 +22,11 @@ public class UIList<T> extends UIPanelScrollable
 	
 	public boolean drawBackground;
 	
+	protected UIScrollBar scrollBar;
+	
 	public UIList(int width, int height)
 	{
-		super(width, height);
+		super(Global.getTexture());
 		
 		this.width = width;
 		this.height = height;
@@ -31,6 +34,15 @@ public class UIList<T> extends UIPanelScrollable
 		this.drawBackground = true;
 		
 		items = new ArrayList<T>();
+		
+		
+	}
+	
+	@Override
+	public void initComponent() {
+		super.initComponent();
+		
+		scrollBar = new UIScrollBar(screenX + width - 6 - 1, screenY + 1, 6, height - 2);
 	}
 	
 	protected String getStringFromObject(Object obj)
@@ -68,17 +80,36 @@ public class UIList<T> extends UIPanelScrollable
 	}
 	
 	@Override
-	public void update(int mouseX, int mouseY) {
-		super.update(mouseX, mouseY);
-		
-		this.mouseX = mouseX;
-		this.mouseY = mouseY;
+	public boolean isHovered(int mouseX, int mouseY) {
+		return true;
 	}
 	
+	public void mouseClick(int mouseX, int mouseY, int mouseBtn) {
+		if (isInsideRegion(mouseX, mouseY, screenX, screenY + scrollBar.scrollY, screenX + width, screenY + scrollBar.scrollY + scrollBar.getBarHeight()))
+		{
+			scrollBar.mouseClick(mouseX, mouseY, mouseBtn);
+		}
+	}
+	
+	public void mouseScroll(int dir, int mouseX, int mouseY) {
+		scrollBar.mouseScroll(dir, mouseY, mouseY);
+	}
+	
+	public void keyTyped(char keyChar, int keyCode) {
+		
+	}
+	
+	@Override
+	public void update(int mouseX, int mouseY) {
+		this.mouseX = mouseX;
+		this.mouseY = mouseY;
+
+		scrollBar.update(mouseX, mouseY);
+	}
 	
 	@Override
 	public void drawBackground(int mouseX, int mouseY) {
-		super.drawForeground(mouseX, mouseY);
+		super.drawBackground(mouseX, mouseY);
 		
 		if (this.drawBackground) {
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -116,6 +147,8 @@ public class UIList<T> extends UIPanelScrollable
 			
 			drawItemBackground(item, screenX, screenY + yOffset, this.getWidth(), getItemHeight());
 		}
+		
+		scrollBar.drawBackground(mouseX, mouseY);
 	}
 
 	@Override
@@ -130,11 +163,15 @@ public class UIList<T> extends UIPanelScrollable
 			
 			drawItemForeground(item, screenX, screenY + yOffset, this.getWidth(), getItemHeight());
 		}
+
+		scrollBar.drawForeground(mouseX, mouseY);
 	}
 	
 	@Override
 	public void draw(int mouseX, int mouseY)
 	{
+		scrollBar.setScreenPos(screenX + width - 6 - 1, screenY);
+		
 		GL11.glPushAttrib(GL11.GL_SCISSOR_BIT);
 		GL11.glEnable(GL11.GL_SCISSOR_TEST);
 		
@@ -147,9 +184,10 @@ public class UIList<T> extends UIPanelScrollable
 		
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 		GL11.glPopAttrib();
-		//this.scrollBar.draw(mouseX, mouseY);
+
+		scrollBar.draw(mouseX, mouseY);
 		
-		super.draw(mouseX, mouseY);
+		//this.scrollBar.draw(mouseX, mouseY);
 	}
 	
 	protected void drawItems(int mouseX, int mouseY)

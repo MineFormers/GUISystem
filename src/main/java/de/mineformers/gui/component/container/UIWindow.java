@@ -52,8 +52,8 @@ public class UIWindow extends UIPanel {
                 height - 10, 1, 1);
 
         int scale = RenderHelper.computeGuiScale();
-
-        GL11.glScissor(0, mc.displayHeight - (screenY + height) * scale, (width - padding.right + screenX) * scale, (height - padding.bottom) * scale);
+        
+        GL11.glScissor((screenX + padding.left) * scale, mc.displayHeight - (screenY + height - padding.bottom) * scale, (width - padding.right - padding.left) * scale, (height - padding.bottom - padding.top) * scale);
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         layout.setScreenPos(screenX + padding.left, screenY + padding.top);
         layout.draw(mouseX, mouseY);

@@ -47,20 +47,26 @@ public class UICanvas extends UIComponent {
     @Override
     public void drawForeground(int mouseX, int mouseY) {
     	super.drawForeground(mouseX, mouseY);
-    	
-    	panel.drawForeground(mouseX, mouseY);
+
+    	if (panel != null) {
+    		panel.drawForeground(mouseX, mouseY);
+    	}
     }
 
     @Override
     public void drawBackground(int mouseX, int mouseY) {
     	super.drawBackground(mouseX, mouseY);
-    	
-    	panel.drawBackground(mouseX, mouseY);
+
+    	if (panel != null) {
+    		panel.drawBackground(mouseX, mouseY);
+    	}
     }
 
     @Override
     public void update(int mouseX, int mouseY) {
-        panel.update(mouseX, mouseY);
+    	if (panel != null) {
+    		panel.update(mouseX, mouseY);
+    	}
     }
 
     @Override
