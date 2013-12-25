@@ -130,7 +130,7 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
             if (component.isVisible())
                 if (component.isHovered(mouseX, mouseY)) {
                     component.notifyListeners(ListenerMouseScroll.class,
-                            "onMouseScroll", dir, mouseX, mouseY);
+                            "onMouseScroll", component, dir, mouseX, mouseY);
                 } else if (component instanceof UIPanel) {
                     ((UIPanel) component).mouseScroll(dir, mouseX, mouseY);
                 } else if (component instanceof UILayout) {
@@ -144,7 +144,7 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
             if (component.isVisible())
                 if (component.isHovered(mouseX, mouseY)) {
                     component.notifyListeners(ListenerClickable.class,
-                            "onClick", mouseX, mouseY, MouseButton.values()[mouseButton]);
+                            "onClick", component, mouseX, mouseY, MouseButton.values()[mouseButton]);
                 } else if (component instanceof UIPanel) {
                     ((UIPanel) component).mouseClick(mouseX, mouseY, mouseButton);
                 } else if (component instanceof UILayout) {
@@ -162,7 +162,7 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
                     ((UILayout) component).keyTyped(keyChar, keyCode);
                 else
                     component.notifyListeners(ListenerKeyboard.class,
-                            "onKeyTyped", keyChar, keyCode);
+                            "onKeyTyped", component, keyChar, keyCode);
             }
         }
     }

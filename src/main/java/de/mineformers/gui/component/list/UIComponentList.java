@@ -15,8 +15,8 @@ public class UIComponentList extends UIList<UIAbsoluteLayout> {
     }
 
     @Override
-    public void onClick(int mouseX, int mouseY, MouseButton mouseButton) {
-        super.onClick(mouseX, mouseY, mouseButton);
+    public void onClick(UIComponent component, int mouseX, int mouseY, MouseButton mouseButton) {
+        super.onClick(component, mouseX, mouseY, mouseButton);
 
         for (int i = 0; i < items.size(); ++i) {
             UIAbsoluteLayout l = items.get(i);
@@ -26,8 +26,8 @@ public class UIComponentList extends UIList<UIAbsoluteLayout> {
     }
 
     @Override
-    public void keyTyped(char keyChar, int keyCode) {
-        super.keyTyped(keyChar, keyCode);
+    public void onKeyTyped(UIComponent component, char keyChar, int keyCode) {
+        super.onKeyTyped(component, keyChar, keyCode);
 
         for (int i = 0; i < items.size(); ++i) {
             UIAbsoluteLayout l = items.get(i);

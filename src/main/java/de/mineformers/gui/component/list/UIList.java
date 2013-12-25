@@ -3,6 +3,7 @@ package de.mineformers.gui.component.list;
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.component.interaction.UIScrollBar;
 import de.mineformers.gui.listener.ListenerClickable;
+import de.mineformers.gui.listener.ListenerKeyboard;
 import de.mineformers.gui.listener.ListenerMouseScroll;
 import de.mineformers.gui.system.Global;
 import de.mineformers.gui.util.MouseButton;
@@ -13,7 +14,7 @@ import org.lwjgl.opengl.GL11;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UIList<T> extends UIComponent implements ListenerClickable, ListenerMouseScroll {
+public class UIList<T> extends UIComponent implements ListenerClickable, ListenerMouseScroll, ListenerKeyboard {
     protected List<T> items;
 
     protected int mouseX;
@@ -74,17 +75,20 @@ public class UIList<T> extends UIComponent implements ListenerClickable, Listene
         return true;
     }
 
-    public void onClick(int mouseX, int mouseY, MouseButton mouseBtn) {
+    @Override
+    public void onClick(UIComponent component, int mouseX, int mouseY, MouseButton mouseBtn) {
         if (isInsideRegion(mouseX, mouseY, screenX, screenY + scrollBar.scrollY, screenX + width, screenY + scrollBar.scrollY + scrollBar.getBarHeight())) {
             scrollBar.mouseClick(mouseX, mouseY, mouseBtn);
         }
     }
 
-    public void onMouseScroll(int dir, int mouseX, int mouseY) {
+    @Override
+    public void onMouseScroll(UIComponent component, int dir, int mouseX, int mouseY) {
         scrollBar.mouseScroll(dir, mouseY, mouseY);
     }
 
-    public void keyTyped(char keyChar, int keyCode) {
+    @Override
+    public void onKeyTyped(UIComponent component, char keyChar, int keyCode) {
 
     }
 

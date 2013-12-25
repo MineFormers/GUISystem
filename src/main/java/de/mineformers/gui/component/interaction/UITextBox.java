@@ -192,7 +192,7 @@ public class UITextBox extends UIComponent implements ListenerClickable,
     }
 
     @Override
-    public void onClick(int mouseX, int mouseY, MouseButton mouseBtn) {
+    public void onClick(UIComponent component, int mouseX, int mouseY, MouseButton mouseBtn) {
         if (this.isInsideRegion(mouseX, mouseY, screenX, screenY, screenX + width, screenY + height)) {
             switch (mouseBtn) {
                 case LEFT:
@@ -208,7 +208,7 @@ public class UITextBox extends UIComponent implements ListenerClickable,
     }
 
     @Override
-    public void onKeyTyped(char keyChar, int keyCode) {
+    public void onKeyTyped(UIComponent component, char keyChar, int keyCode) {
         if (focused) {
             switch (keyCode) {
                 case Keyboard.KEY_LEFT:

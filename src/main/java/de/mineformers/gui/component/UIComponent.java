@@ -371,8 +371,12 @@ public abstract class UIComponent {
                 for (int i = 0; i < params.length; i++) {
                     if (Primitives.isWrapperType(params[i].getClass()))
                         paramTypes[i] = Primitives.unwrap(params[i].getClass());
-                    else
-                        paramTypes[i] = params[i].getClass();
+                    else {
+                        if (UIComponent.class.isAssignableFrom(params[i].getClass()))
+                            paramTypes[i] = UIComponent.class;
+                        else
+                            paramTypes[i] = params[i].getClass();
+                    }
                 }
                 try {
                     Method method = null;

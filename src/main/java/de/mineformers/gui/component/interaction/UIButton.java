@@ -114,7 +114,7 @@ public class UIButton extends UIComponent implements ListenerClickable {
     }
 
     @Override
-    public void onClick(int mouseX, int mouseY, MouseButton mouseBtn) {
+    public void onClick(UIComponent component, int mouseX, int mouseY, MouseButton mouseBtn) {
         switch (mouseBtn) {
             case LEFT:
                 mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);

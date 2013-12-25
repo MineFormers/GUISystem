@@ -32,7 +32,7 @@ public class UIScrollBar extends UIComponent implements ListenerMouseScroll, Lis
 
         this.setBarHeight(this.height / 4);
         scrollStep = this.height / 10;
-        
+
         this.addListener(this);
     }
 
@@ -118,25 +118,25 @@ public class UIScrollBar extends UIComponent implements ListenerMouseScroll, Lis
 
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
-    
+
     public void mouseClick(int mouseX, int mouseY, MouseButton mouseBtn) {
-		if (isInsideRegion(mouseX, mouseY, screenX, screenY + scrollY, screenX + width, screenY + scrollY + getBarHeight())) {
-			initialClickY = mouseY - (screenY + scrollY);
-		}
+        if (isInsideRegion(mouseX, mouseY, screenX, screenY + scrollY, screenX + width, screenY + scrollY + getBarHeight())) {
+            initialClickY = mouseY - (screenY + scrollY);
+        }
     }
-    
+
     public void mouseScroll(int dir, int mouseX, int mouseY) {
-    	scroll(dir * scrollStep);
+        scroll(dir * scrollStep);
     }
 
-	@Override
-	public void onClick(int mouseX, int mouseY, MouseButton mouseBtn) {
-		this.mouseClick(mouseX, mouseY, mouseBtn);
-	}
+    @Override
+    public void onClick(UIComponent component, int mouseX, int mouseY, MouseButton mouseBtn) {
+        this.mouseClick(mouseX, mouseY, mouseBtn);
+    }
 
-	@Override
-	public void onMouseScroll(int dir, int mouseX, int mouseY) {
-		this.mouseScroll(dir, mouseX, mouseY);
-	}
+    @Override
+    public void onMouseScroll(UIComponent component, int dir, int mouseX, int mouseY) {
+        this.mouseScroll(dir, mouseX, mouseY);
+    }
 
 }

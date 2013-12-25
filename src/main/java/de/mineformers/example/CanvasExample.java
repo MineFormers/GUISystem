@@ -1,11 +1,13 @@
 package de.mineformers.example;
 
+import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.component.canvas.UICanvas;
 import de.mineformers.gui.component.container.UIWindow;
 import de.mineformers.gui.component.decorative.UILabel;
 import de.mineformers.gui.component.interaction.*;
 import de.mineformers.gui.component.inventory.UITank;
 import de.mineformers.gui.component.layout.UIFlowLayout;
+import de.mineformers.gui.component.layout.UIRadioButtonGroup;
 import de.mineformers.gui.component.layout.UITableLayout;
 import de.mineformers.gui.listener.ListenerClickable;
 import de.mineformers.gui.listener.ListenerMouseScroll;
@@ -31,7 +33,7 @@ public class CanvasExample extends UICanvas {
 
     public CanvasExample() {
         super(0, 0);
-        UIWindow window = new UIWindow(200, 200);
+        UIWindow window = new UIWindow(200, 250);
         UITableLayout layout = new UITableLayout();
 
         layout.addComponent(new UILabel("§lDemo GUI"), 0, 0);
@@ -41,7 +43,7 @@ public class CanvasExample extends UICanvas {
         UIButton button = new UIButton(100, 20, "§kDemo");
         button.addListener(new ListenerClickable() {
             @Override
-            public void onClick(int mouseX, int mouseY, MouseButton mouseBtn) {
+            public void onClick(UIComponent component, int mouseX, int mouseY, MouseButton mouseBtn) {
                 mc.currentScreen = null;
                 mc.setIngameFocus();
             }
@@ -49,7 +51,7 @@ public class CanvasExample extends UICanvas {
 
         button.addListener(new ListenerMouseScroll() {
             @Override
-            public void onMouseScroll(int dir, int mouseX, int mouseY) {
+            public void onMouseScroll(UIComponent component, int dir, int mouseX, int mouseY) {
 
             }
         });
@@ -70,7 +72,7 @@ public class CanvasExample extends UICanvas {
         progressBar.setValue(progressBar.getMaxValue());
         progressBar.addListener(new ListenerMouseScroll() {
             @Override
-            public void onMouseScroll(int dir, int mouseX, int mouseY) {
+            public void onMouseScroll(UIComponent component, int dir, int mouseX, int mouseY) {
                 progressBar.updateValue(-dir * 10);
 
                 progressBar.setValue(MathHelper.clamp_int(progressBar.getValue(), 0, progressBar.getMaxValue()));
@@ -81,6 +83,14 @@ public class CanvasExample extends UICanvas {
         layout.addComponent(new UILabel("Tank:"), 5, 0);
         tank.setDrawSlot(true);
         layout.addComponent(tank, 5, 1);
+        layout.addComponent(new UILabel("Checkbox:"), 6, 0);
+        layout.addComponent(new UICheckBox("Demo"), 6, 1);
+        layout.addComponent(new UILabel("Radio Buttons:"), 7, 0);
+        UIRadioButtonGroup stack = new UIRadioButtonGroup();
+        stack.setPadding(new Padding(2, 2));
+        stack.addComponent(new UIRadioButton("test1", "Test 1"));
+        stack.addComponent(new UIRadioButton("test2", "Test 2"));
+        layout.addComponent(stack, 7, 1);
         window.setLayout(layout);
         this.setPanel(window);
     }

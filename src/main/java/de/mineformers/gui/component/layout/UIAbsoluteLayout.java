@@ -1,6 +1,7 @@
 package de.mineformers.gui.component.layout;
 
 import de.mineformers.gui.component.UIComponent;
+import org.lwjgl.opengl.GL11;
 
 /**
  * GUISystem
@@ -42,6 +43,7 @@ public class UIAbsoluteLayout extends UILayout<UIAbsoluteLayout.AbsoluteLayoutCo
             AbsoluteLayoutConstraints alc = constraints.get(i);
 
             component.setScreenPos(screenX + alc.x, screenY + alc.y);
+            GL11.glColor4f(1, 1, 1, 1);
             component.draw(mouseX, mouseY);
         }
     }

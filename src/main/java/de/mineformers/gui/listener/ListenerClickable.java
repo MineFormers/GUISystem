@@ -1,5 +1,6 @@
 package de.mineformers.gui.listener;
 
+import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.util.MouseButton;
 
 /**
@@ -12,6 +13,6 @@ import de.mineformers.gui.util.MouseButton;
  */
 public interface ListenerClickable extends Listener {
 
-    public void onClick(int mouseX, int mouseY, MouseButton mouseBtn);
+    public void onClick(UIComponent component, int mouseX, int mouseY, MouseButton mouseBtn);
 
 }

@@ -2,6 +2,7 @@ package de.mineformers.gui.component.layout;
 
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.util.Padding;
+import org.lwjgl.opengl.GL11;
 
 /**
  * GUISystem
@@ -47,6 +48,7 @@ public class UIFlowLayout extends UILayout<UILayout.LayoutConstraints> {
                 y = offY;
             }
             component.setScreenPos(screenX + x, screenY + y);
+            GL11.glColor4f(1, 1, 1, 1);
             component.draw(mouseX, mouseY);
         }
     }

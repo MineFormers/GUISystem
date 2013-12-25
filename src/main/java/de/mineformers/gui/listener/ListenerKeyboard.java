@@ -1,5 +1,7 @@
 package de.mineformers.gui.listener;
 
+import de.mineformers.gui.component.UIComponent;
+
 /**
  * GUISystem
  * <p/>
@@ -10,6 +12,6 @@ package de.mineformers.gui.listener;
  */
 public interface ListenerKeyboard extends Listener {
 
-    public void onKeyTyped(char keyChar, int keyCode);
+    public void onKeyTyped(UIComponent component, char keyChar, int keyCode);
 
 }
