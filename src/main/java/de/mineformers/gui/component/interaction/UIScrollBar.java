@@ -32,7 +32,8 @@ public class UIScrollBar extends UIComponent implements ListenerMouseScroll, Lis
 
         this.setBarHeight(this.height / 4);
         scrollStep = this.height / 10;
-
+        
+        this.addListener(this);
     }
 
     public UIScrollBar(int w, int h) {
