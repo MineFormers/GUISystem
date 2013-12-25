@@ -1,7 +1,6 @@
 package de.mineformers.gui.component.inventoy;
 
 import de.mineformers.gui.component.UIComponent;
-import de.mineformers.gui.component.decorative.UITooltip;
 import de.mineformers.gui.system.Global;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.Icon;
@@ -21,7 +20,6 @@ public class UITank extends UIComponent {
     private UISlot slot;
     private boolean drawSlot;
     private FluidStack fluid;
-    private UITooltip tooltip;
 
     public UITank(int width, int height, FluidStack fluid) {
         super(Global.getTexture());
@@ -30,16 +28,12 @@ public class UITank extends UIComponent {
         this.height = height;
         this.maxAmount = 8000;
         slot = new UISlot(width, height);
-        tooltip = new UITooltip();
-        tooltip.addLine(fluid.amount + "mB/" + maxAmount + "mB");
-        tooltip.addLine(fluid.getFluid().getLocalizedName());
+        this.updateTooltip();
     }
 
     public void setFluid(FluidStack fluid) {
         this.fluid = fluid;
-        tooltip.reset();
-        tooltip.addLine(fluid.amount + "mB/" + maxAmount + "mB");
-        tooltip.addLine(fluid.getFluid().getLocalizedName());
+        this.updateTooltip();
     }
 
     public void setDrawSlot(boolean drawSlot) {
@@ -47,11 +41,15 @@ public class UITank extends UIComponent {
     }
 
     public void update(int mouseX, int mouseY) {
-        tooltip.update(mouseX, mouseY);
     }
 
     public void setMaxAmount(int maxAmount) {
         this.maxAmount = maxAmount;
+        this.updateTooltip();
+    }
+
+    private void updateTooltip() {
+        this.setTooltip(fluid.amount + "mB/" + maxAmount + "mB\n" + fluid.getFluid().getLocalizedName());
     }
 
     public int getMaxAmount() {
@@ -60,6 +58,7 @@ public class UITank extends UIComponent {
 
     public void setFluidAmount(int amount) {
         fluid.amount = amount;
+        this.updateTooltip();
     }
 
     public int mapAmountOnHeight(int height) {

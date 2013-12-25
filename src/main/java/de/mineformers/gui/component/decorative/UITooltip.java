@@ -22,6 +22,7 @@ public class UITooltip extends UIComponent {
     public UITooltip() {
         super(Global.getTexture());
         this.lines = new ArrayList<String>();
+        this.setZIndex(301);
     }
 
     public void addLine(String text) {

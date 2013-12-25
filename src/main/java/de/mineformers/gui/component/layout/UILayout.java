@@ -2,12 +2,12 @@ package de.mineformers.gui.component.layout;
 
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.component.container.UIPanel;
+import de.mineformers.gui.component.decorative.UITooltip;
 import de.mineformers.gui.listener.ListenerClickable;
 import de.mineformers.gui.listener.ListenerKeyboard;
 import de.mineformers.gui.listener.ListenerMouseScroll;
 import de.mineformers.gui.system.Global;
 import de.mineformers.gui.util.MouseButton;
-import org.lwjgl.input.Mouse;
 
 import java.util.LinkedList;
 
@@ -27,11 +27,13 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
 
     protected LinkedList<UIComponent> components;
     protected LinkedList<T> constraints;
+    protected UITooltip tooltip;
 
     public UILayout() {
         super(Global.getTexture());
         this.components = new LinkedList<>();
         this.constraints = new LinkedList<>();
+        this.tooltip = new UITooltip();
     }
 
     @Override
@@ -48,6 +50,31 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
             component.update(mouseX, mouseY);
     }
     
+    public void drawTooltips(int mouseX, int mouseY) {
+        for (UIComponent component : components) {
+            if (component instanceof UILayout) {
+                ((UILayout) component).drawTooltips(mouseX, mouseY);
+                continue;
+            }
+            if (component instanceof UIPanel) {
+                ((UIPanel) component).drawTooltips(mouseX, mouseY);
+                continue;
+            }
+            if (component.getTooltip() != null && !component.getTooltip().isEmpty()) {
+                tooltip.reset();
+                if (component.isHovered(mouseX, mouseY) &&
+                        this.isInsideRegion(mouseX, mouseY, component.getScreenX(), component.getScreenY(),
+                                component.getScreenX() + component.getWidth(), component.getScreenY() + component.getHeight())) {
+                    String[] lines = component.getTooltip().split("\n");
+                    for (String line : lines) {
+                        tooltip.addLine(line);
+                    }
+                    tooltip.draw(mouseX, mouseY);
+                }
+            }
+        }
+    }
+
     @Override
     public void drawBackground(int mouseX, int mouseY) {
     	super.drawBackground(mouseX, mouseY);

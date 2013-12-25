@@ -22,11 +22,11 @@ public class UIPanel extends UIComponent {
 
     @Override
     public void initComponent() {
-    	super.initComponent();
-    
-    	layout.initComponent();
+        super.initComponent();
+
+        layout.initComponent();
     }
-    
+
     public void setLayout(UILayout layout) {
         this.layout = layout;
     }
@@ -54,10 +54,15 @@ public class UIPanel extends UIComponent {
     	layout.drawForeground(mouseX, mouseY);
     }
 
+    public void drawTooltips(int mouseX, int mouseY) {
+        layout.drawTooltips(mouseX, mouseY);
+    }
+
     @Override
     public void draw(int mouseX, int mouseY) {
         layout.setScreenPos(screenX, screenY);
         layout.draw(mouseX, mouseY);
+        this.drawTooltips(mouseX, mouseY);
     }
 
     @Override

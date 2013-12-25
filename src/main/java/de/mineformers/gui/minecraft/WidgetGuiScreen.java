@@ -26,12 +26,12 @@ public class WidgetGuiScreen extends GuiScreen {
         this.canvas = canvas;
         canvas.setSize(width, height);
     }
-    
+
     @Override
     public void initGui() {
-    	super.initGui();
-    	
-    	this.canvas.initComponent();
+        super.initGui();
+
+        this.canvas.initComponent();
     }
 
     @Override
