@@ -1,7 +1,7 @@
 package de.mineformers.gui.component.interaction;
 
 import de.mineformers.gui.component.UIComponent;
-import de.mineformers.gui.component.inventoy.UISlot;
+import de.mineformers.gui.component.inventory.UISlot;
 import de.mineformers.gui.listener.ListenerClickable;
 import de.mineformers.gui.listener.ListenerKeyboard;
 import de.mineformers.gui.system.Global;
@@ -65,15 +65,15 @@ public class UITextBox extends UIComponent implements ListenerClickable,
     public int getColor() {
         return color;
     }
-    
+
     public String getText() {
-    	return text;
+        return text;
     }
-    
+
     public boolean isFocused() {
-    	return focused;
+        return focused;
     }
-    
+
     public void clear() {
         this.text = "";
         setCursorPos(0);
@@ -116,8 +116,8 @@ public class UITextBox extends UIComponent implements ListenerClickable,
 
     @Override
     public void draw(int mouseX, int mouseY) {
-    	GL11.glColor4f(1, 1, 1, 1);
-    	
+        GL11.glColor4f(1, 1, 1, 1);
+
         if (!useSlotBg) {
             // Corners clockwise
             this.drawRectangle(screenX, screenY, 31, 16, 5, 5);

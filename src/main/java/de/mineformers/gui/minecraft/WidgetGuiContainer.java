@@ -4,10 +4,8 @@ import de.mineformers.gui.component.canvas.UICanvasContainer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
-
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 /**
  * GUISystem
@@ -28,12 +26,12 @@ public class WidgetGuiContainer extends GuiContainer {
         this.xSize = width;
         this.ySize = height;
     }
-    
+
     @Override
     public void initGui() {
-    	super.initGui();
-    	
-    	this.canvas.initComponent();
+        super.initGui();
+
+        this.canvas.initComponent();
     }
 
     @Override
@@ -72,9 +70,9 @@ public class WidgetGuiContainer extends GuiContainer {
         int yStart = (height - canvas.getHeight()) / 2;
 
         canvas.setPos(xStart, yStart);
-        
+
         RenderHelper.enableGUIStandardItemLighting();
-    	canvas.drawBackground(mouseX, mouseY);
+        canvas.drawBackground(mouseX, mouseY);
         canvas.draw(mouseX, mouseY);
     }
 

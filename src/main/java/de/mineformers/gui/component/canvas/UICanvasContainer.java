@@ -1,6 +1,6 @@
 package de.mineformers.gui.component.canvas;
 
-import de.mineformers.gui.component.inventoy.UISlot;
+import de.mineformers.gui.component.inventory.UISlot;
 import de.mineformers.gui.util.LangHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -29,21 +29,21 @@ public class UICanvasContainer extends UICanvas {
         super(x, y);
         this.container = container;
         if (inventory != null)
-	        this.name = inventory.isInvNameLocalized() ? inventory.getInvName()
-	                : LangHelper
-	                .translate("container", "furnace");
+            this.name = inventory.isInvNameLocalized() ? inventory.getInvName()
+                    : LangHelper
+                    .translate("container", "furnace");
         this.autoDrawSlots = autoDrawSlots;
     }
-    
+
     @Override
     public void drawBackground(int mouseX, int mouseY) {
-    	super.drawBackground(mouseX, mouseY);
+        super.drawBackground(mouseX, mouseY);
     }
-    
+
     @Override
     public void drawForeground(int mouseX, int mouseY) {
-    	super.drawForeground(mouseX, mouseY);
-    	
+        super.drawForeground(mouseX, mouseY);
+
         this.drawString(name, 5, 5, 0x404040, false);
         GL11.glColor4f(1, 1, 1, 1);
     }
@@ -53,8 +53,8 @@ public class UICanvasContainer extends UICanvas {
         GL11.glPushMatrix();
 
         if (panel != null) {
-	        panel.setScreenPos(x, y);
-	        panel.draw(mouseX, mouseY);
+            panel.setScreenPos(x, y);
+            panel.draw(mouseX, mouseY);
         }
         GL11.glPopMatrix();
 

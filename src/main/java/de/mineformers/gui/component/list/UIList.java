@@ -1,244 +1,227 @@
 package de.mineformers.gui.component.list;
 
+import de.mineformers.gui.component.UIComponent;
+import de.mineformers.gui.component.interaction.UIScrollBar;
+import de.mineformers.gui.listener.ListenerClickable;
+import de.mineformers.gui.listener.ListenerMouseScroll;
+import de.mineformers.gui.system.Global;
+import de.mineformers.gui.util.MouseButton;
+import de.mineformers.gui.util.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import org.lwjgl.opengl.GL11;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.client.renderer.Tessellator;
+public class UIList<T> extends UIComponent implements ListenerClickable, ListenerMouseScroll {
+    protected List<T> items;
 
-import org.lwjgl.opengl.GL11;
+    protected int mouseX;
+    protected int mouseY;
 
-import de.mineformers.gui.component.UIComponent;
-import de.mineformers.gui.component.interaction.UIScrollBar;
-import de.mineformers.gui.component.layout.UIAbsoluteLayout;
-import de.mineformers.gui.system.Global;
-import de.mineformers.gui.util.RenderHelper;
+    public boolean drawBackground;
 
-public class UIList<T> extends UIComponent
-{
-	protected List<T> items;
-	
-	protected int mouseX;
-	protected int mouseY;
-	
-	public boolean drawBackground;
-	
-	protected UIScrollBar scrollBar;
-	
-	public UIList(int width, int height)
-	{
-		super(Global.getTexture());
-		
-		this.width = width;
-		this.height = height;
-		
-		this.drawBackground = true;
-		
-		items = new ArrayList<T>();
-		
-		
-	}
-	
-	@Override
-	public void initComponent() {
-		super.initComponent();
-		
-		scrollBar = new UIScrollBar(screenX + width - 6 - 1, screenY + 1, 6, height - 2);
-	}
-	
-	protected String getStringFromObject(Object obj)
-	{
-		return obj.toString();
-	}
-	
-	public void addItem(T item)
-	{
-		items.add(item);
-	}
-	
-	public void populate(List<T> list)
-	{
-		for (T item : list)
-		{
-			this.addItem(item);
-		}
-	}
-	
-	public int getItemHeight()
-	{
-		return 16;
-	}
-	
-	public int getSpacing()
-	{
-		return 4;
-	}
-	
-	public int getScrollY()
-	{
-		int scrollScale = ((items.size() - 1) * getItemHeight()) + ((items.size() - 1) * getSpacing());
-		return (int) scrollBar.getScrollScaled(scrollScale);
-	}
-	
-	@Override
-	public boolean isHovered(int mouseX, int mouseY) {
-		return true;
-	}
-	
-	public void mouseClick(int mouseX, int mouseY, int mouseBtn) {
-		if (isInsideRegion(mouseX, mouseY, screenX, screenY + scrollBar.scrollY, screenX + width, screenY + scrollBar.scrollY + scrollBar.getBarHeight()))
-		{
-			scrollBar.mouseClick(mouseX, mouseY, mouseBtn);
-		}
-	}
-	
-	public void mouseScroll(int dir, int mouseX, int mouseY) {
-		scrollBar.mouseScroll(dir, mouseY, mouseY);
-	}
-	
-	public void keyTyped(char keyChar, int keyCode) {
-		
-	}
-	
-	@Override
-	public void update(int mouseX, int mouseY) {
-		this.mouseX = mouseX;
-		this.mouseY = mouseY;
+    protected UIScrollBar scrollBar;
 
-		scrollBar.update(mouseX, mouseY);
-	}
-	
-	@Override
-	public void drawBackground(int mouseX, int mouseY) {
-		super.drawBackground(mouseX, mouseY);
-		
-		if (this.drawBackground) {
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			
-			Tessellator tessellator = Tessellator.instance;
-			
-			// Background
-			GL11.glColor4f(0.35f, 0.35f, 0.35f, 1);
-			this.drawRectangle(screenX, screenY, 0, 0, width, height);
-			
-			// Background Lighting Left
-			GL11.glColor4f(0.1f, 0.1f, 0.1f, 1);
-			this.drawRectangle(screenX, screenY, 0, 0, 1, height - 1);
-	
-			// Background Lighting Top
-			GL11.glColor4f(0.1f, 0.1f, 0.1f, 1);
-			this.drawRectangle(screenX, screenY, 0, 0, width - 1, 1);
-			
-			// Background Lighting Right
-			GL11.glColor4f(1f, 1f, 1f, 1);
-			this.drawRectangle(screenX + width - 1, screenY + 1, 0, 0, 1, height - 1);
-			
-			// Background Lighting Bottom
-			GL11.glColor4f(1f, 1f, 1f, 1);
-			this.drawRectangle(screenX + 1, screenY + height - 1, 0, 0, width - 1, 1);
-			
-			GL11.glEnable(GL11.GL_TEXTURE_2D);
-		}
-		
-		for (int i = 0; i < items.size(); ++i)
-		{
-			T item = items.get(i);
-			
-			int yOffset = 1 + (i * getItemHeight()) + (i * getSpacing()) - getScrollY();
-			
-			drawItemBackground(item, screenX, screenY + yOffset, this.getWidth(), getItemHeight());
-		}
-		
-		scrollBar.drawBackground(mouseX, mouseY);
-	}
+    public UIList(int width, int height) {
+        super(Global.getTexture());
 
-	@Override
-	public void drawForeground(int mouseX, int mouseY) {
-		super.drawForeground(mouseX, mouseY);
-		
-		for (int i = 0; i < items.size(); ++i)
-		{
-			T item = items.get(i);
+        this.width = width;
+        this.height = height;
 
-			int yOffset = 1 + (i * getItemHeight()) + (i * getSpacing()) - getScrollY();
-			
-			drawItemForeground(item, screenX, screenY + yOffset, this.getWidth(), getItemHeight());
-		}
+        this.drawBackground = true;
 
-		scrollBar.drawForeground(mouseX, mouseY);
-	}
-	
-	@Override
-	public void draw(int mouseX, int mouseY)
-	{
-		scrollBar.setScreenPos(screenX + width - 6 - 1, screenY);
-		
-		GL11.glPushAttrib(GL11.GL_SCISSOR_BIT);
-		GL11.glEnable(GL11.GL_SCISSOR_TEST);
-		
-		int scale = RenderHelper.computeGuiScale();
-		GL11.glScissor((screenX + 1) * scale, mc.displayHeight - (screenY + height - 1) * scale, (width - 2) * scale, (height - 2) * scale);
-		
-		
-		drawItems(mouseX, mouseY);
-		
-		
-		GL11.glDisable(GL11.GL_SCISSOR_TEST);
-		GL11.glPopAttrib();
+        items = new ArrayList<T>();
+        this.addListener(this);
+    }
 
-		scrollBar.draw(mouseX, mouseY);
-		
-		//this.scrollBar.draw(mouseX, mouseY);
-	}
-	
-	protected void drawItems(int mouseX, int mouseY)
-	{
-		//GL11.glDisable(GL11.GL_TEXTURE_2D);
+    @Override
+    public void initComponent() {
+        super.initComponent();
 
-		GL11.glColor4f(0.7f, 0.7f, 0.7f, 1);
-		//this.drawRectangle(screenX, screenY, 0, 0, 2100, 3330);
-		
-		int spacing = getSpacing();
-		int count = items.size();
+        scrollBar = new UIScrollBar(screenX + width - 6 - 1, screenY + 1, 6, height - 2);
+    }
 
-		int scrollY = getScrollY();
-		
-		for (int i = 0; i < count; ++i)
-		{
-			T item = items.get(i);
-			
-			int yOffset = 1 + (i * getItemHeight()) + (i * spacing) - scrollY;
-			
-			drawItem(item, screenX, screenY + yOffset, this.getWidth(), getItemHeight());
-			
-			
-		}
-		
-		//GL11.glEnable(GL11.GL_TEXTURE_2D);
-	}
-	
-	protected void drawItemBackground(T item, int x, int y, int width, int height) {
-		
-	}
-	
-	protected void drawItemForeground(T item, int x, int y, int width, int height) {
-		
-	}
-	
-	protected void drawItem(T item, int x, int y, int width, int height)
-	{
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		
-		GL11.glColor4f(0.6f, 0.6f, 0.6f, 1);
-		this.drawRectangle(x, y, 0, 0, width, height);
+    protected String getStringFromObject(Object obj) {
+        return obj.toString();
+    }
 
-		GL11.glColor4f(0.4f, 0.4f, 0.4f, 1);
-		this.drawRectangle(x, y, 0, 0, width, 1);
+    public void addItem(T item) {
+        items.add(item);
+    }
 
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		
-		String str = getStringFromObject(item);
-		this.drawString(str, x, y, 0, false);
-		
-		
-	}
+    public void populate(List<T> list) {
+        for (T item : list) {
+            this.addItem(item);
+        }
+    }
+
+    public int getItemHeight() {
+        return 16;
+    }
+
+    public int getSpacing() {
+        return 4;
+    }
+
+    public int getScrollY() {
+        int scrollScale = ((items.size() - 1) * getItemHeight()) + ((items.size() - 1) * getSpacing());
+        return (int) scrollBar.getScrollScaled(scrollScale);
+    }
+
+    @Override
+    public boolean isHovered(int mouseX, int mouseY) {
+        return true;
+    }
+
+    public void onClick(int mouseX, int mouseY, MouseButton mouseBtn) {
+        if (isInsideRegion(mouseX, mouseY, screenX, screenY + scrollBar.scrollY, screenX + width, screenY + scrollBar.scrollY + scrollBar.getBarHeight())) {
+            scrollBar.mouseClick(mouseX, mouseY, mouseBtn);
+        }
+    }
+
+    public void onMouseScroll(int dir, int mouseX, int mouseY) {
+        scrollBar.mouseScroll(dir, mouseY, mouseY);
+    }
+
+    public void keyTyped(char keyChar, int keyCode) {
+
+    }
+
+    @Override
+    public void update(int mouseX, int mouseY) {
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+
+        scrollBar.update(mouseX, mouseY);
+    }
+
+    @Override
+    public void drawBackground(int mouseX, int mouseY) {
+        super.drawBackground(mouseX, mouseY);
+
+        if (this.drawBackground) {
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
+
+            Tessellator tessellator = Tessellator.instance;
+
+            // Background
+            GL11.glColor4f(0.35f, 0.35f, 0.35f, 1);
+            this.drawRectangle(screenX, screenY, 0, 0, width, height);
+
+            // Background Lighting Left
+            GL11.glColor4f(0.1f, 0.1f, 0.1f, 1);
+            this.drawRectangle(screenX, screenY, 0, 0, 1, height - 1);
+
+            // Background Lighting Top
+            GL11.glColor4f(0.1f, 0.1f, 0.1f, 1);
+            this.drawRectangle(screenX, screenY, 0, 0, width - 1, 1);
+
+            // Background Lighting Right
+            GL11.glColor4f(1f, 1f, 1f, 1);
+            this.drawRectangle(screenX + width - 1, screenY + 1, 0, 0, 1, height - 1);
+
+            // Background Lighting Bottom
+            GL11.glColor4f(1f, 1f, 1f, 1);
+            this.drawRectangle(screenX + 1, screenY + height - 1, 0, 0, width - 1, 1);
+
+            GL11.glEnable(GL11.GL_TEXTURE_2D);
+        }
+
+        for (int i = 0; i < items.size(); ++i) {
+            T item = items.get(i);
+
+            int yOffset = 1 + (i * getItemHeight()) + (i * getSpacing()) - getScrollY();
+
+            drawItemBackground(item, screenX, screenY + yOffset, this.getWidth(), getItemHeight());
+        }
+
+        scrollBar.drawBackground(mouseX, mouseY);
+    }
+
+    @Override
+    public void drawForeground(int mouseX, int mouseY) {
+        super.drawForeground(mouseX, mouseY);
+
+        for (int i = 0; i < items.size(); ++i) {
+            T item = items.get(i);
+
+            int yOffset = 1 + (i * getItemHeight()) + (i * getSpacing()) - getScrollY();
+
+            drawItemForeground(item, screenX, screenY + yOffset, this.getWidth(), getItemHeight());
+        }
+
+        scrollBar.drawForeground(mouseX, mouseY);
+    }
+
+    @Override
+    public void draw(int mouseX, int mouseY) {
+        scrollBar.setScreenPos(screenX + width - 6 - 1, screenY);
+
+        GL11.glPushAttrib(GL11.GL_SCISSOR_BIT);
+        GL11.glEnable(GL11.GL_SCISSOR_TEST);
+
+        int scale = RenderHelper.computeGuiScale();
+        GL11.glScissor((screenX + 1) * scale, mc.displayHeight - (screenY + height - 1) * scale, (width - 2) * scale, (height - 2) * scale);
+
+
+        drawItems(mouseX, mouseY);
+
+
+        GL11.glDisable(GL11.GL_SCISSOR_TEST);
+        GL11.glPopAttrib();
+
+        scrollBar.draw(mouseX, mouseY);
+
+        //this.scrollBar.draw(mouseX, mouseY);
+    }
+
+    protected void drawItems(int mouseX, int mouseY) {
+        //GL11.glDisable(GL11.GL_TEXTURE_2D);
+
+        GL11.glColor4f(0.7f, 0.7f, 0.7f, 1);
+        //this.drawRectangle(screenX, screenY, 0, 0, 2100, 3330);
+
+        int spacing = getSpacing();
+        int count = items.size();
+
+        int scrollY = getScrollY();
+
+        for (int i = 0; i < count; ++i) {
+            T item = items.get(i);
+
+            int yOffset = 1 + (i * getItemHeight()) + (i * spacing) - scrollY;
+
+            drawItem(item, screenX, screenY + yOffset, this.getWidth(), getItemHeight());
+
+
+        }
+
+        //GL11.glEnable(GL11.GL_TEXTURE_2D);
+    }
+
+    protected void drawItemBackground(T item, int x, int y, int width, int height) {
+
+    }
+
+    protected void drawItemForeground(T item, int x, int y, int width, int height) {
+
+    }
+
+    protected void drawItem(T item, int x, int y, int width, int height) {
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+
+        GL11.glColor4f(0.6f, 0.6f, 0.6f, 1);
+        this.drawRectangle(x, y, 0, 0, width, height);
+
+        GL11.glColor4f(0.4f, 0.4f, 0.4f, 1);
+        this.drawRectangle(x, y, 0, 0, width, 1);
+
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+
+        String str = getStringFromObject(item);
+        this.drawString(str, x, y, 0, false);
+
+
+    }
 }

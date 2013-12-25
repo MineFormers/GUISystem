@@ -204,35 +204,33 @@ public abstract class UIComponent {
         /*GL11.glPushAttrib(GL11.GL_SCISSOR_BIT);
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         GL11.glScissor((x) * scale, mc.displayHeight - (y + height) * scale, width * scale, height * scale);
-*/		
-    	for (int y2 = 0; y2 < numY; ++y2)
+*/
+        for (int y2 = 0; y2 < numY; ++y2)
             for (int x2 = 0; x2 < numX; ++x2) {
-                
-                int w = (int) Math.ceil((width / (float)numX));
-                int xOffset = w * x2; 
+
+                int w = (int) Math.ceil((width / (float) numX));
+                int xOffset = w * x2;
                 //int yOffset = (y2 + 1) * tileHeight;
-                
-                int h = (int) Math.ceil((height / (float)numY));
-                int yOffset = h * y2; 
-                
+
+                int h = (int) Math.ceil((height / (float) numY));
+                int yOffset = h * y2;
+
                 int newWidth = w;
                 int newHeight = h;
-                
-                if ((y + height) - yOffset - h < y)
-                {
-                	int hOffset = y - ((y + height) - yOffset - h);
-                	
-                	yOffset -= hOffset;
-                	newHeight -= hOffset;
+
+                if ((y + height) - yOffset - h < y) {
+                    int hOffset = y - ((y + height) - yOffset - h);
+
+                    yOffset -= hOffset;
+                    newHeight -= hOffset;
                 }
 
-                if (x + xOffset + w > x + width)
-                {
-                	int wOffset = x - ((x + width) - xOffset - w);
-                	
-                	newWidth -= wOffset;
+                if (x + xOffset + w > x + width) {
+                    int wOffset = x - ((x + width) - xOffset - w);
+
+                    newWidth -= wOffset;
                 }
-                
+
                 this.drawRectangleStretched(texture, x + xOffset, (y + height) - yOffset - h,
                         u, v, newWidth, newHeight,
                         uvWidth, uvHeight);
@@ -330,9 +328,12 @@ public abstract class UIComponent {
     }
 
     public abstract void draw(int mouseX, int mouseY);
-    
-    public void drawForeground(int mouseX, int mouseY) {}
-    public void drawBackground(int mouseX, int mouseY) {}
+
+    public void drawForeground(int mouseX, int mouseY) {
+    }
+
+    public void drawBackground(int mouseX, int mouseY) {
+    }
 
     public abstract void update(int mouseX, int mouseY);
 

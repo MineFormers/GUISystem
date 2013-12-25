@@ -1,4 +1,4 @@
-package de.mineformers.gui.component.inventoy;
+package de.mineformers.gui.component.inventory;
 
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.system.Global;
@@ -69,20 +69,11 @@ public class UITank extends UIComponent {
     public boolean isHovered(int mouseX, int mouseY) {
         return this.isInsideRegion(mouseX, mouseY, screenX, screenY, screenX + width, screenY + height);
     }
-    
-    @Override
-    public void drawForeground(int mouseX, int mouseY) {
-    	super.drawForeground(mouseX, mouseY);
 
-
-        if (isHovered(mouseX, mouseY))
-            tooltip.draw(mouseX, mouseY);
-    }
-    
     @Override
     public void draw(int mouseX, int mouseY) {
         Icon icon = fluid.getFluid().getIcon(fluid);
-        
+
         if (drawSlot) {
             int drawHeight = mapAmountOnHeight(height - 2);
             slot.setScreenPos(screenX, screenY);

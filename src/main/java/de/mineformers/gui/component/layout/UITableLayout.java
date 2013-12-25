@@ -121,5 +121,54 @@ public class UITableLayout extends UILayout<UITableLayout.TableLayoutConstraints
         }
     }
 
+    @Override
+    public int getWidth() {
+        int width = 0;
+        HashMap<Integer, Integer> widestColumns = new HashMap<Integer, Integer>();
+        for (int i = 0; i < constraints.size(); i++) {
+            UIComponent component = components.get(i);
+            TableLayoutConstraints tlc = constraints.get(i);
+            if (widestColumns.get(tlc.column) != null) {
+                if (component.getWidth() > components.get(
+                        widestColumns.get(tlc.column))
+                        .getWidth()) {
+                    if (tlc.columnSpan == 1)
+                        widestColumns.put(tlc.column, i);
+                }
+            } else {
+                if (tlc.columnSpan == 1)
+                    widestColumns.put(tlc.column, i);
+            }
+        }
+        for (int i : widestColumns.values()) {
+            TableLayoutConstraints tlc = constraints.get(i);
+            width += components.get(i).getWidth() + tlc.padding.right + tlc.padding.left;
+        }
+        return width;
+    }
 
+    @Override
+    public int getHeight() {
+        int height = 0;
+        HashMap<Integer, Integer> highestRows = new HashMap<Integer, Integer>();
+        for (int i = 0; i < constraints.size(); i++) {
+            UIComponent component = components.get(i);
+            TableLayoutConstraints tlc = constraints.get(i);
+            if (highestRows.get(tlc.row) != null) {
+                if (component.getHeight() > components.get(
+                        highestRows.get(tlc.row)).getHeight()) {
+                    if (tlc.rowSpan == 1)
+                        highestRows.put(tlc.row, i);
+                }
+            } else {
+                if (tlc.rowSpan == 1)
+                    highestRows.put(tlc.row, i);
+            }
+        }
+        for (int i : highestRows.values()) {
+            TableLayoutConstraints tlc = constraints.get(i);
+            height += components.get(i).getWidth() + tlc.padding.right + tlc.padding.left;
+        }
+        return height;
+    }
 }

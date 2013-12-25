@@ -1,4 +1,4 @@
-package de.mineformers.gui.component.inventoy;
+package de.mineformers.gui.component.inventory;
 
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.system.Global;

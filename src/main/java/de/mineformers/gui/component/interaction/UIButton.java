@@ -1,11 +1,10 @@
 package de.mineformers.gui.component.interaction;
 
-import org.lwjgl.opengl.GL11;
-
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.listener.ListenerClickable;
 import de.mineformers.gui.system.Global;
 import de.mineformers.gui.util.MouseButton;
+import org.lwjgl.opengl.GL11;
 
 /**
  * GUISystem
@@ -50,7 +49,7 @@ public class UIButton extends UIComponent implements ListenerClickable {
 
         // Sides clockwise
         /*this.drawRectangleStretched(screenX + 5, screenY, 7 + 19 * state, 31, width - 10, // Top
-        		5, 5, 5);
+                5, 5, 5);
         this.drawRectangleStretched(screenX + 5, screenY, 7 + 19 * state, 31, width - 10, // Top
                 5, 5, 5);
         this.drawRectangleStretched(screenX + width - 5, screenY + 5, 13 + 19 * state, 37, // Right
@@ -59,7 +58,7 @@ public class UIButton extends UIComponent implements ListenerClickable {
                 width - 10, 5, 5, 5);
         this.drawRectangleStretched(screenX, screenY + 5, 1 + 19 * state, 37, 5, // Left
                 height - 10, 5, 5);*/
-        
+
 
         this.drawRectangleRepeated(this.texture, screenX + 5, screenY, 7 + 19 * state, 31, 5, 5, width - 10, // Top
                 5);
