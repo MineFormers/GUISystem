@@ -38,18 +38,18 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
 
     @Override
     public void initComponent() {
-        super.initComponent();
+    	super.initComponent();
 
         for (UIComponent component : components)
             component.initComponent();
-    }
-
+    }	
+    
     @Override
     public void update(int mouseX, int mouseY) {
         for (UIComponent component : components)
             component.update(mouseX, mouseY);
     }
-
+    
     public void drawTooltips(int mouseX, int mouseY) {
         for (UIComponent component : components) {
             if (component instanceof UILayout) {
@@ -76,8 +76,27 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
     }
 
     @Override
-    public void draw(int mouseX, int mouseY) {
+    public void drawBackground(int mouseX, int mouseY) {
+    	super.drawBackground(mouseX, mouseY);
+    	
+    	for (int i = 0; i < components.size(); i++) {
+    		UIComponent component = components.get(i);
+    		component.drawBackground(mouseX, mouseY);
+    	}
+    }
+    
+    @Override
+    public void drawForeground(int mouseX, int mouseY) {
+    	super.drawForeground(mouseX, mouseY);
 
+        for (int i = 0; i < components.size(); i++) {
+            UIComponent component = components.get(i);
+            component.drawForeground(mouseX, mouseY);
+        }
+    }
+    
+    @Override
+    public void draw(int mouseX, int mouseY) {
     }
 
     public void addComponent(UIComponent component) {

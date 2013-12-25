@@ -65,7 +65,15 @@ public class UITextBox extends UIComponent implements ListenerClickable,
     public int getColor() {
         return color;
     }
-
+    
+    public String getText() {
+    	return text;
+    }
+    
+    public boolean isFocused() {
+    	return focused;
+    }
+    
     public void clear() {
         this.text = "";
         setCursorPos(0);
@@ -108,6 +116,8 @@ public class UITextBox extends UIComponent implements ListenerClickable,
 
     @Override
     public void draw(int mouseX, int mouseY) {
+    	GL11.glColor4f(1, 1, 1, 1);
+    	
         if (!useSlotBg) {
             // Corners clockwise
             this.drawRectangle(screenX, screenY, 31, 16, 5, 5);

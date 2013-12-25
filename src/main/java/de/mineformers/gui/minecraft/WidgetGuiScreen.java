@@ -71,7 +71,9 @@ public class WidgetGuiScreen extends GuiScreen {
         int yStart = (height - canvas.getHeight()) / 2;
 
         canvas.setPos(xStart, yStart);
+        canvas.drawBackground(mouseX, mouseY);
         canvas.draw(mouseX, mouseY);
+        canvas.drawForeground(mouseX, mouseY);
     }
 
     public boolean doesGuiPauseGame() {
