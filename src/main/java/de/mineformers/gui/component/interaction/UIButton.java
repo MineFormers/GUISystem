@@ -1,9 +1,9 @@
 package de.mineformers.gui.component.interaction;
 
+import com.google.common.eventbus.Subscribe;
 import de.mineformers.gui.component.UIComponent;
-import de.mineformers.gui.listener.ListenerClickable;
+import de.mineformers.gui.event.MouseClickEvent;
 import de.mineformers.gui.system.Global;
-import de.mineformers.gui.util.MouseButton;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -14,7 +14,7 @@ import org.lwjgl.opengl.GL11;
  * @author PaleoCrafter
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  */
-public class UIButton extends UIComponent implements ListenerClickable {
+public class UIButton extends UIComponent {
 
     protected boolean enabled;
 
@@ -113,9 +113,9 @@ public class UIButton extends UIComponent implements ListenerClickable {
         return this.isInsideRegion(mouseX, mouseY, screenX, screenY, screenX + width, screenY + height);
     }
 
-    @Override
-    public void onClick(UIComponent component, int mouseX, int mouseY, MouseButton mouseBtn) {
-        switch (mouseBtn) {
+    @Subscribe
+    public void onClick(MouseClickEvent event) {
+        switch (event.mouseButton) {
             case LEFT:
                 mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
                 break;

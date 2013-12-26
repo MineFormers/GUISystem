@@ -3,9 +3,9 @@ package de.mineformers.gui.component.layout;
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.component.container.UIPanel;
 import de.mineformers.gui.component.decorative.UITooltip;
-import de.mineformers.gui.listener.ListenerClickable;
-import de.mineformers.gui.listener.ListenerKeyboard;
-import de.mineformers.gui.listener.ListenerMouseScroll;
+import de.mineformers.gui.event.KeyTypedEvent;
+import de.mineformers.gui.event.MouseClickEvent;
+import de.mineformers.gui.event.MouseScrollEvent;
 import de.mineformers.gui.system.Global;
 import de.mineformers.gui.util.MouseButton;
 
@@ -129,8 +129,7 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
         for (UIComponent component : components) {
             if (component.isVisible())
                 if (component.isHovered(mouseX, mouseY)) {
-                    component.notifyListeners(ListenerMouseScroll.class,
-                            "onMouseScroll", component, dir, mouseX, mouseY);
+                    component.postEvent(new MouseScrollEvent(component, dir, mouseX, mouseY));
                 } else if (component instanceof UIPanel) {
                     ((UIPanel) component).mouseScroll(dir, mouseX, mouseY);
                 } else if (component instanceof UILayout) {
@@ -143,8 +142,7 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
         for (UIComponent component : components) {
             if (component.isVisible())
                 if (component.isHovered(mouseX, mouseY)) {
-                    component.notifyListeners(ListenerClickable.class,
-                            "onClick", component, mouseX, mouseY, MouseButton.values()[mouseButton]);
+                    component.postEvent(new MouseClickEvent(component, mouseX, mouseY, MouseButton.values()[mouseButton]));
                 } else if (component instanceof UIPanel) {
                     ((UIPanel) component).mouseClick(mouseX, mouseY, mouseButton);
                 } else if (component instanceof UILayout) {
@@ -161,8 +159,7 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
                 else if (component instanceof UILayout)
                     ((UILayout) component).keyTyped(keyChar, keyCode);
                 else
-                    component.notifyListeners(ListenerKeyboard.class,
-                            "onKeyTyped", component, keyChar, keyCode);
+                    component.postEvent(new KeyTypedEvent(component, keyChar, keyCode));
             }
         }
     }

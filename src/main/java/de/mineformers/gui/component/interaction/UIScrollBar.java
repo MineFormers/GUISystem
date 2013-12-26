@@ -1,16 +1,16 @@
 package de.mineformers.gui.component.interaction;
 
+import com.google.common.eventbus.Subscribe;
 import de.mineformers.gui.component.UIComponent;
-import de.mineformers.gui.listener.ListenerClickable;
-import de.mineformers.gui.listener.ListenerMouseScroll;
+import de.mineformers.gui.event.MouseClickEvent;
+import de.mineformers.gui.event.MouseScrollEvent;
 import de.mineformers.gui.system.Global;
-import de.mineformers.gui.util.MouseButton;
 import de.mineformers.gui.util.Utilities;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-public class UIScrollBar extends UIComponent implements ListenerMouseScroll, ListenerClickable {
+public class UIScrollBar extends UIComponent {
 
     public int scrollY;
     public float scrollVisualY;
@@ -119,24 +119,16 @@ public class UIScrollBar extends UIComponent implements ListenerMouseScroll, Lis
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
 
-    public void mouseClick(int mouseX, int mouseY, MouseButton mouseBtn) {
-        if (isInsideRegion(mouseX, mouseY, screenX, screenY + scrollY, screenX + width, screenY + scrollY + getBarHeight())) {
-            initialClickY = mouseY - (screenY + scrollY);
+    @Subscribe
+    public void mouseClick(MouseClickEvent event) {
+        if (isInsideRegion(event.mouseX, event.mouseY, screenX, screenY + scrollY, screenX + width, screenY + scrollY + getBarHeight())) {
+            initialClickY = event.mouseY - (screenY + scrollY);
         }
     }
 
-    public void mouseScroll(int dir, int mouseX, int mouseY) {
-        scroll(dir * scrollStep);
-    }
-
-    @Override
-    public void onClick(UIComponent component, int mouseX, int mouseY, MouseButton mouseBtn) {
-        this.mouseClick(mouseX, mouseY, mouseBtn);
-    }
-
-    @Override
-    public void onMouseScroll(UIComponent component, int dir, int mouseX, int mouseY) {
-        this.mouseScroll(dir, mouseX, mouseY);
+    @Subscribe
+    public void mouseScroll(MouseScrollEvent event) {
+        scroll(event.dir * scrollStep);
     }
 
 }

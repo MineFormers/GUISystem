@@ -1,7 +1,8 @@
 package de.mineformers.gui.component.interaction;
 
+import com.google.common.eventbus.Subscribe;
 import de.mineformers.gui.component.UIComponent;
-import de.mineformers.gui.listener.ListenerClickable;
+import de.mineformers.gui.event.MouseClickEvent;
 import de.mineformers.gui.system.Global;
 import de.mineformers.gui.util.MouseButton;
 
@@ -13,7 +14,7 @@ import de.mineformers.gui.util.MouseButton;
  * @author PaleoCrafter
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  */
-public class UICheckBox extends UIComponent implements ListenerClickable {
+public class UICheckBox extends UIComponent {
 
     private boolean checked;
     private String label;
@@ -63,9 +64,9 @@ public class UICheckBox extends UIComponent implements ListenerClickable {
         return checked;
     }
 
-    @Override
-    public void onClick(UIComponent component, int mouseX, int mouseY, MouseButton mouseBtn) {
-        if (mouseBtn == MouseButton.LEFT)
+    @Subscribe
+    public void onClick(MouseClickEvent event) {
+        if (event.mouseButton == MouseButton.LEFT)
             this.toggle();
     }
 

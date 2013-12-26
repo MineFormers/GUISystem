@@ -1,8 +1,8 @@
 package de.mineformers.gui.component;
 
-import com.google.common.primitives.Primitives;
+import com.google.common.eventbus.EventBus;
 import cpw.mods.fml.client.FMLClientHandler;
-import de.mineformers.gui.listener.Listener;
+import de.mineformers.gui.event.Event;
 import de.mineformers.gui.util.RenderHelper;
 import de.mineformers.gui.util.TextHelper;
 import net.minecraft.client.Minecraft;
@@ -11,11 +11,6 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.util.Color;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * GUISystem
@@ -35,13 +30,13 @@ public abstract class UIComponent {
     protected int width, height;
     private String tooltip;
 
-    private ArrayList<Listener> listeners;
+    private EventBus eventBus;
 
     public UIComponent(ResourceLocation texture) {
         this.mc = FMLClientHandler.instance().getClient();
         this.texture = texture;
         this.zLevel = 0;
-        listeners = new ArrayList<Listener>();
+        eventBus = new EventBus();
         this.visible = true;
     }
 
@@ -362,53 +357,16 @@ public abstract class UIComponent {
         return visible;
     }
 
-    public void notifyListeners(Class<? extends Listener> clazz,
-                                String methodName, Object... params) {
-        for (Listener listener : listeners) {
-            if (clazz.isInstance(listener)) {
-
-                Class<?>[] paramTypes = new Class<?>[params.length];
-                for (int i = 0; i < params.length; i++) {
-                    if (Primitives.isWrapperType(params[i].getClass()))
-                        paramTypes[i] = Primitives.unwrap(params[i].getClass());
-                    else {
-                        if (UIComponent.class.isAssignableFrom(params[i].getClass()))
-                            paramTypes[i] = UIComponent.class;
-                        else
-                            paramTypes[i] = params[i].getClass();
-                    }
-                }
-                try {
-                    Method method = null;
-                    for (Method meth : clazz.getMethods()) {
-                        if (meth.getName().equals(methodName)) {
-                            if (Arrays.deepEquals(paramTypes,
-                                    meth.getParameterTypes()))
-                                method = meth;
-                        }
-                    }
-
-                    if (method != null)
-                        method.invoke(listener, params);
-                } catch (IllegalArgumentException e) {
-                    throw new RuntimeException(
-                            "Unexpected Reflection exception during event construction!",
-                            e);
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException(
-                            "Unexpected Reflection exception during event construction!",
-                            e);
-                } catch (InvocationTargetException e) {
-                    throw new RuntimeException(
-                            "Unexpected Reflection exception during event construction!",
-                            e);
-                }
-            }
-        }
+    public void addListener(Object listener) {
+        eventBus.register(listener);
     }
 
-    public void addListener(Listener listener) {
-        listeners.add(listener);
+    public void removeListener(Object listener) {
+        eventBus.unregister(listener);
+    }
+
+    public void postEvent(Event event) {
+        eventBus.post(event);
     }
 
     public boolean isHovered(int mouseX, int mouseY) {

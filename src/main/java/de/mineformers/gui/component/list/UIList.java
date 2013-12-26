@@ -1,12 +1,12 @@
 package de.mineformers.gui.component.list;
 
+import com.google.common.eventbus.Subscribe;
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.component.interaction.UIScrollBar;
-import de.mineformers.gui.listener.ListenerClickable;
-import de.mineformers.gui.listener.ListenerKeyboard;
-import de.mineformers.gui.listener.ListenerMouseScroll;
+import de.mineformers.gui.event.KeyTypedEvent;
+import de.mineformers.gui.event.MouseClickEvent;
+import de.mineformers.gui.event.MouseScrollEvent;
 import de.mineformers.gui.system.Global;
-import de.mineformers.gui.util.MouseButton;
 import de.mineformers.gui.util.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import org.lwjgl.opengl.GL11;
@@ -14,7 +14,7 @@ import org.lwjgl.opengl.GL11;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UIList<T> extends UIComponent implements ListenerClickable, ListenerMouseScroll, ListenerKeyboard {
+public class UIList<T> extends UIComponent {
     protected List<T> items;
 
     protected int mouseX;
@@ -75,20 +75,20 @@ public class UIList<T> extends UIComponent implements ListenerClickable, Listene
         return true;
     }
 
-    @Override
-    public void onClick(UIComponent component, int mouseX, int mouseY, MouseButton mouseBtn) {
-        if (isInsideRegion(mouseX, mouseY, screenX, screenY + scrollBar.scrollY, screenX + width, screenY + scrollBar.scrollY + scrollBar.getBarHeight())) {
-            scrollBar.mouseClick(mouseX, mouseY, mouseBtn);
+    @Subscribe
+    public void onClick(MouseClickEvent event) {
+        if (isInsideRegion(event.mouseX, event.mouseY, screenX, screenY + scrollBar.scrollY, screenX + width, screenY + scrollBar.scrollY + scrollBar.getBarHeight())) {
+            scrollBar.postEvent(event);
         }
     }
 
-    @Override
-    public void onMouseScroll(UIComponent component, int dir, int mouseX, int mouseY) {
-        scrollBar.mouseScroll(dir, mouseY, mouseY);
+    @Subscribe
+    public void onMouseScroll(MouseScrollEvent event) {
+        scrollBar.postEvent(event);
     }
 
-    @Override
-    public void onKeyTyped(UIComponent component, char keyChar, int keyCode) {
+    @Subscribe
+    public void onKeyTyped(KeyTypedEvent event) {
 
     }
 

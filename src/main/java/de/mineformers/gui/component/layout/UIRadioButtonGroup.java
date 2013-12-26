@@ -1,9 +1,9 @@
 package de.mineformers.gui.component.layout;
 
+import com.google.common.eventbus.Subscribe;
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.component.interaction.UIRadioButton;
-import de.mineformers.gui.listener.ListenerClickable;
-import de.mineformers.gui.util.MouseButton;
+import de.mineformers.gui.event.MouseClickEvent;
 import de.mineformers.gui.util.Padding;
 import org.lwjgl.opengl.GL11;
 
@@ -62,15 +62,15 @@ public class UIRadioButtonGroup extends UILayout<UIRadioButtonGroup.RadioButtonG
         if (component instanceof UIRadioButton) {
             components.add(component);
             ((UIRadioButton) component).setGroupId(lastId);
-            component.addListener(new ListenerClickable() {
-                @Override
-                public void onClick(UIComponent component, int mouseX, int mouseY, MouseButton mouseBtn) {
-                    UIRadioButtonGroup.this.changeChecked(((UIRadioButton) component).getGroupId());
-                }
-            });
+            component.addListener(this);
             constraints.add(new RadioButtonGroupConstraints(lastId));
             lastId += 1;
         }
+    }
+
+    @Subscribe
+    public void onClick(MouseClickEvent event) {
+        UIRadioButtonGroup.this.changeChecked(((UIRadioButton) event.getComponent()).getGroupId());
     }
 
     public String getChecked() {

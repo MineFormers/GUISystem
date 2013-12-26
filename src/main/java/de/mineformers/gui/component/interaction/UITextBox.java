@@ -1,11 +1,11 @@
 package de.mineformers.gui.component.interaction;
 
+import com.google.common.eventbus.Subscribe;
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.component.inventory.UISlot;
-import de.mineformers.gui.listener.ListenerClickable;
-import de.mineformers.gui.listener.ListenerKeyboard;
+import de.mineformers.gui.event.KeyTypedEvent;
+import de.mineformers.gui.event.MouseClickEvent;
 import de.mineformers.gui.system.Global;
-import de.mineformers.gui.util.MouseButton;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ChatAllowedCharacters;
 import org.lwjgl.input.Keyboard;
@@ -23,8 +23,7 @@ import org.lwjgl.util.Color;
  * @author PaleoCrafter
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  */
-public class UITextBox extends UIComponent implements ListenerClickable,
-        ListenerKeyboard {
+public class UITextBox extends UIComponent {
 
     private String text;
 
@@ -191,10 +190,10 @@ public class UITextBox extends UIComponent implements ListenerClickable,
         return true;
     }
 
-    @Override
-    public void onClick(UIComponent component, int mouseX, int mouseY, MouseButton mouseBtn) {
-        if (this.isInsideRegion(mouseX, mouseY, screenX, screenY, screenX + width, screenY + height)) {
-            switch (mouseBtn) {
+    @Subscribe
+    public void onClick(MouseClickEvent event) {
+        if (this.isInsideRegion(event.mouseX, event.mouseY, screenX, screenY, screenX + width, screenY + height)) {
+            switch (event.mouseButton) {
                 case LEFT:
                     this.focused = true;
                     break;
@@ -207,10 +206,10 @@ public class UITextBox extends UIComponent implements ListenerClickable,
         }
     }
 
-    @Override
-    public void onKeyTyped(UIComponent component, char keyChar, int keyCode) {
+    @Subscribe
+    public void onKeyTyped(KeyTypedEvent event) {
         if (focused) {
-            switch (keyCode) {
+            switch (event.keyCode) {
                 case Keyboard.KEY_LEFT:
                     this.setCursorPos(cursorPos - 1);
                     if (cursorPos < 0)
@@ -253,9 +252,9 @@ public class UITextBox extends UIComponent implements ListenerClickable,
                     }
                     break;
                 default:
-                    if (ChatAllowedCharacters.isAllowedCharacter(keyChar)) {
+                    if (ChatAllowedCharacters.isAllowedCharacter(event.keyChar)) {
                         this.text = text.substring(0, cursorPos)
-                                + Character.toString(keyChar)
+                                + Character.toString(event.keyChar)
                                 + text.substring(cursorPos);
                         this.setCursorPos(cursorPos + 1);
                     }

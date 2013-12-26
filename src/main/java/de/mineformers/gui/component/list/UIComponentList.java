@@ -1,8 +1,10 @@
 package de.mineformers.gui.component.list;
 
+import com.google.common.eventbus.Subscribe;
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.component.layout.UIAbsoluteLayout;
-import de.mineformers.gui.util.MouseButton;
+import de.mineformers.gui.event.KeyTypedEvent;
+import de.mineformers.gui.event.MouseClickEvent;
 
 public class UIComponentList extends UIList<UIAbsoluteLayout> {
     public UIComponentList(int width, int height) {
@@ -14,25 +16,27 @@ public class UIComponentList extends UIList<UIAbsoluteLayout> {
         super.addItem(item);
     }
 
+    @Subscribe
     @Override
-    public void onClick(UIComponent component, int mouseX, int mouseY, MouseButton mouseButton) {
-        super.onClick(component, mouseX, mouseY, mouseButton);
+    public void onClick(MouseClickEvent event) {
+        super.onClick(event);
 
         for (int i = 0; i < items.size(); ++i) {
             UIAbsoluteLayout l = items.get(i);
 
-            l.mouseClick(mouseX, mouseY, mouseButton.ordinal());
+            l.mouseClick(event.mouseX, event.mouseY, event.mouseButton.ordinal());
         }
     }
 
+    @Subscribe
     @Override
-    public void onKeyTyped(UIComponent component, char keyChar, int keyCode) {
-        super.onKeyTyped(component, keyChar, keyCode);
+    public void onKeyTyped(KeyTypedEvent event) {
+        super.onKeyTyped(event);
 
         for (int i = 0; i < items.size(); ++i) {
             UIAbsoluteLayout l = items.get(i);
 
-            l.keyTyped(keyChar, keyCode);
+            l.keyTyped(event.keyChar, event.keyCode);
         }
     }
 
