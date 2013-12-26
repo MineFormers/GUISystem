@@ -32,12 +32,12 @@ public class UIRadioButton extends UIComponent {
     @Override
     public void draw(int mouseX, int mouseY) {
         if (!isChecked()) {
-            this.drawRectangle(screenX, screenY, 56, 50, 16, 16);
+            this.drawRectangle(screenX, screenY, 58, 40, 8, 8);
         } else {
-            this.drawRectangle(screenX, screenY, 74, 50, 16, 16);
+            this.drawRectangle(screenX, screenY, 68, 40, 8, 8);
         }
 
-        this.drawString(label, screenX + 18, screenY + (getHeight() - mc.fontRenderer.FONT_HEIGHT) / 2, 0x404040, false);
+        this.drawString(label, screenX + 10, screenY + (getHeight() - mc.fontRenderer.FONT_HEIGHT) / 2, 0x404040, false);
     }
 
     public String getKey() {
@@ -78,17 +78,17 @@ public class UIRadioButton extends UIComponent {
 
     @Override
     public boolean isHovered(int mouseX, int mouseY) {
-        return this.isInsideRegion(mouseX, mouseY, screenX, screenY, screenX + 16, screenY + 16);
+        return this.isInsideRegion(mouseX, mouseY, screenX, screenY, screenX + getWidth(), screenY + 8);
     }
 
     @Override
     public int getWidth() {
-        return 18 + this.getStringWidth(label);
+        return 10 + this.getStringWidth(label);
     }
 
     @Override
     public int getHeight() {
-        return 16;
+        return 8;
     }
 
 }
