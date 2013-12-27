@@ -2,7 +2,7 @@ package de.mineformers.example;
 
 import com.google.common.eventbus.Subscribe;
 import de.mineformers.gui.component.canvas.UICanvas;
-import de.mineformers.gui.component.container.UIWindow;
+import de.mineformers.gui.component.container.UITabWindow;
 import de.mineformers.gui.component.decorative.UILabel;
 import de.mineformers.gui.component.interaction.*;
 import de.mineformers.gui.component.inventory.UITank;
@@ -13,6 +13,8 @@ import de.mineformers.gui.event.MouseClickEvent;
 import de.mineformers.gui.event.MouseScrollEvent;
 import de.mineformers.gui.util.Orientation;
 import de.mineformers.gui.util.Padding;
+import de.mineformers.gui.util.render.IconDrawingHelper;
+import net.minecraft.item.Item;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -33,8 +35,10 @@ public class CanvasExample extends UICanvas {
 
     public CanvasExample() {
         super(0, 0);
-        UIWindow window = new UIWindow(200, 250);
+        UITabWindow window = new UITabWindow(200, 250);
         UITableLayout layout = new UITableLayout();
+        UITableLayout layout1 = new UITableLayout();
+        layout1.addComponent(new UILabel("§lTab works"));
 
         layout.addComponent(new UILabel("§lDemo GUI"), 0, 0);
         layout.addComponent(new UILabel("TextBox:"), 1, 0);
@@ -64,6 +68,7 @@ public class CanvasExample extends UICanvas {
         tank = new UITank(100, 50, new FluidStack(FluidRegistry.LAVA, 8000));
         tank.setDrawSlot(true);
         layout.addComponent(tank, 5, 1);
+
         layout.addComponent(new UILabel("Checkbox:"), 6, 0);
         layout.addComponent(new UICheckBox("Demo"), 6, 1);
         layout.addComponent(new UILabel("Radio Buttons:"), 7, 0);
@@ -72,7 +77,9 @@ public class CanvasExample extends UICanvas {
         stack.addComponent(new UIRadioButton("test1", "Test 1"));
         stack.addComponent(new UIRadioButton("test2", "Test 2"));
         layout.addComponent(stack, 7, 1);
-        window.setLayout(layout);
+        window.addTab("table", "Table", new IconDrawingHelper(Item.appleGold.getIconFromDamage(0)), layout);
+        window.addTab("test", "Test", new IconDrawingHelper(Item.appleRed.getIconFromDamage(0)), layout1);
+        window.setTabOrientation(Orientation.HORIZONTAL_RIGHT);
         this.setPanel(window);
     }
 

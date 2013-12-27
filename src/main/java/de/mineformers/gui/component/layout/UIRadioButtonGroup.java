@@ -57,6 +57,10 @@ public class UIRadioButtonGroup extends UILayout<UIRadioButtonGroup.RadioButtonG
         }
     }
 
+    public void addRadioButton(String key, String label) {
+        this.addComponent(new UIRadioButton(key, label));
+    }
+
     @Override
     public void addComponent(UIComponent component) {
         if (component instanceof UIRadioButton) {

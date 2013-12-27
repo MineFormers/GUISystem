@@ -23,8 +23,8 @@ public class UIPanel extends UIComponent {
     @Override
     public void initComponent() {
         super.initComponent();
-
-        layout.initComponent();
+        if (layout != null)
+            layout.initComponent();
     }
 
     public void setLayout(UILayout layout) {
