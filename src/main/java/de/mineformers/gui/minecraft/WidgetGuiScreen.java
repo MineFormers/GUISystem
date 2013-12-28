@@ -1,6 +1,6 @@
 package de.mineformers.gui.minecraft;
 
-import de.mineformers.gui.component.canvas.UICanvas;
+import de.mineformers.gui.component.container.UIPanel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
@@ -17,32 +17,32 @@ import org.lwjgl.opengl.GL11;
  */
 public class WidgetGuiScreen extends GuiScreen {
 
-    private UICanvas canvas;
+    private UIPanel panel;
 
-    public WidgetGuiScreen(int width, int height, UICanvas canvas) {
+    public WidgetGuiScreen(int width, int height, UIPanel panel) {
         this.mc = Minecraft.getMinecraft();
         this.width = width;
         this.height = height;
-        this.canvas = canvas;
-        canvas.setSize(width, height);
+        this.panel = panel;
+        panel.setSize(width, height);
     }
 
     @Override
     public void initGui() {
         super.initGui();
 
-        this.canvas.initComponent();
+        this.panel.initComponent();
     }
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int button) {
-        canvas.mouseClick(mouseX, mouseY, button);
+        panel.mouseClick(mouseX, mouseY, button);
     }
 
     @Override
     protected void keyTyped(char keyChar, int keyCode) {
         super.keyTyped(keyChar, keyCode);
-        canvas.keyType(keyChar, keyCode);
+        panel.keyTyped(keyChar, keyCode);
     }
 
     @Override
@@ -53,11 +53,11 @@ public class WidgetGuiScreen extends GuiScreen {
         int j = scaledresolution.getScaledHeight();
         int k = Mouse.getX() * i / this.mc.displayWidth;
         int l = j - Mouse.getY() * j / this.mc.displayHeight - 1;
-        this.canvas.update(k, l);
+        this.panel.update(k, l);
         int dWheel = Mouse.getDWheel() / 120;
 
         if (dWheel != 0) {
-            canvas.mouseScroll(-dWheel, k, l);
+            panel.mouseScroll(-dWheel, k, l);
         }
     }
 
@@ -67,13 +67,13 @@ public class WidgetGuiScreen extends GuiScreen {
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        int xStart = (width - canvas.getWidth()) / 2;
-        int yStart = (height - canvas.getHeight()) / 2;
+        int xStart = (width - panel.getWidth()) / 2;
+        int yStart = (height - panel.getHeight()) / 2;
 
-        canvas.setPos(xStart, yStart);
-        canvas.drawBackground(mouseX, mouseY);
-        canvas.draw(mouseX, mouseY);
-        canvas.drawForeground(mouseX, mouseY);
+        panel.setScreenPos(xStart, yStart);
+        panel.drawBackground(mouseX, mouseY);
+        panel.draw(mouseX, mouseY);
+        panel.drawForeground(mouseX, mouseY);
     }
 
     public boolean doesGuiPauseGame() {

@@ -170,9 +170,9 @@ public class RenderHelper {
             RenderHelper.bindTexture(texture);
             float f = 0.00390625F;
             float f1 = 0.00390625F;
-            if (u % 1 != 0)
+            if (u % 1 != 0 || uMax % 1 != 0)
                 f = 1;
-            if (v % 1 != 0)
+            if (v % 1 != 0 || vMax % 1 != 0)
                 f1 = 1;
             Tessellator tessellator = Tessellator.instance;
             tessellator.startDrawingQuads();

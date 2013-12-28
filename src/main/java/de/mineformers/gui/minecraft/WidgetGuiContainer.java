@@ -1,9 +1,14 @@
 package de.mineformers.gui.minecraft;
 
-import de.mineformers.gui.component.canvas.UICanvasContainer;
+import de.mineformers.gui.component.container.UIPanel;
+import de.mineformers.gui.component.inventory.UISlot;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -17,33 +22,46 @@ import org.lwjgl.opengl.GL11;
  */
 public class WidgetGuiContainer extends GuiContainer {
 
-    private UICanvasContainer canvas;
+    private UIPanel panel;
+    protected String name;
+    protected boolean autoDrawSlots;
 
-    public WidgetGuiContainer(int width, int height, UICanvasContainer canvas) {
-        super(canvas.getContainer());
-        this.canvas = canvas;
-        this.canvas.setSize(width, height);
+    public WidgetGuiContainer(int width, int height, UIPanel panel, Container container) {
+        this(width, height, panel, container, null);
+    }
+
+    public WidgetGuiContainer(int width, int height, UIPanel panel, Container container, IInventory inventory) {
+        this(width, height, panel, container, inventory, false);
+    }
+
+    public WidgetGuiContainer(int width, int height, UIPanel panel, Container container, IInventory inventory, boolean autoDrawSlots) {
+        super(container);
+        this.panel = panel;
+        this.panel.setSize(width, height);
         this.xSize = width;
         this.ySize = height;
+        if (inventory != null)
+            this.name = inventory.getInvName();
+        this.autoDrawSlots = autoDrawSlots;
     }
 
     @Override
     public void initGui() {
         super.initGui();
 
-        this.canvas.initComponent();
+        this.panel.initComponent();
     }
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int button) {
         super.mouseClicked(mouseX, mouseY, button);
-        canvas.mouseClick(mouseX, mouseY, button);
+        panel.mouseClick(mouseX, mouseY, button);
     }
 
     @Override
     protected void keyTyped(char keyChar, int keyCode) {
         super.keyTyped(keyChar, keyCode);
-        canvas.keyType(keyChar, keyCode);
+        panel.keyTyped(keyChar, keyCode);
     }
 
     public boolean doesGuiPauseGame() {
@@ -54,11 +72,29 @@ public class WidgetGuiContainer extends GuiContainer {
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        int xStart = (width - canvas.getWidth()) / 2;
-        int yStart = (height - canvas.getHeight()) / 2;
+        int xStart = (width - panel.getWidth()) / 2;
+        int yStart = (height - panel.getHeight()) / 2;
 
-        canvas.setPos(xStart, yStart);
-        canvas.drawForeground(mouseX, mouseY);
+        panel.setScreenPos(xStart, yStart);
+        panel.drawForeground(mouseX, mouseY);
+        if (name != null)
+            de.mineformers.gui.util.RenderHelper.drawString(name, xStart + 5, yStart + 5, 0x404040, false, 1);
+        if (autoDrawSlots) {
+            UISlot widget = new UISlot(18, 18);
+
+            for (Object o : inventorySlots.inventorySlots) {
+                if (o instanceof Slot) {
+                    Slot slot = (Slot) o;
+                    if (!(slot.inventory instanceof InventoryPlayer)) {
+                        GL11.glPushMatrix();
+                        GL11.glTranslatef(xStart + slot.xDisplayPosition - 1, yStart
+                                + slot.yDisplayPosition - 1, 0);
+                        widget.draw(mouseX, mouseY);
+                        GL11.glPopMatrix();
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -66,22 +102,20 @@ public class WidgetGuiContainer extends GuiContainer {
                                                    int mouseY) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        int xStart = (width - canvas.getWidth()) / 2;
-        int yStart = (height - canvas.getHeight()) / 2;
+        int xStart = (width - panel.getWidth()) / 2;
+        int yStart = (height - panel.getHeight()) / 2;
 
-        canvas.setPos(xStart, yStart);
+        panel.setScreenPos(xStart, yStart);
 
         RenderHelper.enableGUIStandardItemLighting();
-        canvas.drawBackground(mouseX, mouseY);
-        canvas.draw(mouseX, mouseY);
+        panel.drawBackground(mouseX, mouseY);
+        panel.draw(mouseX, mouseY);
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float tick) {
         super.drawScreen(mouseX, mouseY, tick);
-
     }
-
 
     @Override
     public void updateScreen() {
@@ -91,11 +125,11 @@ public class WidgetGuiContainer extends GuiContainer {
         int j = scaledresolution.getScaledHeight();
         int k = Mouse.getX() * i / this.mc.displayWidth;
         int l = j - Mouse.getY() * j / this.mc.displayHeight - 1;
-        this.canvas.update(k, l);
+        this.panel.update(k, l);
         int dWheel = Mouse.getDWheel() / 120;
 
         if (dWheel != 0) {
-            canvas.mouseScroll(-dWheel, k, l);
+            panel.mouseScroll(-dWheel, k, l);
         }
     }
 }

@@ -31,8 +31,8 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
 
     public UILayout() {
         super(Global.getTexture());
-        this.components = new LinkedList<>();
-        this.constraints = new LinkedList<>();
+        this.components = new LinkedList<UIComponent>();
+        this.constraints = new LinkedList<T>();
         this.tooltip = new UITooltip();
     }
 

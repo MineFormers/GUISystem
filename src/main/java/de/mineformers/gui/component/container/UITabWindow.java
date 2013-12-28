@@ -37,9 +37,9 @@ public class UITabWindow extends UIWindow {
     private LinkedHashMap<String, Tab> tabs;
     private Orientation orientation;
 
-    public UITabWindow(int width, int height) {
-        super(width, height);
-        tabs = new LinkedHashMap<>();
+    public UITabWindow() {
+        super();
+        tabs = new LinkedHashMap<String, Tab>();
         this.orientation = Orientation.VERTICAL_TOP;
     }
 
@@ -69,7 +69,7 @@ public class UITabWindow extends UIWindow {
     public void mouseClick(int mouseX, int mouseY, int mouseButton) {
         super.mouseClick(mouseX, mouseY, mouseButton);
         if (mouseButton == 0) {
-            ArrayList<String> keys = new ArrayList<>();
+            ArrayList<String> keys = new ArrayList<String>();
             keys.addAll(tabs.keySet());
             for (int i = 0; i < keys.size(); i++) {
                 if (!keys.get(i).equals(selectedTab)) {
@@ -83,7 +83,7 @@ public class UITabWindow extends UIWindow {
     }
 
     public boolean isTabHovered(String key, int mouseX, int mouseY) {
-        ArrayList<String> keys = new ArrayList<>();
+        ArrayList<String> keys = new ArrayList<String>();
         keys.addAll(tabs.keySet());
         int index = keys.indexOf(key);
         switch (orientation) {
@@ -101,7 +101,7 @@ public class UITabWindow extends UIWindow {
 
     @Override
     public void draw(int mouseX, int mouseY) {
-        ArrayList<String> keys = new ArrayList<>();
+        ArrayList<String> keys = new ArrayList<String>();
         keys.addAll(tabs.keySet());
         for (int i = 0; i < keys.size(); i++) {
             if (!keys.get(i).equals(selectedTab)) {
@@ -126,7 +126,7 @@ public class UITabWindow extends UIWindow {
     }
 
     protected void drawTab(String key) {
-        ArrayList<String> keys = new ArrayList<>();
+        ArrayList<String> keys = new ArrayList<String>();
         keys.addAll(tabs.keySet());
         int index = keys.indexOf(key);
         Tab tab = tabs.get(key);

@@ -1,7 +1,6 @@
 package de.mineformers.example;
 
 import com.google.common.eventbus.Subscribe;
-import de.mineformers.gui.component.canvas.UICanvas;
 import de.mineformers.gui.component.container.UITabWindow;
 import de.mineformers.gui.component.decorative.UILabel;
 import de.mineformers.gui.component.interaction.*;
@@ -13,8 +12,8 @@ import de.mineformers.gui.event.MouseClickEvent;
 import de.mineformers.gui.event.MouseScrollEvent;
 import de.mineformers.gui.util.Orientation;
 import de.mineformers.gui.util.Padding;
-import de.mineformers.gui.util.render.IconDrawingHelper;
-import net.minecraft.item.Item;
+import de.mineformers.gui.util.ResourceHelper;
+import de.mineformers.gui.util.render.ResourceDrawingHelper;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -27,15 +26,14 @@ import net.minecraftforge.fluids.FluidStack;
  * @author PaleoCrafter
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  */
-public class CanvasExample extends UICanvas {
+public class WindowExample extends UITabWindow {
 
     private long last;
     private UIProgressBar progressBar;
     private UITank tank;
 
-    public CanvasExample() {
-        super(0, 0);
-        UITabWindow window = new UITabWindow(200, 250);
+    public WindowExample() {
+        super();
         UITableLayout layout = new UITableLayout();
         UITableLayout layout1 = new UITableLayout();
         layout1.addComponent(new UILabel("§lTab works"));
@@ -59,7 +57,6 @@ public class CanvasExample extends UICanvas {
         progressBar = new UIProgressBarScalable(Orientation.VERTICAL_TOP, 8, 32, 86, 14, 4, 8);
         progressBar.setMaxValue(4000);
 
-
         progressBar.setValue(progressBar.getMaxValue());
         progressBar.addListener(this);
         layout.addComponent(progressBar, 4, 1);
@@ -77,10 +74,9 @@ public class CanvasExample extends UICanvas {
         stack.addComponent(new UIRadioButton("test1", "Test 1"));
         stack.addComponent(new UIRadioButton("test2", "Test 2"));
         layout.addComponent(stack, 7, 1);
-        window.addTab("table", "Table", new IconDrawingHelper(Item.appleGold.getIconFromDamage(0)), layout);
-        window.addTab("test", "Test", new IconDrawingHelper(Item.appleRed.getIconFromDamage(0)), layout1);
-        window.setTabOrientation(Orientation.HORIZONTAL_RIGHT);
-        this.setPanel(window);
+        this.addTab("table", "Table", new ResourceDrawingHelper(ResourceHelper.getModResource("textures/example.png"), 16, 16, 0, 0, 0.125F, 0.125F), layout);
+        this.addTab("test", "Test", new ResourceDrawingHelper(ResourceHelper.getModResource("textures/example.png"), 16, 16, 0.125F, 0, 0.25F, 0.125F), layout1);
+        this.setTabOrientation(Orientation.VERTICAL_TOP);
     }
 
     @Subscribe

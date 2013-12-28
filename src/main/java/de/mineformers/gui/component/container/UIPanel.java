@@ -37,53 +37,64 @@ public class UIPanel extends UIComponent {
 
     @Override
     public void update(int mouseX, int mouseY) {
-        layout.update(mouseX, mouseY);
+        if (layout != null)
+            layout.update(mouseX, mouseY);
     }
 
     @Override
     public void drawBackground(int mouseX, int mouseY) {
         super.drawBackground(mouseX, mouseY);
-
-        layout.drawBackground(mouseX, mouseY);
+        if (layout != null)
+            layout.drawBackground(mouseX, mouseY);
     }
 
     @Override
     public void drawForeground(int mouseX, int mouseY) {
         super.drawForeground(mouseX, mouseY);
-
-        layout.drawForeground(mouseX, mouseY);
+        if (layout != null)
+            layout.drawForeground(mouseX, mouseY);
     }
 
     public void drawTooltips(int mouseX, int mouseY) {
-        layout.drawTooltips(mouseX, mouseY);
+        if (layout != null)
+            layout.drawTooltips(mouseX, mouseY);
     }
 
     @Override
     public void draw(int mouseX, int mouseY) {
-        layout.setScreenPos(screenX, screenY);
-        layout.draw(mouseX, mouseY);
+        if (layout != null) {
+            layout.setScreenPos(screenX, screenY);
+            layout.draw(mouseX, mouseY);
+        }
         this.drawTooltips(mouseX, mouseY);
     }
 
     @Override
     public int getWidth() {
-        return layout.getWidth();
+        if (layout != null)
+            return layout.getWidth();
+        return width;
     }
 
     @Override
     public int getHeight() {
-        return layout.getHeight();
+        if (layout != null)
+            return layout.getHeight();
+        return height;
     }
 
     public void mouseScroll(int dir, int mouseX, int mouseY) {
-        layout.mouseScroll(dir, mouseX, mouseY);
+        if (layout != null)
+            layout.mouseScroll(dir, mouseX, mouseY);
     }
 
     public void mouseClick(int mouseX, int mouseY, int mouseButton) {
-        layout.mouseClick(mouseX, mouseY, mouseButton);
+        if (layout != null)
+            layout.mouseClick(mouseX, mouseY, mouseButton);
     }
 
     public void keyTyped(char keyChar, int keyCode) {
-        layout.keyTyped(keyChar, keyCode);
+        if (layout != null)
+            layout.keyTyped(keyChar, keyCode);
     }
 }

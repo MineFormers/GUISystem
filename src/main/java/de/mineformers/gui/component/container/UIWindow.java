@@ -17,10 +17,8 @@ public class UIWindow extends UIPanel {
 
     private Padding padding;
 
-    public UIWindow(int width, int height) {
+    public UIWindow() {
         super();
-        this.width = width;
-        this.height = height;
         this.padding = Padding.ALL5;
     }
 
