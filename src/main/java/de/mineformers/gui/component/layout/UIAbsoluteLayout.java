@@ -32,6 +32,7 @@ public class UIAbsoluteLayout extends UILayout<UIAbsoluteLayout.AbsoluteLayoutCo
     public void addComponent(UIComponent component, int x, int y) {
         components.add(component);
         constraints.add(new AbsoluteLayoutConstraints(x, y));
+        component.setParent(this);
     }
 
     @Override

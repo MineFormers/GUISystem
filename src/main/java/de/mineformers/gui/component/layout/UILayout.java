@@ -101,6 +101,7 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
 
     public void addComponent(UIComponent component) {
         this.components.add(component);
+        component.setParent(this);
     }
 
     public LinkedList<UIComponent> getComponents() {

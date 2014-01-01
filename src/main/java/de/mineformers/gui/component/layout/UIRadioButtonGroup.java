@@ -65,6 +65,7 @@ public class UIRadioButtonGroup extends UILayout<UIRadioButtonGroup.RadioButtonG
     public void addComponent(UIComponent component) {
         if (component instanceof UIRadioButton) {
             components.add(component);
+            component.setParent(this);
             ((UIRadioButton) component).setGroupId(lastId);
             component.addListener(this);
             constraints.add(new RadioButtonGroupConstraints(lastId));

@@ -1,9 +1,14 @@
 package de.mineformers.gui.component.container;
 
 
+import de.mineformers.gui.component.decorative.UITooltip;
+import de.mineformers.gui.component.inventory.UIInfoTab;
+import de.mineformers.gui.util.Orientation;
 import de.mineformers.gui.util.Padding;
 import de.mineformers.gui.util.RenderHelper;
 import org.lwjgl.opengl.GL11;
+
+import java.util.LinkedList;
 
 /**
  * GUISystem
@@ -16,10 +21,12 @@ import org.lwjgl.opengl.GL11;
 public class UIWindow extends UIPanel {
 
     private Padding padding;
+    private LinkedList<UIInfoTab> infoTabs;
 
     public UIWindow() {
         super();
         this.padding = Padding.ALL5;
+        this.infoTabs = new LinkedList<UIInfoTab>();
     }
 
     public void setPadding(Padding padding) {
@@ -28,6 +35,27 @@ public class UIWindow extends UIPanel {
 
     public Padding getPadding() {
         return padding;
+    }
+
+    public void addInfoTab(UIInfoTab tab) {
+        this.infoTabs.add(tab);
+        tab.setParent(this);
+    }
+
+    public void closeAllInfoTabs(Orientation orientation) {
+        for (UIInfoTab tab : infoTabs) {
+            if (tab.getOrientation() == orientation && tab.isOpen()) {
+                tab.close();
+            }
+        }
+    }
+
+    @Override
+    public void update(int mouseX, int mouseY) {
+        super.update(mouseX, mouseY);
+        for (UIInfoTab tab : infoTabs) {
+            tab.update(mouseX, mouseY);
+        }
     }
 
     @Override
@@ -57,6 +85,51 @@ public class UIWindow extends UIPanel {
         layout.draw(mouseX, mouseY);
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
         layout.drawTooltips(mouseX, mouseY);
+
+        int left = 0;
+        int right = 0;
+        for (UIInfoTab tab : infoTabs) {
+            if (tab.getOrientation() == Orientation.HORIZONTAL_RIGHT) {
+                tab.setScreenPos(screenX + width, screenY + 5 + right);
+                right += tab.getHeight() + 2;
+            } else {
+                tab.setScreenPos(screenX - tab.getWidth(), screenY + 5 + left);
+                left += tab.getHeight() + 2;
+            }
+            GL11.glColor4f(1, 1, 1, 1);
+            tab.draw(mouseX, mouseY);
+        }
+        for (UIInfoTab tab : infoTabs) {
+            if (tab.isClosedAndHovered(mouseX, mouseY)) {
+                UITooltip tooltip = new UITooltip();
+                tooltip.addLine(tab.getTitle());
+                tooltip.draw(mouseX, mouseY);
+            }
+        }
+    }
+
+    @Override
+    public void mouseClick(int mouseX, int mouseY, int mouseButton) {
+        super.mouseClick(mouseX, mouseY, mouseButton);
+        for (UIInfoTab tab : infoTabs) {
+            tab.onMouseClick(mouseX, mouseY, mouseButton);
+        }
+    }
+
+    @Override
+    public void mouseScroll(int dir, int mouseX, int mouseY) {
+        super.mouseScroll(dir, mouseX, mouseY);
+        for (UIInfoTab tab : infoTabs) {
+            tab.onMouseScroll(dir, mouseX, mouseY);
+        }
+    }
+
+    @Override
+    public void keyTyped(char keyChar, int keyCode) {
+        super.keyTyped(keyChar, keyCode);
+        for (UIInfoTab tab : infoTabs) {
+            tab.onKeyTyped(keyChar, keyCode);
+        }
     }
 
     @Override

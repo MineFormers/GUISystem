@@ -29,6 +29,7 @@ public class UIPanel extends UIComponent {
 
     public void setLayout(UILayout layout) {
         this.layout = layout;
+        layout.setParent(this);
     }
 
     public UILayout getLayout() {

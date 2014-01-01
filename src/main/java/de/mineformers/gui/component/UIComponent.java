@@ -18,6 +18,7 @@ import org.lwjgl.util.Color;
  */
 public abstract class UIComponent {
 
+    private UIComponent parent;
     protected int screenX, screenY;
     protected Minecraft mc;
     protected ResourceLocation texture;
@@ -34,6 +35,14 @@ public abstract class UIComponent {
         this.zLevel = 0;
         eventBus = new EventBus();
         this.visible = true;
+    }
+
+    public void setParent(UIComponent parent) {
+        this.parent = parent;
+    }
+
+    public UIComponent getParent() {
+        return parent;
     }
 
     public void initComponent() {

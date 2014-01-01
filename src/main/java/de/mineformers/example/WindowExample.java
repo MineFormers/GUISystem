@@ -4,6 +4,7 @@ import com.google.common.eventbus.Subscribe;
 import de.mineformers.gui.component.container.UITabWindow;
 import de.mineformers.gui.component.decorative.UILabel;
 import de.mineformers.gui.component.interaction.*;
+import de.mineformers.gui.component.inventory.UIInfoTab;
 import de.mineformers.gui.component.inventory.UITank;
 import de.mineformers.gui.component.layout.UIFlowLayout;
 import de.mineformers.gui.component.layout.UIRadioButtonGroup;
@@ -13,7 +14,9 @@ import de.mineformers.gui.event.MouseScrollEvent;
 import de.mineformers.gui.util.Orientation;
 import de.mineformers.gui.util.Padding;
 import de.mineformers.gui.util.ResourceHelper;
+import de.mineformers.gui.util.render.IconDrawingHelper;
 import de.mineformers.gui.util.render.ResourceDrawingHelper;
+import net.minecraft.item.Item;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -76,6 +79,10 @@ public class WindowExample extends UITabWindow {
         layout.addComponent(stack, 7, 1);
         this.addTab("table", "Table", new ResourceDrawingHelper(ResourceHelper.getModResource("textures/example.png"), 16, 16, 0, 0, 0.125F, 0.125F), layout);
         this.addTab("test", "Test", new ResourceDrawingHelper(ResourceHelper.getModResource("textures/example.png"), 16, 16, 0.125F, 0, 0.25F, 0.125F), layout1);
+        UIInfoTab infoTab = new UIInfoTab(layout1, new IconDrawingHelper(Item.redstone.getIconFromDamage(0)), Orientation.HORIZONTAL_RIGHT, "Test");
+        infoTab.setColor(0xA11B08);
+        this.addInfoTab(infoTab);
+        this.addInfoTab(new UIInfoTab(layout1, new IconDrawingHelper(Item.diamond.getIconFromDamage(0)), Orientation.HORIZONTAL_RIGHT, "Test"));
         this.setTabOrientation(Orientation.VERTICAL_TOP);
     }
 

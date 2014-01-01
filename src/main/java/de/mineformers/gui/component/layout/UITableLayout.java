@@ -50,6 +50,7 @@ public class UITableLayout extends UILayout<UITableLayout.TableLayoutConstraints
         components.add(component);
         constraints.add(new TableLayoutConstraints(row, column, rowSpan,
                 columnSpan, padding));
+        component.setParent(this);
     }
 
     @Override
@@ -167,7 +168,7 @@ public class UITableLayout extends UILayout<UITableLayout.TableLayoutConstraints
         }
         for (int i : highestRows.values()) {
             TableLayoutConstraints tlc = constraints.get(i);
-            height += components.get(i).getWidth() + tlc.padding.right + tlc.padding.left;
+            height += components.get(i).getHeight() + tlc.padding.top + tlc.padding.bottom;
         }
         return height;
     }
