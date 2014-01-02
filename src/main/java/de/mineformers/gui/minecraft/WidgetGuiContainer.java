@@ -38,11 +38,15 @@ public class WidgetGuiContainer extends GuiContainer {
         super(container);
         this.panel = panel;
         this.panel.setSize(width, height);
-        this.xSize = width;
-        this.ySize = height;
+        this.field_146294_l = width;
+        this.field_146295_m = height;
         if (inventory != null)
-            this.name = inventory.getInvName();
+            this.name = inventory.func_145825_b();
         this.autoDrawSlots = autoDrawSlots;
+    }
+
+    public UIPanel getPanel() {
+        return panel;
     }
 
     @Override
@@ -69,11 +73,11 @@ public class WidgetGuiContainer extends GuiContainer {
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+    protected void func_146979_b(int mouseX, int mouseY) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        int xStart = (width - panel.getWidth()) / 2;
-        int yStart = (height - panel.getHeight()) / 2;
+        int xStart = (field_146294_l - panel.getWidth()) / 2;
+        int yStart = (field_146295_m - panel.getHeight()) / 2;
 
         panel.setScreenPos(xStart, yStart);
         panel.drawForeground(mouseX, mouseY);
@@ -82,7 +86,7 @@ public class WidgetGuiContainer extends GuiContainer {
         if (autoDrawSlots) {
             UISlot widget = new UISlot(18, 18);
 
-            for (Object o : inventorySlots.inventorySlots) {
+            for (Object o : field_147002_h.inventorySlots) {
                 if (o instanceof Slot) {
                     Slot slot = (Slot) o;
                     if (!(slot.inventory instanceof InventoryPlayer)) {
@@ -98,12 +102,16 @@ public class WidgetGuiContainer extends GuiContainer {
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float opacity, int mouseX,
-                                                   int mouseY) {
+    public void drawScreen(int mouseX, int mouseY, float tick) {
+        super.drawScreen(mouseX, mouseY, tick);
+    }
+
+    @Override
+    public void func_146976_a(float opacity, int mouseX, int mouseY) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        int xStart = (width - panel.getWidth()) / 2;
-        int yStart = (height - panel.getHeight()) / 2;
+        int xStart = (field_146294_l - panel.getWidth()) / 2;
+        int yStart = (field_146295_m - panel.getHeight()) / 2;
 
         panel.setScreenPos(xStart, yStart);
 
@@ -113,18 +121,13 @@ public class WidgetGuiContainer extends GuiContainer {
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float tick) {
-        super.drawScreen(mouseX, mouseY, tick);
-    }
-
-    @Override
     public void updateScreen() {
         super.updateScreen();
-        ScaledResolution scaledresolution = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
+        ScaledResolution scaledresolution = new ScaledResolution(this.field_146297_k.gameSettings, this.field_146297_k.displayWidth, this.field_146297_k.displayHeight);
         int i = scaledresolution.getScaledWidth();
         int j = scaledresolution.getScaledHeight();
-        int k = Mouse.getX() * i / this.mc.displayWidth;
-        int l = j - Mouse.getY() * j / this.mc.displayHeight - 1;
+        int k = Mouse.getX() * i / this.field_146297_k.displayWidth;
+        int l = j - Mouse.getY() * j / this.field_146297_k.displayHeight - 1;
         this.panel.update(k, l);
         int dWheel = Mouse.getDWheel() / 120;
 

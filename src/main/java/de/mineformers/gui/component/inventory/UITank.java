@@ -2,9 +2,12 @@ package de.mineformers.gui.component.inventory;
 
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.system.Global;
+import de.mineformers.gui.util.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.Icon;
 import net.minecraftforge.fluids.FluidStack;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Color;
 
 /**
  * GUISystem
@@ -74,13 +77,20 @@ public class UITank extends UIComponent {
     public void draw(int mouseX, int mouseY) {
         Icon icon = fluid.getFluid().getIcon(fluid);
 
+        Color rgb = RenderHelper.getRGBFromColor(fluid.getFluid().getColor(fluid));
+        float red = (1F / 255F) * rgb.getRed();
+        float green = (1F / 255F) * rgb.getGreen();
+        float blue = (1F / 255F) * rgb.getBlue();
+
         if (drawSlot) {
             int drawHeight = mapAmountOnHeight(height - 2);
             slot.setScreenPos(screenX, screenY);
             slot.draw(mouseX, mouseY);
+            GL11.glColor4f(red, green, blue, 1);
             this.drawRectangleRepeated(TextureMap.locationBlocksTexture, screenX + 1, screenY - 1 + height - drawHeight, icon.getMinU(), icon.getMinV(), icon.getMaxU() - icon.getMinU(), icon.getMaxV() - icon.getMinV(), width - 2, drawHeight, 24, 24);
         } else {
             int drawHeight = mapAmountOnHeight(height);
+            GL11.glColor4f(red, green, blue, 1);
             this.drawRectangleRepeated(TextureMap.locationBlocksTexture, screenX, screenY + height - drawHeight, icon.getMinU(), icon.getMinV(), icon.getMaxU() - icon.getMinU(), icon.getMaxV() - icon.getMinV(), width, drawHeight, 24, 24);
         }
     }

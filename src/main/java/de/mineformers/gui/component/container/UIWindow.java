@@ -29,6 +29,10 @@ public class UIWindow extends UIPanel {
         this.infoTabs = new LinkedList<UIInfoTab>();
     }
 
+    public LinkedList<UIInfoTab> getInfoTabs() {
+        return infoTabs;
+    }
+
     public void setPadding(Padding padding) {
         this.padding = padding;
     }

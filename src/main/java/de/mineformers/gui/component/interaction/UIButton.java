@@ -4,6 +4,8 @@ import com.google.common.eventbus.Subscribe;
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.event.MouseClickEvent;
 import de.mineformers.gui.system.Global;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -117,7 +119,7 @@ public class UIButton extends UIComponent {
     public void onClick(MouseClickEvent event) {
         switch (event.mouseButton) {
             case LEFT:
-                mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+                mc.func_147118_V().func_147682_a(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
                 break;
         }
     }

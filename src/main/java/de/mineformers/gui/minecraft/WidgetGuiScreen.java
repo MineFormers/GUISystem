@@ -20,11 +20,15 @@ public class WidgetGuiScreen extends GuiScreen {
     private UIPanel panel;
 
     public WidgetGuiScreen(int width, int height, UIPanel panel) {
-        this.mc = Minecraft.getMinecraft();
-        this.width = width;
-        this.height = height;
+        this.field_146297_k = Minecraft.getMinecraft();
+        this.field_146294_l = width;
+        this.field_146295_m = height;
         this.panel = panel;
         panel.setSize(width, height);
+    }
+
+    public UIPanel getPanel() {
+        return panel;
     }
 
     @Override
@@ -48,11 +52,11 @@ public class WidgetGuiScreen extends GuiScreen {
     @Override
     public void updateScreen() {
         super.updateScreen();
-        ScaledResolution scaledresolution = new ScaledResolution(this.mc.gameSettings, this.mc.displayWidth, this.mc.displayHeight);
+        ScaledResolution scaledresolution = new ScaledResolution(this.field_146297_k.gameSettings, this.field_146297_k.displayWidth, this.field_146297_k.displayHeight);
         int i = scaledresolution.getScaledWidth();
         int j = scaledresolution.getScaledHeight();
-        int k = Mouse.getX() * i / this.mc.displayWidth;
-        int l = j - Mouse.getY() * j / this.mc.displayHeight - 1;
+        int k = Mouse.getX() * i / this.field_146297_k.displayWidth;
+        int l = j - Mouse.getY() * j / this.field_146297_k.displayHeight - 1;
         this.panel.update(k, l);
         int dWheel = Mouse.getDWheel() / 120;
 
@@ -63,12 +67,10 @@ public class WidgetGuiScreen extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float opacity) {
-        this.drawDefaultBackground();
-
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        int xStart = (width - panel.getWidth()) / 2;
-        int yStart = (height - panel.getHeight()) / 2;
+        int xStart = (field_146294_l - panel.getWidth()) / 2;
+        int yStart = (field_146295_m - panel.getHeight()) / 2;
 
         panel.setScreenPos(xStart, yStart);
         panel.drawBackground(mouseX, mouseY);

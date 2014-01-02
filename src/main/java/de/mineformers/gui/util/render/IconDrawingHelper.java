@@ -2,7 +2,7 @@ package de.mineformers.gui.util.render;
 
 import de.mineformers.gui.util.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 
 /**
  * GUISystem
@@ -14,9 +14,9 @@ import net.minecraft.util.Icon;
  */
 public class IconDrawingHelper implements IDrawingHelper {
 
-    private Icon icon;
+    private IIcon icon;
 
-    public IconDrawingHelper(Icon icon) {
+    public IconDrawingHelper(IIcon icon) {
         this.icon = icon;
     }
 

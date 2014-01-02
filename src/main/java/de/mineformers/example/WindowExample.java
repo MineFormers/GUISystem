@@ -16,6 +16,7 @@ import de.mineformers.gui.util.Padding;
 import de.mineformers.gui.util.ResourceHelper;
 import de.mineformers.gui.util.render.IconDrawingHelper;
 import de.mineformers.gui.util.render.ResourceDrawingHelper;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -65,9 +66,9 @@ public class WindowExample extends UITabWindow {
         layout.addComponent(progressBar, 4, 1);
 
         layout.addComponent(new UILabel("Tank:"), 5, 0);
-        tank = new UITank(100, 50, new FluidStack(FluidRegistry.LAVA, 8000));
-        tank.setDrawSlot(true);
-        layout.addComponent(tank, 5, 1);
+        //tank = new UITank(100, 50, new FluidStack(Fluid("energon"), 8000));
+        //tank.setDrawSlot(true);
+        //layout.addComponent(tank, 5, 1);
 
         layout.addComponent(new UILabel("Checkbox:"), 6, 0);
         layout.addComponent(new UICheckBox("Demo"), 6, 1);
@@ -79,17 +80,17 @@ public class WindowExample extends UITabWindow {
         layout.addComponent(stack, 7, 1);
         this.addTab("table", "Table", new ResourceDrawingHelper(ResourceHelper.getModResource("textures/example.png"), 16, 16, 0, 0, 0.125F, 0.125F), layout);
         this.addTab("test", "Test", new ResourceDrawingHelper(ResourceHelper.getModResource("textures/example.png"), 16, 16, 0.125F, 0, 0.25F, 0.125F), layout1);
-        UIInfoTab infoTab = new UIInfoTab(layout1, new IconDrawingHelper(Item.redstone.getIconFromDamage(0)), Orientation.HORIZONTAL_RIGHT, "Test");
+        UIInfoTab infoTab = new UIInfoTab(layout1, new IconDrawingHelper(Items.redstone.getIconFromDamage(0)), Orientation.HORIZONTAL_RIGHT, "Test");
         infoTab.setColor(0xA11B08);
         this.addInfoTab(infoTab);
-        this.addInfoTab(new UIInfoTab(layout1, new IconDrawingHelper(Item.diamond.getIconFromDamage(0)), Orientation.HORIZONTAL_RIGHT, "Test"));
+        this.addInfoTab(new UIInfoTab(layout1, new IconDrawingHelper(Items.diamond.getIconFromDamage(0)), Orientation.HORIZONTAL_RIGHT, "Test"));
         this.setTabOrientation(Orientation.VERTICAL_TOP);
     }
 
     @Subscribe
     public void onClick(MouseClickEvent event) {
         if (event.getComponent() instanceof UIButton) {
-            mc.currentScreen = null;
+            mc.func_147108_a(null);
             mc.setIngameFocus();
         }
     }
@@ -99,7 +100,7 @@ public class WindowExample extends UITabWindow {
         progressBar.updateValue(-event.dir * 10);
 
         progressBar.setValue(MathHelper.clamp_int(progressBar.getValue(), 0, progressBar.getMaxValue()));
-        tank.setFluidAmount(progressBar.getValue() * 2);
+        //tank.setFluidAmount(progressBar.getValue() * 2);
     }
 
     @Override
