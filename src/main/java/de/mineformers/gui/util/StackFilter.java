@@ -13,29 +13,30 @@ import net.minecraft.nbt.NBTTagCompound;
  */
 public class StackFilter {
 
-    private boolean filterId, filterDamage, filterNBT;
-    private int id, damage;
+    private boolean filterType, filterDamage, filterNBT;
+    private String type;
+    private int damage;
     private NBTTagCompound nbt;
 
-    public StackFilter(int id) {
-        this(id, -1, null);
+    public StackFilter(String item) {
+        this(item, -1, null);
     }
 
-    public StackFilter(int id, int damage) {
-        this(id, damage, null);
+    public StackFilter(String item, int damage) {
+        this(item, damage, null);
     }
 
-    public StackFilter(int id, int damage, NBTTagCompound nbt) {
-        this.id = id;
+    public StackFilter(String item, int damage, NBTTagCompound nbt) {
+        this.type = item;
         this.damage = damage;
         this.nbt = nbt;
-        this.filterId = id != -1;
+        this.filterType = item != null;
         this.filterDamage = damage != -1;
         this.filterNBT = nbt != null;
     }
 
-    public int getId() {
-        return (filterId) ? id : -1;
+    public String getType() {
+        return (filterType) ? type : null;
     }
 
     public int getDamage() {
@@ -56,14 +57,14 @@ public class StackFilter {
         if (obj != null) {
             if (obj instanceof ItemStack) {
                 ItemStack stack = (ItemStack) obj;
-                return (stack.itemID == id || this.filterId == false) &&
+                return (stack.getItem().getUnlocalizedName(stack).equals(type) || this.filterType == false) &&
                         (stack.getItemDamage() == damage || this.filterDamage == false) &&
                         (stack.getTagCompound().equals(nbt) || this.filterNBT == false);
             }
 
             if (obj instanceof StackFilter) {
                 StackFilter filter = (StackFilter) obj;
-                return (filter.getId() == id || this.filterId == false) &&
+                return (filter.getType().equals(type) || this.filterType == false) &&
                         (filter.getDamage() == damage || this.filterDamage == false) &&
                         (filter.getNBT().equals(nbt) || this.filterNBT == false);
             }

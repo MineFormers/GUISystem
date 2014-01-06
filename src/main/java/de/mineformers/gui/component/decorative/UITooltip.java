@@ -1,7 +1,7 @@
 package de.mineformers.gui.component.decorative;
 
 import de.mineformers.gui.component.UIComponent;
-import de.mineformers.gui.system.Global;
+import de.mineformers.gui.util.PropertyHelper;
 import de.mineformers.gui.util.TextHelper;
 import org.lwjgl.opengl.GL11;
 
@@ -20,7 +20,11 @@ public class UITooltip extends UIComponent {
     private ArrayList<String> lines;
 
     public UITooltip() {
-        super(Global.getTexture());
+        init();
+    }
+
+    @Override
+    public void init(PropertyHelper properties) {
         this.lines = new ArrayList<String>();
         this.setZIndex(301);
     }

@@ -5,6 +5,7 @@ import de.mineformers.gui.component.decorative.UITooltip;
 import de.mineformers.gui.component.inventory.UIInfoTab;
 import de.mineformers.gui.util.Orientation;
 import de.mineformers.gui.util.Padding;
+import de.mineformers.gui.util.PropertyHelper;
 import de.mineformers.gui.util.RenderHelper;
 import org.lwjgl.opengl.GL11;
 
@@ -23,8 +24,9 @@ public class UIWindow extends UIPanel {
     private Padding padding;
     private LinkedList<UIInfoTab> infoTabs;
 
-    public UIWindow() {
-        super();
+    @Override
+    public void init(PropertyHelper properties) {
+        super.init(properties);
         this.padding = Padding.ALL5;
         this.infoTabs = new LinkedList<UIInfoTab>();
     }
@@ -83,12 +85,14 @@ public class UIWindow extends UIPanel {
 
         int scale = RenderHelper.computeGuiScale();
 
-        GL11.glScissor((screenX + padding.left) * scale, mc.displayHeight - (screenY + height - padding.bottom) * scale, (width - padding.right - padding.left) * scale, (height - padding.bottom - padding.top) * scale);
-        GL11.glEnable(GL11.GL_SCISSOR_TEST);
-        layout.setScreenPos(screenX + padding.left, screenY + padding.top);
-        layout.draw(mouseX, mouseY);
-        GL11.glDisable(GL11.GL_SCISSOR_TEST);
-        layout.drawTooltips(mouseX, mouseY);
+        if (layout != null) {
+            GL11.glScissor((screenX + padding.left) * scale, mc.displayHeight - (screenY + height - padding.bottom) * scale, (width - padding.right - padding.left) * scale, (height - padding.bottom - padding.top) * scale);
+            GL11.glEnable(GL11.GL_SCISSOR_TEST);
+            layout.setScreenPos(screenX + padding.left, screenY + padding.top);
+            layout.draw(mouseX, mouseY);
+            GL11.glDisable(GL11.GL_SCISSOR_TEST);
+            layout.drawTooltips(mouseX, mouseY);
+        }
 
         int left = 0;
         int right = 0;

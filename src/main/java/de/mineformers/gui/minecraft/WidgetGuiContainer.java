@@ -5,7 +5,6 @@ import de.mineformers.gui.component.inventory.UISlot;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -73,41 +72,7 @@ public class WidgetGuiContainer extends GuiContainer {
     }
 
     @Override
-    protected void func_146979_b(int mouseX, int mouseY) {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-
-        int xStart = (field_146294_l - panel.getWidth()) / 2;
-        int yStart = (field_146295_m - panel.getHeight()) / 2;
-
-        panel.setScreenPos(xStart, yStart);
-        panel.drawForeground(mouseX, mouseY);
-        if (name != null)
-            de.mineformers.gui.util.RenderHelper.drawString(name, xStart + 5, yStart + 5, 0x404040, false, 1);
-        if (autoDrawSlots) {
-            UISlot widget = new UISlot(18, 18);
-
-            for (Object o : field_147002_h.inventorySlots) {
-                if (o instanceof Slot) {
-                    Slot slot = (Slot) o;
-                    if (!(slot.inventory instanceof InventoryPlayer)) {
-                        GL11.glPushMatrix();
-                        GL11.glTranslatef(xStart + slot.xDisplayPosition - 1, yStart
-                                + slot.yDisplayPosition - 1, 0);
-                        widget.draw(mouseX, mouseY);
-                        GL11.glPopMatrix();
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float tick) {
-        super.drawScreen(mouseX, mouseY, tick);
-    }
-
-    @Override
-    public void func_146976_a(float opacity, int mouseX, int mouseY) {
+    protected void func_146976_a(float var1, int mouseX, int mouseY) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         int xStart = (field_146294_l - panel.getWidth()) / 2;
@@ -118,6 +83,28 @@ public class WidgetGuiContainer extends GuiContainer {
         RenderHelper.enableGUIStandardItemLighting();
         panel.drawBackground(mouseX, mouseY);
         panel.draw(mouseX, mouseY);
+
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+
+        panel.drawForeground(mouseX, mouseY);
+        if (name != null)
+            de.mineformers.gui.util.RenderHelper.drawString(name, xStart + 5, yStart + 5, 0x404040, false, 1);
+        if (autoDrawSlots) {
+            UISlot widget = new UISlot().init("width", 18, "height", 18);
+
+            for (Object o : field_147002_h.inventorySlots) {
+                if (o instanceof Slot) {
+
+                    Slot slot = (Slot) o;
+
+                    GL11.glPushMatrix();
+                    widget.setScreenPos(field_147003_i + slot.xDisplayPosition - 1, field_147009_r
+                            + slot.yDisplayPosition - 1);
+                    widget.draw(mouseX, mouseY);
+                    GL11.glPopMatrix();
+                }
+            }
+        }
     }
 
     @Override

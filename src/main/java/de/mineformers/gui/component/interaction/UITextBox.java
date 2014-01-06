@@ -5,7 +5,7 @@ import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.component.inventory.UISlot;
 import de.mineformers.gui.event.KeyTypedEvent;
 import de.mineformers.gui.event.MouseClickEvent;
-import de.mineformers.gui.system.Global;
+import de.mineformers.gui.util.PropertyHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ChatAllowedCharacters;
 import org.lwjgl.input.Keyboard;
@@ -35,18 +35,15 @@ public class UITextBox extends UIComponent {
     private int blinkTick;
     private int color;
 
-    public UITextBox(int width, int height, String startText,
-                     boolean useSlotBg) {
-        super(Global.getTexture());
-        this.width = width;
-        this.height = height;
-        this.text = startText;
-        this.slotWidget = new UISlot(width, height);
-        this.useSlotBg = useSlotBg;
+    @Override
+    public void init(PropertyHelper properties) {
+        this.text = properties.get("text", "");
+        this.slotWidget = new UISlot().init("width", width, "height", height);
+        this.useSlotBg = properties.get("useSlotBg", false);
         this.addListener(this);
         this.focused = false;
-        this.cursorPos = startText.length();
-        this.color = 0xe0e0e0;
+        this.cursorPos = text.length();
+        this.color = properties.get("textColor", 0xe0e0e0);
     }
 
     public void setColor(Color color) {

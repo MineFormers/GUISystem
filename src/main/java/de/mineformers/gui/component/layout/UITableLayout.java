@@ -67,8 +67,9 @@ public class UITableLayout extends UILayout<UITableLayout.TableLayoutConstraints
                 if (component.getWidth() > components.get(
                         widestColumns.get(tlc.column))
                         .getWidth()) {
-                    if (tlc.columnSpan == 1)
+                    if (tlc.columnSpan == 1) {
                         widestColumns.put(tlc.column, i);
+                    }
                 }
             } else {
                 if (tlc.columnSpan == 1)

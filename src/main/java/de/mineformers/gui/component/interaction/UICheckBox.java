@@ -5,6 +5,7 @@ import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.event.MouseClickEvent;
 import de.mineformers.gui.system.Global;
 import de.mineformers.gui.util.MouseButton;
+import de.mineformers.gui.util.PropertyHelper;
 
 /**
  * GUISystem
@@ -19,9 +20,10 @@ public class UICheckBox extends UIComponent {
     private boolean checked;
     private String label;
 
-    public UICheckBox(String label) {
-        super(Global.getTexture());
-        this.label = label;
+    @Override
+    public void init(PropertyHelper properties) {
+        this.setTexture(Global.getTexture());
+        this.label = properties.get("label", "");
         this.addListener(this);
     }
 

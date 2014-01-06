@@ -1,7 +1,7 @@
 package de.mineformers.gui.component.interaction;
 
 import de.mineformers.gui.component.UIComponent;
-import de.mineformers.gui.system.Global;
+import de.mineformers.gui.util.PropertyHelper;
 
 /**
  * GUISystem
@@ -18,10 +18,10 @@ public class UIRadioButton extends UIComponent {
     private boolean checked;
     private String label;
 
-    public UIRadioButton(String key, String label) {
-        super(Global.getTexture());
-        this.label = label;
-        this.key = key;
+    @Override
+    public void init(PropertyHelper properties) {
+        this.label = properties.get("label", "");
+        this.key = properties.get("key", "");
     }
 
     @Override

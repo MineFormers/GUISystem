@@ -1,7 +1,7 @@
 package de.mineformers.gui.component.inventory;
 
 import de.mineformers.gui.component.UIComponent;
-import de.mineformers.gui.system.Global;
+import de.mineformers.gui.util.PropertyHelper;
 
 /**
  * GUISystem
@@ -15,11 +15,11 @@ public class UIInventory extends UIComponent {
 
     private UISlot slot;
 
-    public UIInventory(int slotsX, int slotsY) {
-        super(Global.getTexture());
-        slot = new UISlot(18, 18);
-        this.width = slotsX;
-        this.height = slotsY;
+    @Override
+    public void init(PropertyHelper properties) {
+        slot = new UISlot().init("width", 18, "height", 18);
+        this.width = properties.get("slotsX", 1);
+        this.height = properties.get("slotsY", 1);
     }
 
     @Override
@@ -46,4 +46,13 @@ public class UIInventory extends UIComponent {
         return false;
     }
 
+    @Override
+    public int getWidth() {
+        return width * 18;
+    }
+
+    @Override
+    public int getHeight() {
+        return height = 18;
+    }
 }

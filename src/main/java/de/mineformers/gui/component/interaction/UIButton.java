@@ -4,6 +4,7 @@ import com.google.common.eventbus.Subscribe;
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.event.MouseClickEvent;
 import de.mineformers.gui.system.Global;
+import de.mineformers.gui.util.PropertyHelper;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -22,11 +23,10 @@ public class UIButton extends UIComponent {
 
     protected String text;
 
-    public UIButton(int width, int height, String text) {
-        super(Global.getTexture());
-        this.width = width;
-        this.height = height;
-        this.text = text;
+    @Override
+    public void init(PropertyHelper properties) {
+        this.setTexture(Global.getTexture());
+        this.text = properties.get("text", "");
         this.enabled = true;
         this.addListener(this);
     }

@@ -1,6 +1,7 @@
 package de.mineformers.gui.component.interaction;
 
 import de.mineformers.gui.util.Orientation;
+import de.mineformers.gui.util.PropertyHelper;
 
 /**
  * GUISystem
@@ -18,17 +19,11 @@ public class UIProgressBarScalable extends UIProgressBar {
     private int uvWidth, uvHeight;
     private Orientation orientation;
 
-    public UIProgressBarScalable(Orientation orientation, int width, int height, int u, int v, int uvWidth, int uvHeight) {
-        super(orientation, width, height, u, v);
-        this.orientation = orientation;
-        this.maxValue = 100;
-        this.value = 0;
-        this.width = width;
-        this.height = height;
-        this.u = u;
-        this.v = v;
-        this.uvWidth = uvWidth;
-        this.uvHeight = uvHeight;
+    @Override
+    public void init(PropertyHelper properties) {
+        super.init(properties);
+        this.uvWidth = properties.get("uvWidth", width);
+        this.uvHeight = properties.get("uvHeight", height);
     }
 
     public void setMaxValue(int maxValue) {

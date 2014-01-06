@@ -1,8 +1,8 @@
 package de.mineformers.gui.component.inventory;
 
 import de.mineformers.gui.component.UIComponent;
-import de.mineformers.gui.system.Global;
 import de.mineformers.gui.util.LangHelper;
+import de.mineformers.gui.util.PropertyHelper;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -17,9 +17,9 @@ public class UIInventoryPlayer extends UIComponent {
 
     private UIInventory widget;
 
-    public UIInventoryPlayer() {
-        super(Global.getTexture());
-        this.widget = new UIInventory(9, 3);
+    @Override
+    public void init(PropertyHelper properties) {
+        this.widget = new UIInventory().init("slotsX", 9, "slotsY", 3);
     }
 
     @Override

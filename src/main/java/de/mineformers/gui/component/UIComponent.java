@@ -3,10 +3,15 @@ package de.mineformers.gui.component;
 import com.google.common.eventbus.EventBus;
 import cpw.mods.fml.client.FMLClientHandler;
 import de.mineformers.gui.event.Event;
+import de.mineformers.gui.system.Global;
+import de.mineformers.gui.util.PropertyHelper;
 import de.mineformers.gui.util.RenderHelper;
+import de.mineformers.gui.xml.XMLProperty;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.util.Color;
+
+import java.util.HashMap;
 
 /**
  * GUISystem
@@ -18,24 +23,49 @@ import org.lwjgl.util.Color;
  */
 public abstract class UIComponent {
 
+    @XMLProperty(name = "name", type = XMLProperty.Type.STRING)
+    private String name;
     private UIComponent parent;
     protected int screenX, screenY;
     protected Minecraft mc;
     protected ResourceLocation texture;
     private int zLevel;
     protected boolean visible;
-    protected int width, height;
+    @XMLProperty(name = "width", type = XMLProperty.Type.INT)
+    protected int width;
+    @XMLProperty(name = "height", type = XMLProperty.Type.INT)
+    protected int height;
     private String tooltip;
 
     private EventBus eventBus;
 
-    public UIComponent(ResourceLocation texture) {
+    public UIComponent() {
         this.mc = FMLClientHandler.instance().getClient();
-        this.texture = texture;
         this.zLevel = 0;
         eventBus = new EventBus();
         this.visible = true;
     }
+
+    public <T extends UIComponent> T init(Object... properties) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        String lastKey = null;
+        for (int i = 0; i < properties.length; i++) {
+            if (i % 2 == 0) {
+                lastKey = (String) properties[i];
+            } else {
+                map.put(lastKey, properties[i]);
+            }
+        }
+        PropertyHelper helper = new PropertyHelper(map);
+        name = helper.get("name", null, String.class);
+        width = helper.get("width", 0);
+        height = helper.get("height", 0);
+        init(helper);
+        this.texture = texture == null ? Global.getTexture() : texture;
+        return (T) this;
+    }
+
+    public abstract void init(PropertyHelper properties);
 
     public void setParent(UIComponent parent) {
         this.parent = parent;
@@ -202,5 +232,9 @@ public abstract class UIComponent {
     public void setSize(int width, int height) {
         this.width = width;
         this.height = height;
+    }
+
+    public String getName() {
+        return name;
     }
 }

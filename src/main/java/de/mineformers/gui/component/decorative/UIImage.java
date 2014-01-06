@@ -1,7 +1,8 @@
 package de.mineformers.gui.component.decorative;
 
 import de.mineformers.gui.component.UIComponent;
-import net.minecraft.util.ResourceLocation;
+import de.mineformers.gui.util.PropertyHelper;
+import de.mineformers.gui.util.ResourceHelper;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -19,20 +20,17 @@ public class UIImage extends UIComponent {
 
     private int scale;
 
-    public UIImage(ResourceLocation image) {
-        this(image, 1);
-    }
-
-    public UIImage(ResourceLocation image, int scale) {
-        super(image);
+    @Override
+    public void init(PropertyHelper properties) {
+        scale = properties.get("scale", 1);
         try {
-            BufferedImage temp = ImageIO.read(mc.getResourceManager().getResource(image).getInputStream());
+            BufferedImage temp = ImageIO.read(mc.getResourceManager().getResource(properties.get("image", ResourceHelper.getResourceLocation("minecraft", "null"))).getInputStream());
             this.width = temp.getWidth() * scale;
             this.height = temp.getHeight() * scale;
+            this.setTexture(properties.get("image", ResourceHelper.getResourceLocation("minecraft", "null")));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.scale = scale;
     }
 
     @Override

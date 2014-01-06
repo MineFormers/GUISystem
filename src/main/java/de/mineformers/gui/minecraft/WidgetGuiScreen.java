@@ -67,6 +67,7 @@ public class WidgetGuiScreen extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float opacity) {
+        func_146270_b(1);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         int xStart = (field_146294_l - panel.getWidth()) / 2;

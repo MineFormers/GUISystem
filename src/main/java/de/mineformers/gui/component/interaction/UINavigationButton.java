@@ -1,5 +1,6 @@
 package de.mineformers.gui.component.interaction;
 
+import de.mineformers.gui.util.PropertyHelper;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -17,9 +18,13 @@ public class UINavigationButton extends UIButton {
 
     private int buttonType;
 
-    public UINavigationButton(int buttonType) {
-        super(10, 15, "");
-        this.buttonType = buttonType;
+    @Override
+    public void init(PropertyHelper properties) {
+        super.init(properties);
+        this.text = "";
+        this.width = 10;
+        this.height = 15;
+        this.buttonType = properties.get("type", TYPE_NEXT);
     }
 
     @Override

@@ -2,19 +2,15 @@ package de.mineformers.gui.component.container;
 
 import de.mineformers.gui.component.interaction.UIScrollBar;
 import de.mineformers.gui.component.layout.UIAbsoluteLayout;
+import de.mineformers.gui.util.PropertyHelper;
 
 public class UIPanelScrollable extends UIPanel {
     public UIScrollBar scrollBar;
 
-    public UIPanelScrollable(int width, int height) {
-        super();
-
-        this.width = width;
-        this.height = height;
-
-        scrollBar = new UIScrollBar(6, height - 2);
-
-
+    @Override
+    public void init(PropertyHelper properties) {
+        super.init(properties);
+        scrollBar = new UIScrollBar().init("x", 6, "y", height - 2);
         UIAbsoluteLayout layout = new UIAbsoluteLayout();
         layout.addComponent(scrollBar, (screenX + this.width) - this.scrollBar.getWidth() - 1, screenY + 1);
         setLayout(layout);

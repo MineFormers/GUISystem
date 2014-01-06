@@ -6,7 +6,7 @@ import de.mineformers.gui.component.interaction.UIScrollBar;
 import de.mineformers.gui.event.KeyTypedEvent;
 import de.mineformers.gui.event.MouseClickEvent;
 import de.mineformers.gui.event.MouseScrollEvent;
-import de.mineformers.gui.system.Global;
+import de.mineformers.gui.util.PropertyHelper;
 import de.mineformers.gui.util.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import org.lwjgl.opengl.GL11;
@@ -24,8 +24,12 @@ public class UIList<T> extends UIComponent {
 
     protected UIScrollBar scrollBar;
 
+    @Override
+    public void init(PropertyHelper properties) {
+
+    }
+
     public UIList(int width, int height) {
-        super(Global.getTexture());
 
         this.width = width;
         this.height = height;
@@ -40,7 +44,7 @@ public class UIList<T> extends UIComponent {
     public void initComponent() {
         super.initComponent();
 
-        scrollBar = new UIScrollBar(screenX + width - 6 - 1, screenY + 1, 6, height - 2);
+        scrollBar = new UIScrollBar().init("x", screenX + width - 6 - 1, "y", screenY + 1, 6, height - 2);
     }
 
     protected String getStringFromObject(Object obj) {

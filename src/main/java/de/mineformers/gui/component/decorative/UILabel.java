@@ -1,7 +1,7 @@
 package de.mineformers.gui.component.decorative;
 
 import de.mineformers.gui.component.UIComponent;
-import de.mineformers.gui.system.Global;
+import de.mineformers.gui.util.PropertyHelper;
 import de.mineformers.gui.util.RenderHelper;
 import org.lwjgl.util.Color;
 
@@ -19,10 +19,14 @@ public class UILabel extends UIComponent {
     private int color;
     private boolean drawShadow;
 
-    public UILabel(String text) {
-        super(Global.getTexture());
-        this.text = text;
-        this.color = 0x404040;
+    public static UILabel create(String text) {
+        return new UILabel().init("text", text);
+    }
+
+    @Override
+    public void init(PropertyHelper properties) {
+        this.color = properties.get("color", 0x404040);
+        this.text = properties.get("text", "");
         this.width = this.getStringWidth(text);
         this.height = this.mc.fontRenderer.FONT_HEIGHT;
     }

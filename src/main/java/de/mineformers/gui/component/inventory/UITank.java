@@ -1,10 +1,9 @@
 package de.mineformers.gui.component.inventory;
 
 import de.mineformers.gui.component.UIComponent;
-import de.mineformers.gui.system.Global;
-import de.mineformers.gui.util.RenderHelper;
+import de.mineformers.gui.util.PropertyHelper;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Color;
@@ -24,13 +23,11 @@ public class UITank extends UIComponent {
     private boolean drawSlot;
     private FluidStack fluid;
 
-    public UITank(int width, int height, FluidStack fluid) {
-        super(Global.getTexture());
-        this.fluid = fluid;
-        this.width = width;
-        this.height = height;
-        this.maxAmount = 8000;
-        slot = new UISlot(width, height);
+    @Override
+    public void init(PropertyHelper properties) {
+        this.fluid = properties.get("fluid", new FluidStack());
+        this.maxAmount = properties.get("maxAmount", 8000);
+        slot = new UISlot().init("width", width, "height", height);
         this.updateTooltip();
     }
 
@@ -52,7 +49,7 @@ public class UITank extends UIComponent {
     }
 
     private void updateTooltip() {
-        this.setTooltip(fluid.amount + "mB/" + maxAmount + "mB\n" + fluid.getFluid().getLocalizedName());
+        //this.setTooltip(fluid.amount + "mB/" + maxAmount + "mB\n" + fluid.getFluid().getLocalizedName());
     }
 
     public int getMaxAmount() {
@@ -60,12 +57,12 @@ public class UITank extends UIComponent {
     }
 
     public void setFluidAmount(int amount) {
-        fluid.amount = amount;
+        //fluid.amount = amount;
         this.updateTooltip();
     }
 
     public int mapAmountOnHeight(int height) {
-        return fluid.amount * height / maxAmount;
+        return /*fluid.amount * */height / maxAmount;
     }
 
     @Override
@@ -75,9 +72,9 @@ public class UITank extends UIComponent {
 
     @Override
     public void draw(int mouseX, int mouseY) {
-        Icon icon = fluid.getFluid().getIcon(fluid);
+        IIcon icon = null;//fluid.getFluid().getIcon(fluid);
 
-        Color rgb = RenderHelper.getRGBFromColor(fluid.getFluid().getColor(fluid));
+        Color rgb = null;//RenderHelper.getRGBFromColor(fluid.getFluid().getColor(fluid));
         float red = (1F / 255F) * rgb.getRed();
         float green = (1F / 255F) * rgb.getGreen();
         float blue = (1F / 255F) * rgb.getBlue();

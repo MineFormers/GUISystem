@@ -16,10 +16,8 @@ public class UIFlowLayout extends UILayout<UILayout.LayoutConstraints> {
 
     private Padding padding;
 
-    public UIFlowLayout(int width, int height) {
+    public UIFlowLayout() {
         super();
-        this.width = width;
-        this.height = height;
         this.padding = Padding.ALL5;
     }
 

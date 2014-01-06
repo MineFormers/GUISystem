@@ -6,8 +6,8 @@ import de.mineformers.gui.component.decorative.UITooltip;
 import de.mineformers.gui.event.KeyTypedEvent;
 import de.mineformers.gui.event.MouseClickEvent;
 import de.mineformers.gui.event.MouseScrollEvent;
-import de.mineformers.gui.system.Global;
 import de.mineformers.gui.util.MouseButton;
+import de.mineformers.gui.util.PropertyHelper;
 
 import java.util.LinkedList;
 
@@ -30,7 +30,11 @@ public class UILayout<T extends UILayout.LayoutConstraints> extends UIComponent 
     protected UITooltip tooltip;
 
     public UILayout() {
-        super(Global.getTexture());
+        init();
+    }
+
+    @Override
+    public void init(PropertyHelper properties) {
         this.components = new LinkedList<UIComponent>();
         this.constraints = new LinkedList<T>();
         this.tooltip = new UITooltip();

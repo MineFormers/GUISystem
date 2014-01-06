@@ -1,8 +1,8 @@
 package de.mineformers.gui.component.interaction;
 
 import de.mineformers.gui.component.UIComponent;
-import de.mineformers.gui.system.Global;
 import de.mineformers.gui.util.Orientation;
+import de.mineformers.gui.util.PropertyHelper;
 
 /**
  * GUISystem
@@ -19,15 +19,13 @@ public class UIProgressBar extends UIComponent {
     private int u, v;
     private Orientation orientation;
 
-    public UIProgressBar(Orientation orientation, int width, int height, int u, int v) {
-        super(Global.getTexture());
-        this.orientation = orientation;
-        this.maxValue = 100;
+    @Override
+    public void init(PropertyHelper properties) {
+        this.orientation = properties.get("orientation", Orientation.HORIZONTAL_LEFT);
+        this.maxValue = properties.get("maximum", 100);
         this.value = 0;
-        this.width = width;
-        this.height = height;
-        this.u = u;
-        this.v = v;
+        this.u = properties.get("u", 0);
+        this.v = properties.get("v", 0);
     }
 
     public void setMaxValue(int maxValue) {

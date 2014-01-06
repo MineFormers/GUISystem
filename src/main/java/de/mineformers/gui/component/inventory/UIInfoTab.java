@@ -3,8 +3,8 @@ package de.mineformers.gui.component.inventory;
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.component.container.UIWindow;
 import de.mineformers.gui.component.layout.UILayout;
-import de.mineformers.gui.system.Global;
 import de.mineformers.gui.util.Orientation;
+import de.mineformers.gui.util.PropertyHelper;
 import de.mineformers.gui.util.RenderHelper;
 import de.mineformers.gui.util.render.IDrawingHelper;
 import org.lwjgl.opengl.GL11;
@@ -36,17 +36,17 @@ public class UIInfoTab extends UIComponent {
     private int maxHeight;
     private int color;
 
-    public UIInfoTab(UILayout layout, IDrawingHelper icon, Orientation orientation) {
-        this(layout, icon, orientation, "");
+    public static UIInfoTab create(UILayout layout, IDrawingHelper icon, Orientation orientation, String title) {
+        return new UIInfoTab().init("layout", layout, "icon", icon, "orientation", orientation, "title", title);
     }
 
-    public UIInfoTab(UILayout layout, IDrawingHelper icon, Orientation orientation, String title) {
-        super(Global.getTexture());
-        this.layout = layout;
+    @Override
+    public void init(PropertyHelper properties) {
+        this.layout = properties.get("layout", null, UILayout.class);
         layout.setParent(this);
-        this.icon = icon;
-        this.orientation = orientation;
-        this.title = title;
+        this.icon = properties.get("icon", null, IDrawingHelper.class);
+        this.orientation = properties.get("orientation", Orientation.HORIZONTAL_RIGHT);
+        this.title = properties.get("title", "");
         if (!EnumSet.of(Orientation.HORIZONTAL_LEFT, Orientation.HORIZONTAL_RIGHT).contains(orientation))
             this.orientation = Orientation.HORIZONTAL_RIGHT;
         this.maxWidth = this.getStringWidth(title) + 16 + 2 + 5;
@@ -58,7 +58,7 @@ public class UIInfoTab extends UIComponent {
         this.height = minHeight;
         this.addListener(this);
         growth = 1;
-        color = 0x424242;
+        color = properties.get("color", 0x424242);
     }
 
     public String getTitle() {

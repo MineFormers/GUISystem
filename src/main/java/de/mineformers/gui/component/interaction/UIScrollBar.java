@@ -4,7 +4,7 @@ import com.google.common.eventbus.Subscribe;
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.event.MouseClickEvent;
 import de.mineformers.gui.event.MouseScrollEvent;
-import de.mineformers.gui.system.Global;
+import de.mineformers.gui.util.PropertyHelper;
 import de.mineformers.gui.util.Utilities;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Mouse;
@@ -21,23 +21,15 @@ public class UIScrollBar extends UIComponent {
 
     private int initialClickY;
 
-    public UIScrollBar(int x, int y, int w, int h) {
-        super(Global.getTexture());
-
-        screenX = x;
-        screenY = y;
-
-        this.width = w;
-        this.height = h;
+    @Override
+    public void init(PropertyHelper properties) {
+        screenX = properties.get("x", 0);
+        screenY = properties.get("x", 0);
 
         this.setBarHeight(this.height / 4);
         scrollStep = this.height / 10;
 
         this.addListener(this);
-    }
-
-    public UIScrollBar(int w, int h) {
-        this(0, 0, w, h);
     }
 
     @Override

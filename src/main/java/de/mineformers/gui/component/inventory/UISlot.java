@@ -1,7 +1,7 @@
 package de.mineformers.gui.component.inventory;
 
 import de.mineformers.gui.component.UIComponent;
-import de.mineformers.gui.system.Global;
+import de.mineformers.gui.util.PropertyHelper;
 
 /**
  * GUISystem
@@ -13,10 +13,9 @@ import de.mineformers.gui.system.Global;
  */
 public class UISlot extends UIComponent {
 
-    public UISlot(int width, int height) {
-        super(Global.getTexture());
-        this.width = width;
-        this.height = height;
+    @Override
+    public void init(PropertyHelper properties) {
+
     }
 
     @Override

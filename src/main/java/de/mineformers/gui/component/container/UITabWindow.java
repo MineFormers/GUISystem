@@ -3,6 +3,7 @@ package de.mineformers.gui.component.container;
 import de.mineformers.gui.component.decorative.UITooltip;
 import de.mineformers.gui.component.layout.UILayout;
 import de.mineformers.gui.util.Orientation;
+import de.mineformers.gui.util.PropertyHelper;
 import de.mineformers.gui.util.render.IDrawingHelper;
 import org.lwjgl.opengl.GL11;
 
@@ -33,12 +34,17 @@ public class UITabWindow extends UIWindow {
 
     }
 
+    public UITabWindow() {
+        init();
+    }
+
     private String selectedTab;
     private LinkedHashMap<String, Tab> tabs;
     private Orientation orientation;
 
-    public UITabWindow() {
-        super();
+    @Override
+    public void init(PropertyHelper properties) {
+        super.init(properties);
         tabs = new LinkedHashMap<String, Tab>();
         this.orientation = Orientation.VERTICAL_TOP;
     }

@@ -3,6 +3,7 @@ package de.mineformers.gui.component.container;
 import de.mineformers.gui.component.UIComponent;
 import de.mineformers.gui.component.layout.UILayout;
 import de.mineformers.gui.system.Global;
+import de.mineformers.gui.util.PropertyHelper;
 
 /**
  * GUISystem
@@ -16,8 +17,9 @@ public class UIPanel extends UIComponent {
 
     protected UILayout layout;
 
-    public UIPanel() {
-        super(Global.getTexture());
+    @Override
+    public void init(PropertyHelper properties) {
+        this.setTexture(Global.getTexture());
     }
 
     @Override
