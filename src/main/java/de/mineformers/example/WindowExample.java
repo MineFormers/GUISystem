@@ -1,21 +1,22 @@
 package de.mineformers.example;
 
 import com.google.common.eventbus.Subscribe;
-import de.mineformers.gui.component.container.UITabWindow;
-import de.mineformers.gui.component.decorative.UILabel;
-import de.mineformers.gui.component.interaction.UIButton;
-import de.mineformers.gui.component.interaction.UIProgressBar;
-import de.mineformers.gui.component.interaction.UITextBox;
-import de.mineformers.gui.component.inventory.UIInfoTab;
-import de.mineformers.gui.component.inventory.UITank;
-import de.mineformers.gui.component.layout.UITableLayout;
-import de.mineformers.gui.event.MouseClickEvent;
-import de.mineformers.gui.event.MouseScrollEvent;
-import de.mineformers.gui.util.Orientation;
-import de.mineformers.gui.util.ResourceHelper;
-import de.mineformers.gui.util.render.IconDrawingHelper;
-import de.mineformers.gui.util.render.ResourceDrawingHelper;
-import de.mineformers.gui.xml.XMLLoader;
+import de.mineformers.gui.api.component.container.UITabWindow;
+import de.mineformers.gui.api.component.decorative.UILabel;
+import de.mineformers.gui.api.component.interaction.UIButton;
+import de.mineformers.gui.api.component.interaction.UIProgressBar;
+import de.mineformers.gui.api.component.interaction.UITextBox;
+import de.mineformers.gui.api.component.inventory.UIInfoTab;
+import de.mineformers.gui.api.component.inventory.UITank;
+import de.mineformers.gui.api.component.layout.UITableLayout;
+import de.mineformers.gui.api.event.MouseClickEvent;
+import de.mineformers.gui.api.event.MouseScrollEvent;
+import de.mineformers.gui.api.loader.UILoader;
+import de.mineformers.gui.api.loader.XMLLoader;
+import de.mineformers.gui.api.util.Orientation;
+import de.mineformers.gui.api.util.ResourceHelper;
+import de.mineformers.gui.api.util.render.IconDrawingHelper;
+import de.mineformers.gui.api.util.render.ResourceDrawingHelper;
 import net.minecraft.init.Items;
 import net.minecraft.util.MathHelper;
 
@@ -27,16 +28,17 @@ import net.minecraft.util.MathHelper;
  * @author PaleoCrafter
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  */
-public class WindowExample extends UITabWindow {
+public class WindowExample extends UITabWindow
+{
 
     private long last;
     private UIProgressBar progressBar;
     private UITank tank;
 
-    public WindowExample() {
+    public WindowExample()
+    {
         super();
-        XMLLoader.init();
-        XMLLoader loader = new XMLLoader(ResourceHelper.getModResource("xml/test.xml"));
+        UILoader loader = new XMLLoader(ResourceHelper.getModResource("xml/test.xml"));
         loader.construct(loader.load());
         UITableLayout layout = new UITableLayout().init();
         UITableLayout layout1 = new UITableLayout().init();
@@ -60,15 +62,18 @@ public class WindowExample extends UITabWindow {
     }
 
     @Subscribe
-    public void onClick(MouseClickEvent event) {
-        if (event.getComponent() instanceof UIButton) {
+    public void onClick(MouseClickEvent event)
+    {
+        if (event.getComponent() instanceof UIButton)
+        {
             mc.func_147108_a(null);
             mc.setIngameFocus();
         }
     }
 
     @Subscribe
-    public void onMouseScroll(MouseScrollEvent event) {
+    public void onMouseScroll(MouseScrollEvent event)
+    {
         progressBar.updateValue(-event.dir * 10);
 
         progressBar.setValue(MathHelper.clamp_int(progressBar.getValue(), 0, progressBar.getMaxValue()));
@@ -76,7 +81,8 @@ public class WindowExample extends UITabWindow {
     }
 
     @Override
-    public void draw(int mouseX, int mouseY) {
+    public void draw(int mouseX, int mouseY)
+    {
         /*long current = System.currentTimeMillis();
         if (current - last >= 2000) {
             int oldValue = progressBar.getValue();

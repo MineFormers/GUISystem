@@ -1,0 +1,25 @@
+[
+   {
+      "modid" : "MFGUI",
+      "name" : "MineFormersGUI",
+      "description" : "A universal GUI system for Minecraft providing easy access to a variety of components",
+      "version" : "${version}",
+      "mcversion" : "${mcversion}",
+      "url" : "",
+      "updateUrl" : "",
+      "authorList" :
+         [
+            "MetaMist",
+            "Din"
+         ],
+      "credits" : "By PaleoCrafter",
+      "screenshots" :
+         [
+         ],
+      "parent" : "",
+      "dependencies" :
+         [
+            "mod_MinecraftForge"
+         ]
+   }
+]

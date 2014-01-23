@@ -2,9 +2,9 @@ package de.mineformers.gui.plugin.nei;
 
 import codechicken.lib.vec.Rectangle4i;
 import codechicken.nei.api.INEIGuiAdapter;
-import de.mineformers.gui.component.container.UIWindow;
-import de.mineformers.gui.component.inventory.UIInfoTab;
-import de.mineformers.gui.minecraft.WidgetGuiContainer;
+import de.mineformers.gui.api.component.container.UIWindow;
+import de.mineformers.gui.api.component.inventory.UIInfoTab;
+import de.mineformers.gui.api.minecraft.WidgetGuiContainer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 
 /**
@@ -15,16 +15,21 @@ import net.minecraft.client.gui.inventory.GuiContainer;
  * @author PaleoCrafter
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  */
-public class NEIGuiHandler extends INEIGuiAdapter {
+public class NEIGuiHandler extends INEIGuiAdapter
+{
 
-    public boolean hideItemPanelSlot(GuiContainer gui, int x, int y, int w, int h) {
+    public boolean hideItemPanelSlot(GuiContainer gui, int x, int y, int w, int h)
+    {
         Rectangle4i rect;
-        if ((gui instanceof WidgetGuiContainer) && ((WidgetGuiContainer) gui).getPanel() instanceof UIWindow) {
+        if ((gui instanceof WidgetGuiContainer) && ((WidgetGuiContainer) gui).getPanel() instanceof UIWindow)
+        {
             UIWindow panel = (UIWindow) ((WidgetGuiContainer) gui).getPanel();
             rect = new Rectangle4i(x, y, w, h);
-            for (UIInfoTab tab : panel.getInfoTabs()) {
+            for (UIInfoTab tab : panel.getInfoTabs())
+            {
                 Rectangle4i bounds = new Rectangle4i(tab.getScreenX(), tab.getScreenY(), tab.getWidth(), tab.getHeight());
-                if (bounds.intersects(rect)) {
+                if (bounds.intersects(rect))
+                {
                     return true;
                 }
             }
